@@ -1,14 +1,14 @@
 <?php
 
 
-class Enseignant {
+class Administrateur {
     private $db;
 
     public function __construct($database) {
         $this->db = $database;
     }
 
-    public function create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role, $classe) {
+    public function create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role) {
         $hashed_password = password_hash($mot_de_passe, PASSWORD_DEFAULT);
         
         // Démarrer la transaction
@@ -20,16 +20,8 @@ class Enseignant {
             VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
             $stmt->execute([$nom, $prenom, $email, $telephone, $matricule, $hashed_password, $role]);
 
-            // Récupérer l'ID de l'administrateur inséré
-            $id_admin = $this->db->lastInsertId();
-
-            // Insérer dans la table enseignant
-            $stmt2 = $this->db->prepare("INSERT INTO enseignant (id_admin, id_classe) VALUES (?, ?)");
-            $stmt2->execute([$id_admin, $classe]);
-
-            // Valider la transaction
-            $this->db->commit();
-            return $id_admin; // Retourner l'ID de l'administrateur
+            
+            return $this->db->commit(); // Retourner l'ID de l'administrateur
             
         } catch (Exception $e) {
             // Annuler la transaction en cas d'erreur
@@ -39,13 +31,11 @@ class Enseignant {
         }
     }
 
-    public function update($id_admin, $nom, $prenom, $email, $telephone, $role, $classe) {
+    public function update($id_admin, $nom, $prenom, $email, $telephone, $role) {
         $stmt = $this->db->prepare("UPDATE administrateur SET nom = ?, prenom = ?, email = ?, telephone = ?, role = ? WHERE id_admin = ?");
-        $stmt->execute([$nom, $prenom, $email, $telephone, $role, $id_admin]);
-
-        $stmt2 = $this->db->prepare("UPDATE enseignant SET id_classe = ? WHERE id_admin = ?");
+    
+        return $stmt->execute([$nom, $prenom, $email, $telephone, $role, $id_admin]);
         
-        return $stmt2->execute([$classe, $id_admin]);
     }
 
     
@@ -56,7 +46,7 @@ class Enseignant {
 
     public function getAll() {
         $stmt = $this->db->prepare("SELECT * FROM administrateur WHERE role = ?");
-        $stmt->execute(['enseignant']); // Passer un tableau ici
+        $stmt->execute(['comptable']); // Passer un tableau ici
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
