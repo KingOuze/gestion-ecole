@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifier</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="/public/css/modifier.css"> <!-- Lien vers votre fichier CSS -->
+    <link rel="stylesheet" href="../../../public/css/modifier2.css"> <!-- Lien vers votre fichier CSS -->
 </head>
 <body>
     <div class="container">
