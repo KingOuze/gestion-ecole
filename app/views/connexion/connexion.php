@@ -1,52 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Page de connexion</title> <!-- Définit le titre de la page -->
-    <link rel="stylesheet" href="/public/css/connexion.css"> <!-- Lien vers le fichier CSS -->
-    <script src="https://kit.fontawesome.com/a81368914c.js"></script> <!-- Lien vers FontAwesome pour les icônes -->
-    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Rendre la page responsive -->
+    <meta charset="UTF-8">
+    <title>Page de connexion</title>
+    <link rel="stylesheet" href="/public/css/connexion.css">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <img class="wave" src="/public/images/connexion_image/wave.png"> <!-- 'wave' : classe pour styliser l'image de la vague en fond ou en haut de page -->
-    <div class="container"> <!-- 'container' : classe qui englobe le contenu principal de la page -->
+    <img class="wave" src="/public/images/connexion_image/wave.png">
+    <div class="container">
         <div class="img">
-            <img src="/public/images/connexion_image/bg.svg"> <!-- 'img' : classe pour styliser la section contenant l'image -->
+            <img src="/public/images/connexion_image/bg.svg">
         </div>
-        <div class="login-content"> <!-- 'login-content' : classe pour styliser la zone contenant le formulaire de connexion -->
-            <form action="" method="POST"> <!-- Formulaire de connexion -->
-                <img src="/public/images/connexion_image/avatar.svg"> <!-- Image de l'avatar placée au-dessus du formulaire -->
-                <h2 class="title">Ecole de la Réussite</h2> <!-- 'title' : classe pour styliser le titre du formulaire -->
+        <div class="login-content">
+            
+        <form action="/app/controllers/ConnexionController.php" method="POST"> <!-- Appel au contrôleur -->
 
-                <?php
-                // Affichage du message d'erreur en cas d'échec de connexion
-                if (isset($errorMessage)) {
-                    echo "<p style='color:red;'>$errorMessage</p>"; // Message d'erreur en rouge
-                }
-                ?>
+        
+              <img src="/public/images/connexion_image/Badge_Education_Badge_Logo-removebg-preview.png" style="width: 150px; height: auto;">
+    
+                <h2 class="title">Ecole de la Réussite</h2>
 
-                <div class="input-div one"> <!-- 'input-div' : classe pour styliser les conteneurs de champ de saisie, 'one' peut être utilisée pour les distinguer s'il y a plusieurs éléments -->
+                <?php if (isset($errorMessage)): ?>
+                    <p style='color:red;'><?php echo $errorMessage; ?></p>
+                <?php endif; ?>
+
+                <div class="input-div one">
                     <div class="i">
-                        <i class="fas fa-user"></i> <!-- Icône d'utilisateur (FontAwesome) -->
+                        <i class="fas fa-user"></i>
                     </div>
-                    <div class="div"> <!-- 'div' : classe probablement utilisée pour styliser les éléments d'entrée -->
-                        <h5>Email</h5> <!-- Libellé pour le champ de saisie de l'email -->
-                        <input type="text" class="input" name="email" required> <!-- 'input' : classe pour styliser le champ de saisie de l'email -->
-                    </div>
-                </div>
-                <div class="input-div pass"> <!-- 'input-div' : classe pour styliser le champ de mot de passe, 'pass' pour indiquer que c'est pour le mot de passe -->
-                    <div class="i"> 
-                        <i class="fas fa-lock"></i> <!-- Icône de cadenas (FontAwesome) -->
-                    </div>
-                    <div class="div"> <!-- 'div' : classe pour styliser le conteneur du champ -->
-                        <h5>Mot de Passe</h5> <!-- Libellé pour le champ de mot de passe -->
-                        <input type="password" class="input" name="password" required> <!-- 'input' : classe pour styliser le champ de saisie du mot de passe -->
+                    <div class="div">
+                        <h5>Email</h5>
+                        <input type="text" class="input" name="email" required>
                     </div>
                 </div>
-                <a href="#">Mot de passe oublié ?</a> <!-- Lien pour le mot de passe oublié -->
-                <input type="submit" class="btn" value="Login"> <!-- 'btn' : classe pour styliser le bouton de connexion -->
+                <div class="input-div pass">
+    <div class="i">
+        <i class="fas fa-lock"></i>
+    </div>
+    <div class="div">
+        <h5>Mot de Passe</h5>
+        <input type="password" class="input" name="password" id="password" required>
+        <i class="fas fa-eye" id="togglePassword" style="cursor: pointer; position: absolute; right: 10px; top: 50%; transform: translateY(-50%);"></i>
+    </div>
+</div>
+
+                <input type="submit" class="btn" value="Login">
             </form>
         </div>
     </div>
-    <script src="/public/js/connexion.js"></script> <!-- Inclusion du fichier JavaScript 'main.js' -->
+    <script src="/public/js/connexion.js"></script>
 </body>
 </html>
