@@ -59,13 +59,18 @@ class ClasseController {
         }
     }
 
+    public function getByNiveau($niveau){
+        return $this->model->getByNiveau($niveau);
+    }
+    
     public function index() {
         $Classes = $this->model->getAll();
         
         if ($Classes != NULL) {
-            foreach ($Classes as $classe) {
+            return $Classes;
+            /*foreach ($Classes as $classe) {
                 echo "ID: {$classe['id_classe']}, nom_classe: {$classe['nom_classe']}<br>";
-            }
+            }*/
         } else {
             echo "Sélection vide.";
         }

@@ -20,7 +20,7 @@ class EnseignantController {
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
-            $mot_de_passe = htmlspecialchars(trim($_POST['mot_de_passe']));
+            $mot_de_passe = htmlspecialchars(trim($_POST['motDePasse']));
             $role = htmlspecialchars(trim($_POST['role']));
             $classe = htmlspecialchars(trim($_POST['classe']));
 
@@ -65,7 +65,7 @@ class EnseignantController {
     public function showOne($id) {
         $enseignant = $this->model->getById($id);
         
-        if ($enseignant != NULL) {ajouter
+        if ($enseignant != NULL) {
             echo "Sélection vide.";
         }
     }
@@ -82,9 +82,9 @@ class EnseignantController {
         }
     }
 }
-
+/*
 function generateMatricule($prefix = 'ER_en-', $length = 4) {
     // Générer un nombre aléatoire avec le nombre de chiffres spécifié
     $number = str_pad(rand(0, pow(10, $length) - 1), $length, '0', STR_PAD_LEFT);
     return $prefix . $number;
-}
+}*/

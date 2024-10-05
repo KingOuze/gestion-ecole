@@ -1,23 +1,23 @@
 <?php
 
 
-class Classe {
+class Matiere {
     private $db;
 
     public function __construct($database) {
         $this->db = $database;
     }
 
-    public function create($niveau, $nom_classe) {
+    public function create($nom_matiere) {
         
         // Démarrer la transaction
         $this->db->beginTransaction();
         
         try {
             // Insérer dans la table administrateur
-            $stmt = $this->db->prepare("INSERT INTO classe (niveau, nom_classe) VALUES (?, ?)");
+            $stmt = $this->db->prepare("INSERT INTO matiere (nom_matiere) VALUES (?, ?)");
 
-            return $stmt->execute([$niveau, $nom_classe]);
+            return $stmt->execute([$nom_matiere]);
             
         } catch (Exception $e) {
             // Annuler la transaction en cas d'erreur
@@ -27,35 +27,29 @@ class Classe {
         }
     }
 
-    public function update($id, $niveau, $nom_classe) {
-        $stmt = $this->db->prepare("UPDATE classe SET niveau = ?, nom_classe = ? WHERE id_classe = ?");
+    public function update($nom_matiere) {
+        $stmt = $this->db->prepare("UPDATE matiere SET niveau = ?, nom_matiere = ? WHERE id_matiere = ?");
         
-        return $stmt->execute([$niveau, $nom_classe, $id]);
+        return $stmt->execute([$nom_matiere, $id]);
     }
 
     public function delete($id) {
         /*$stmt2 = $this->database->prepare("DELETE FROM administrateur WHERE id_admin = ?");
         $stmt2->bindParam(':id_admin', $id_admin);
         $stmt2->execute();*/
-        $stmt = $this->db->prepare("DELETE FROM classe WHERE id_classe = ?");
+        $stmt = $this->db->prepare("DELETE FROM matiere WHERE id_matiere = ?");
         return $stmt->execute([$id]);
     }
 
-    public function getByNiveau($niveau){
-        $stmt = $this->db->prepare("SELECT * FROM classe WHERE niveau = ?");
-        $stmt->execute([$niveau]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     public function getAll() {
-        $stmt = $this->db->prepare("SELECT * FROM classe ");
+        $stmt = $this->db->prepare("SELECT * FROM matiere ");
         $stmt->execute(); // Passer un tableau ici
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     
     public function getById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM classe WHERE id_classe = ?");
+        $stmt = $this->db->prepare("SELECT * FROM matiere WHERE id_matiere = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

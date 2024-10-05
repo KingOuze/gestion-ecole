@@ -20,7 +20,7 @@ class AdministrateurController {
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
-            $mot_de_passe = htmlspecialchars(trim($_POST['mot_de_passe']));
+            $mot_de_passe = htmlspecialchars(trim($_POST['motDePasse']));
             $role = htmlspecialchars(trim($_POST['role']));
 
 

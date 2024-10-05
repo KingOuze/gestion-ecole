@@ -21,10 +21,10 @@ class ProfesseurController {
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone'])); 
-            $mot_de_passe = htmlspecialchars(trim($_POST['mot_de_passe']));
+            $mot_de_passe = htmlspecialchars(trim($_POST['motDePasse']));
             $role = htmlspecialchars(trim($_POST['role']));
-            $classe = isset($_POST['classe']) ? $_POST['classe'] : []; // Correction ici
-            $matiere = isset($_POST['matiere']) ? $_POST['matiere'] : []; // Correction ici
+            $classe = isset($_POST['classesProfesseur[]']) ? $_POST['classesProfesseur[]'] : []; // Correction ici
+            $matiere = isset($_POST['matieres[]']) ? $_POST['matieres[]'] : []; // Correction ici
 
             $matricule = generateMatricule();
             // Appel à la méthode create du modèle
@@ -103,8 +103,8 @@ class ProfesseurController {
     }
 }
 
-function generateMatricule($prefix = 'ER_pr-', $length = 4) {
+/*function generateMatricule($prefix = 'ER_pr-', $length = 4) {
     // Générer un nombre aléatoire avec le nombre de chiffres spécifié
     $number = str_pad(rand(0, pow(10, $length) - 1), $length, '0', STR_PAD_LEFT);
     return $prefix . $number;
-}
+}*/
