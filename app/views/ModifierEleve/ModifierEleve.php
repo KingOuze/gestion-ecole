@@ -1,34 +1,34 @@
 <?php
 require_once('C:/xmp/htdocs/gestion-ecole/config/db.php');
-// Récupération des données de l'administrateur
+// Récupération des données de l'eleve
 $telephone = isset($_GET['telephone']) ? htmlspecialchars($_GET['telephone']) : '';
-$prenom = $nom = $email = '';
+$prenom = $nom = $adresse = '';
 
-// Récupérer les informations de l'administrateur à modifier
+// Récupérer les informations de l'eleve à modifier
 if ($telephone) {
-    $stmt = $conn->prepare("SELECT prenom, nom, email, telephone FROM administrateur WHERE telephone = ?");
+    $stmt = $conn->prepare("SELECT prenom, nom, adresse, telephone FROM eleve WHERE telephone = ?");
     $stmt->execute([$telephone]);
-    $admin = $stmt->fetch(PDO::FETCH_ASSOC);
+    $eleve = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($admin) {
-        $prenom = htmlspecialchars($admin['prenom']);
-        $nom = htmlspecialchars($admin['nom']);
-        $email = htmlspecialchars($admin['email']);
-        $telephone = htmlspecialchars($admin['telephone']);
+    if ($eleve) {
+        $prenom = htmlspecialchars($eleve['prenom']);
+        $nom = htmlspecialchars($eleve['nom']);
+        $adresse = htmlspecialchars($eleve['adresse']);
+        $telephone = htmlspecialchars($eleve['telephone']);
     }
 }
 
-// Mise à jour de l'administrateur
+// Mise à jour de l'eleve
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_prenom = htmlspecialchars($_POST['prenom']);
     $new_nom = htmlspecialchars($_POST['nom']);
-    $new_email = htmlspecialchars($_POST['email']);
+    $new_adresse = htmlspecialchars($_POST['adresse']);
     $new_telephone = htmlspecialchars($_POST['telephone']);
 
-    $update_stmt = $conn->prepare("UPDATE administrateur SET prenom = ?, nom = ?, email = ?, telephone = ? WHERE telephone = ?");
-    if ($update_stmt->execute([$new_prenom, $new_nom, $new_email, $new_telephone, $telephone])) {
+    $update_stmt = $conn->prepare("UPDATE eleve SET prenom = ?, nom = ?, adresse = ?, telephone = ? WHERE telephone = ?");
+    if ($update_stmt->execute([$new_prenom, $new_nom, $new_adresse, $new_telephone, $telephone])) {
         // Redirection avec message de succès
-        header('Location: soumission.php?message=Modification réussie');
+        header('Location: SoumissionEleve.php?message=Modification réussie');
         exit();
     } else {
         // Gérer l'erreur de mise à jour
@@ -63,16 +63,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-row">
                 <div class="form-group">
                     <label for="telephone">Téléphone</label>
-                    <input type="text" name="telephone" value="<?php echo $telephone; ?>" placeholder="Entrer le téléphone">
+                    <input type="text" name="telephone" value="<?php echo $telephone; ?>" placeholder="Entrer le téléphone" >
                 </div>
                 <div class="form-group">
-                    <label for="email">Adresse Email</label>
-                    <input type="email" name="email" value="<?php echo $email; ?>" placeholder="Entrer l'email" >
+                    <label for="adresse">Adresse</label>
+                    <input type="adresse" name="adresse" value="<?php echo $adresse; ?>" placeholder="Entrer l'adresse" >
                 </div>
             </div>
             <div class="button-group">
                 <button type="submit" class="btn-primary">Modifier</button>
-                <a href="soumission.php" class="btn-secondary">Retour</a>
+                <a href="SoumissionEleve.php" class="btn-secondary">Retour</a>
             </div>
         </form>
     </div>
