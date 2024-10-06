@@ -3,7 +3,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 require_once '../config/db.php';
 require_once '../app/controllers/ComptableController.php';
 require_once '../app/controllers/SurveillantController.php';
@@ -12,99 +11,82 @@ require_once '../app/controllers/AdmnistrateurController.php';
 require_once '../app/controllers/EnseignantController.php';
 require_once '../app/controllers/MatiereController.php';
 require_once '../app/controllers/ClasseController.php';
+require_once '../app/controllers/EleveController.php';
 
-
-$compt = new ComptableController($db);
-$surveil = new SurveillantController($db);
-$profes = new ProfesseurController($db);
-$admin = new AdministrateurController($db);
-$enseign = new EnseignantController($db);
-$classe = new ClasseController($db);
-$matiere = new MatiereController($db);
-
+$controllers = [
+    'administrateur' => new AdministrateurController($db),
+    'surveillant' => new SurveillantController($db),
+    'professeur' => new ProfesseurController($db),
+    'comptable' => new ComptableController($db),
+    'enseignant' => new EnseignantController($db),
+    'eleve' => new EleveController($db),
+    'classe' => new ClasseController($db),
+    'matiere' => new MatiereController($db),
+];
 
 try {
     // Récupérer l'action et l'ID depuis l'URL
     $action = $_GET['action'] ?? 'index';
     $id = $_GET['id'] ?? null;
 
-    // Routeur simple
-    switch ($action) {
-        case 'create':
-            echo "Création d'un nouvel utilisateur<br>";
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $role = htmlspecialchars(trim($_POST['role']));
-                echo "Rôle: " . $role . "<br>";
-                switch ($role) {
-                    case 'administrateur':
-                        $admin->add();
-                        break;
-                    case 'surveillant':
+    function handleRequest($role, $action, $id, $controllers) {
+        if (!isset($controllers[$role])) {
+            echo "Rôle inconnu: " . htmlspecialchars($role);
+            return;
+        }
+        $controller = $controllers[$role];
 
-                        $surveil->add(); // Appel à la méthode add pour créer un surveillant
-                        
-                        break;
-                        
-                    case 'professeur':
-                        
-                        $profes->add(); // Appel à la méthode add pour créer un professeur
-                        
-                        break;
-                        
-                    case 'comptable':
-                        
-                        $compt->add(); // Appel à la méthode add pour créer un comptable
-                        
-                        break;
-                        
-                    case 'enseignant':
-                        
-                        $enseign->add(); // Appel à la méthode add pour créer un enseignant
-                        
-                        break;
-                    default:
-                        echo "Rôle inconnu: " . $role;
-                        break;
-                    
+        switch ($action) {
+            case 'create':
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $controller->add();
+                } else {
+                    echo "Méthode non POST.";
                 }
-            } else {
-                echo "Méthode non POST.";
-            }
-            break;
+                break;
 
-        case 'update':
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && $id) {
-                $controller = $admin; // Assurez-vous d'utiliser le bon contrôleur ici
-                $controller->update($id);
-            } else {
-                // Afficher le formulaire de mise à jour
-                $controller = $admin; // Assurez-vous d'utiliser le bon contrôleur ici
-                $data = $controller->model->getById($id);
-                include '../views/update.php'; // Formulaire HTML
-            }
-            break;
+            case 'update':
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && $id) {
+                    $controller->update($id);
+                } else {
+                    echo "Méthode non POST ou ID manquant.";
+                }
+                break;
 
-        case 'show':
-            
-            break;
+            case 'show':
+                if ($id) {
+                    $controller->showOne($id);
+                } else {
+                    echo "ID manquant.";
+                }
+                break;
 
-        case 'delete':
-            if ($id) {
-                $controller = $admin; // Assurez-vous d'utiliser le bon contrôleur ici
-                $controller->destroy($id);
-            }
-            break;
+            case 'delete':
+                if ($id) {
+                    $controller->destroy($id);
+                } else {
+                    echo "ID manquant.";
+                }
+                break;
 
-        case 'index':
+            case 'index':
             default:
                 echo "Affichage de l'index<br>";
-                $primaires = $classe->getByNiveau('primaire');
-                $secondaires = $classe->getByNiveau('secondaire');
-                $matieres = $matiere->index();
                 include '../app/views/admin/ajouter.php';
                 break;
+        }
     }
-    
-}catch (Exception $e) {
+
+    // Vérifiez si une action spécifique est demandée
+    if (isset($_POST['role'])) {
+        $role = htmlspecialchars(trim($_POST['role']));
+        handleRequest($role, $action, $id, $controllers);
+    } else {
+        //echo "Le rôle est requis.";
+        $role = 'administrateur';
+        handleRequest($role, $action, $id, $controllers);
+    }
+
+} catch (Exception $e) {
     echo 'Erreur : ' . $e->getMessage();
 }

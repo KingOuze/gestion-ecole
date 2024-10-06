@@ -20,52 +20,57 @@ class EleveController {
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
-            $tuteur = htmlspecialchars(trim($_POST['tuteur']));
-            $role = htmlspecialchars(trim($_POST['role']));
+            $nom_tuteur = htmlspecialchars(trim($_POST['nomTuteur']));
             $classe = htmlspecialchars(trim($_POST['classe']));
+            $date_nais = htmlspecialchars(trim($_POST['dateNaissance']));
+            $addresse = htmlspecialchars(trim($_POST['addresse']));
+        
 
 
             $matricule = generateMatricule();
 
-            $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role);
+            $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $date_nais, $addresse, $classe, $nom_tuteur);
 
             if ($transaction) {
-                echo "Surveillant enregistré avec succès! ID: $transaction";
+                echo "eleve enregistré avec succès! ID: $transaction";
             } else {
                 echo "Erreur lors de l'enregistrement.";
             }
         }
     }
 
-    public function update($id_admin) {
+    public function update($id_eleve) {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nom = htmlspecialchars(trim($_POST['nom']));
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
-            $role = htmlspecialchars(trim($_POST['role']));
+            $nom_tuteur = htmlspecialchars(trim($_POST['nomTuteur']));
+            $classe = htmlspecialchars(trim($_POST['classe']));
+            $date_nais = htmlspecialchars(trim($_POST['dateNaissance']));
+            $addresse = htmlspecialchars(trim($_POST['addresse']));
 
-            if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone, $role)) {
-                echo "Surveillant mis à jour avec succès!";
+            if ($this->model->update($id, $nom, $prenom, $email, $telephone, $date_nais, $addresse, $classe, $nom_tuteur)) {
+                echo "eleve mis à jour avec succès!";
             } else {
                 echo "Erreur lors de la mise à jour.";
             }
         }
     }
 
-    public function destroy($id_admin) {
-        if ($this->model->delete($id_admin)) {
-            echo "Surveillant supprimé avec succès!";
+    public function destroy($id_eleve) {
+        if ($this->model->delete($id_eleve)) {
+            echo "eleve supprimé avec succès!";
         } else {
             echo "Erreur lors de la suppression.";
         }
     }
 
     public function showOne($id) {
-        $surveillant = $this->model->getById($id);
+        $eleve = $this->model->getById($id);
         
-        if ($surveillant != NULL) {
-            echo "ID: {$surveillant['id_admin']}, Nom: {$surveillant['nom']}, Email: {$surveillant['email']}, Telephone: {$surveillant['telephone']}, Matricule: {$surveillant['matricule']}<br>";
+        if ($eleve != NULL) {
+            echo "ID: {$eleve['id_eleve']}, Nom: {$eleve['nom']}, Email: {$eleve['email']}, Telephone: {$eleve['telephone']}, Matricule: {$eleve['matricule']}<br>";
 
         } else {
             echo "Sélection vide.";
@@ -73,11 +78,11 @@ class EleveController {
     }
 
     public function index() {
-        $surveillants = $this->model->getAll();
+        $eleves = $this->model->getAll();
         
-        if ($surveillants != NULL) {
-            foreach ($surveillants as $Surveillant) {
-                echo "ID: {$Surveillant['id_admin']}, Nom: {$Surveillant['nom']}, Email: {$Surveillant['email']}, Telephone: {$Surveillant['telephone']}, Matricule: {$Surveillant['matricule']}<br>";
+        if ($eleves != NULL) {
+            foreach ($eleves as $eleve) {
+                echo "ID: {$eleve['id_eleve']}, Nom: {$eleve['nom']}, Email: {$eleve['email']}, Telephone: {$eleve['telephone']}, Matricule: {$eleve['matricule']}<br>";
             }
         } else {
             echo "Sélection vide.";
@@ -85,8 +90,8 @@ class EleveController {
     }
 }
 
-function generateMatricule($prefix = 'ER_su-', $length = 4) {
+/*function generateMatricule($prefix = 'ER_su-', $length = 4) {
     // Générer un nombre aléatoire avec le nombre de chiffres spécifié
     $number = str_pad(rand(0, pow(10, $length) - 1), $length, '0', STR_PAD_LEFT);
     return $prefix . $number;
-}
+}*/
