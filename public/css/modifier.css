@@ -29,12 +29,13 @@ body {
 }
 
 .sidebar ul {
-    list-style: none;
-    padding: 0;
+    list-style-type: none; /* Supprime les puces */
+    padding: 0; /* Supprime le padding par défaut */
+    margin: 0; /* Supprime la marge par défaut */
 }
 
 .sidebar ul li {
-    margin: 20px 0;
+    position: relative; /* Nécessaire pour positionner le pseudo-élément */
 }
 
 .sidebar ul li a {
@@ -42,15 +43,35 @@ body {
     text-decoration: none;
     font-size: 16px;
     display: block;
-    padding: 10px 0;
+    padding: 10px 20px; /* Ajout de padding horizontal pour plus d'espace */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition douce */
 }
 
 .sidebar ul li a.active {
-    color: white; /* Lien actif en rouge */
+    color: rgb(219, 24, 24); /* Lien actif en rouge */
 }
 
 .sidebar ul li a:hover {
-    text-decoration: underline;
+    background-color: rgba(255, 255, 255, 0.2); /* Fond transparent blanc au survol */
+    color: rgb(219, 24, 24); /* Changements de couleur au survol */
+    border-radius: 5px; /* Ajout d'un arrondi */
+}
+
+/* Optionnel : Ajouter un effet de soulignement animé */
+.sidebar ul li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px; /* Épaisseur de la ligne */
+    background: rgb(219, 24, 24); /* Couleur rouge */
+    transform: scaleX(0); /* Masquer la ligne */
+    transition: transform 0.3s ease; /* Transition douce */
+}
+
+.sidebar ul li a:hover::after {
+    transform: scaleX(1); /* Montrer la ligne au survol */
 }
 
 /* Main content */

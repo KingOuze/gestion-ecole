@@ -53,21 +53,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-row">
                 <div class="form-group">
                     <label for="prenom">Prénom</label>
-                    <input type="text" name="prenom" value="<?php echo $prenom; ?>" placeholder="Entrer le prénom" required>
+                    <input type="text" name="prenom" value="<?php echo $prenom; ?>" placeholder="Entrer le prénom">
                 </div>
                 <div class="form-group">
                     <label for="nom">Nom</label>
-                    <input type="text" name="nom" value="<?php echo $nom; ?>" placeholder="Entrer le nom" required>
+                    <input type="text" name="nom" value="<?php echo $nom; ?>" placeholder="Entrer le nom">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
                     <label for="telephone">Téléphone</label>
-                    <input type="text" name="telephone" value="<?php echo $telephone; ?>" placeholder="Entrer le téléphone" required readonly>
+                    <input type="text" name="telephone" value="<?php echo $telephone; ?>" placeholder="Entrer le téléphone">
                 </div>
                 <div class="form-group">
                     <label for="email">Adresse Email</label>
-                    <input type="email" name="email" value="<?php echo $email; ?>" placeholder="Entrer l'email" required>
+                    <input type="email" name="email" value="<?php echo $email; ?>" placeholder="Entrer l'email" >
                 </div>
             </div>
             <div class="button-group">
