@@ -90,13 +90,6 @@
     </div>
 </div>
 
-<script>
-    function confirmDelete(telephone) {
-        if (confirm("Êtes-vous sûr de vouloir archiver ce professeur ?")) {
-            window.location.href = 'supprimer.php?telephone=' + telephone;
-        }
-    }
-</script>
 
 </body>
 </html>
