@@ -161,13 +161,13 @@ function validateForm() {
     return true;
 }
 
-let matriculeCounter = 1; // Compteur pour les matricules
+// let matriculeCounter = 1; // Compteur pour les matricules
 
-function generateMatricule() {
-    const prefix = 'ADM-'; // Préfixe pour le matricule
-    const paddedCounter = String(matriculeCounter).padStart(3, '0'); // Ajouter des zéros devant pour avoir toujours 3 chiffres
-    return prefix + paddedCounter; // Générer le matricule final
-}
+// function generateMatricule() {
+//     const prefix = 'ADM-'; // Préfixe pour le matricule
+//     const paddedCounter = String(matriculeCounter).padStart(3, '0'); // Ajouter des zéros devant pour avoir toujours 3 chiffres
+//     return prefix + paddedCounter; // Générer le matricule final
+// }
 
 function ajouter() {
     // Récupérez les informations de l'administrateur ici
