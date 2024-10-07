@@ -21,7 +21,7 @@ class ProfesseurController {
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone'])); 
-            $mot_de_passe = htmlspecialchars(trim($_POST['motDePasse']));
+            $mot_de_passe = htmlspecialchars(trim($_POST['mot_de_passe']));
             $role = htmlspecialchars(trim($_POST['role']));
             $classe = isset($_POST['classesProfesseur[]']) ? $_POST['classesProfesseur[]'] : []; // Correction ici
             $matiere = isset($_POST['matieres[]']) ? $_POST['matieres[]'] : []; // Correction ici

@@ -41,12 +41,6 @@ class Classe {
         return $stmt->execute([$id]);
     }
 
-    public function getByNiveau($niveau){
-        $stmt = $this->db->prepare("SELECT * FROM classe WHERE niveau = ?");
-        $stmt->execute([$niveau]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     public function getAll() {
         $stmt = $this->db->prepare("SELECT * FROM classe ");
         $stmt->execute(); // Passer un tableau ici

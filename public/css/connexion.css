@@ -1,0 +1,237 @@
+/* Réinitialisation des styles de base */
+* {
+    padding: 0; /* Supprime le remplissage par défaut */
+    margin: 0; /* Supprime la marge par défaut */
+    box-sizing: border-box; /* Inclut la bordure et le rembourrage dans la largeur et la hauteur */
+}
+
+/* Style général pour le corps du document */
+body {
+    font-family: 'Poppins', sans-serif; /* Définit la police utilisée */
+    overflow: hidden; /* Masque le débordement du contenu */
+}
+
+/* Style pour la vague d'arrière-plan */
+.wave {
+    position: fixed; /* Fixe l'élément à l'écran */
+    bottom: 0; /* Aligne l'élément en bas de l'écran */
+    left: 0; /* Aligne l'élément à gauche de l'écran */
+    height: 100%; /* Prend toute la hauteur de l'écran */
+    z-index: -1; /* Met cet élément derrière tout le contenu */
+}
+
+/* Conteneur principal */
+.container {
+    width: 100vw; /* Prend toute la largeur de la fenêtre */
+    height: 100vh; /* Prend toute la hauteur de la fenêtre */
+    display: grid; /* Utilise un système de grille */
+    grid-template-columns: repeat(2, 1fr); /* Crée deux colonnes de taille égale */
+    grid-gap: 7rem; /* Espace entre les éléments de la grille */
+    padding: 0 2rem; /* Remplissage à gauche et à droite */
+}
+
+/* Style pour l'image dans le conteneur */
+.img {
+    display: flex; /* Utilise Flexbox pour aligner les éléments */
+    justify-content: flex-end; /* Aligne les éléments à droite */
+    align-items: center; /* Centre les éléments verticalement */
+}
+
+/* Style pour le contenu de connexion */
+.login-content {
+    display: flex; /* Utilise Flexbox pour aligner les éléments */
+    justify-content: flex-start; /* Aligne les éléments à gauche */
+    align-items: center; /* Centre les éléments verticalement */
+    text-align: center; /* Centre le texte */
+}
+
+/* Style pour les images dans la section .img */
+.img img {
+    width: 500px; /* Définit la largeur des images */
+}
+
+/* Style pour le formulaire */
+form {
+    width: 360px; /* Largeur fixe pour le formulaire */
+}
+
+/* Style pour l'image dans le contenu de connexion */
+.login-content img {
+    height: 100px; /* Hauteur fixe pour les images */
+}
+
+/* Style pour le titre dans le contenu de connexion */
+.login-content h2 {
+    margin: 15px 0; /* Marge au-dessus et en dessous du titre */
+    color: #333; /* Couleur du texte */
+    text-transform: uppercase; /* Met le texte en majuscules */
+    font-size: 2.9rem; /* Taille de la police */
+}
+
+/* Style pour les champs de saisie */
+.login-content .input-div {
+    position: relative; /* Positionnement relatif pour les éléments enfants */
+    display: grid; /* Utilise une grille pour le champ de saisie */
+    grid-template-columns: 7% 93%; /* Crée deux colonnes pour l'icône et le champ de saisie */
+    margin: 25px 0; /* Marge au-dessus et en dessous */
+    padding: 5px 0; /* Remplissage au-dessus et en dessous */
+    border-bottom: 2px solid #d9d9d9; /* Bordure en bas */
+}
+
+/* Supprime la marge supérieure pour le premier champ de saisie */
+.login-content .input-div.one {
+    margin-top: 0; /* Supprime la marge supérieure */
+}
+
+/* Style pour l'icône dans le champ de saisie */
+.i {
+    color: #d9d9d9; /* Couleur de l'icône */
+    display: flex; /* Utilise Flexbox pour centrer l'icône */
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+}
+
+/* Transition pour l'icône au focus */
+.i i {
+    transition: .3s; /* Transition douce pour les changements de couleur */
+}
+
+/* Style pour le conteneur du champ de saisie */
+.input-div > div {
+    position: relative; /* Positionnement relatif pour l'étiquette */
+    height: 45px; /* Hauteur fixe pour le champ */
+}
+
+/* Style pour l'étiquette dans le champ de saisie */
+.input-div > div > h5 {
+    position: absolute; /* Positionnement absolu pour l'étiquette */
+    left: 10px; /* Position à gauche */
+    top: 50%; /* Centre verticalement */
+    transform: translateY(-50%); /* Ajuste le centrage vertical */
+    color: #999; /* Couleur de l'étiquette */
+    font-size: 18px; /* Taille de la police de l'étiquette */
+    transition: .3s; /* Transition douce pour le mouvement */
+}
+
+/* Style pour les effets visuels lors de la mise au point sur le champ */
+.input-div:before,
+.input-div:after {
+    content: ''; /* Contenu vide pour créer un effet visuel */
+    position: absolute; /* Positionnement absolu */
+    bottom: -2px; /* Positionnement en bas */
+    width: 0%; /* Largeur initiale à 0 */
+    height: 2px; /* Hauteur de la ligne */
+    background-color: #38d39f; /* Couleur de la ligne */
+    transition: .4s; /* Transition douce pour l'expansion */
+}
+
+/* Positionne le premier effet visuel */
+.input-div:before {
+    right: 50%; /* Position à droite de 50% */
+}
+
+/* Positionne le deuxième effet visuel */
+.input-div:after {
+    left: 50%; /* Position à gauche de 50% */
+}
+
+/* Élargit les effets visuels lors du focus sur le champ */
+.input-div.focus:before,
+.input-div.focus:after {
+    width: 50%; /* Élargit les lignes à 50% */
+}
+
+/* Déplace l'étiquette lors du focus sur le champ */
+.input-div.focus > div > h5 {
+    top: -5px; /* Positionne l'étiquette au-dessus du champ */
+    font-size: 15px; /* Réduit la taille de la police de l'étiquette */
+}
+
+/* Change la couleur de l'icône lors du focus sur le champ */
+.input-div.focus > .i > i {
+    color: #38d39f; /* Change la couleur de l'icône */
+}
+
+/* Style pour le champ de saisie */
+.input-div > div > input {
+    position: absolute; /* Positionnement absolu pour le champ */
+    left: 0; /* Aligne à gauche */
+    top: 0; /* Aligne en haut */
+    width: 100%; /* Prend toute la largeur */
+    height: 100%; /* Prend toute la hauteur */
+    border: none; /* Supprime la bordure */
+    outline: none; /* Supprime le contour */
+    background: none; /* Pas de fond */
+    padding: 0.5rem 0.7rem; /* Remplissage interne */
+    font-size: 1.2rem; /* Taille de la police */
+    color: #555; /* Couleur du texte */
+    font-family: 'Poppins', sans-serif; /* Police utilisée */
+}
+
+/* Style spécifique pour le champ de mot de passe */
+.input-div.pass {
+    margin-bottom: 4px; /* Marge inférieure pour le champ de mot de passe */
+}
+
+/* Style pour les liens */
+a {
+    display: block; /* Affiche le lien comme un bloc */
+    text-align: right; /* Aligne le texte à droite */
+    text-decoration: none; /* Supprime le soulignement */
+    color: #999; /* Couleur du texte */
+    font-size: 0.9rem; /* Taille de la police */
+    transition: .3s; /* Transition douce pour le changement de couleur */
+}
+
+/* Change la couleur des liens au survol */
+a:hover {
+    color: #38d39f; /* Change la couleur lors du survol */
+}
+
+/* Style pour le bouton */
+.btn {
+    display: block; /* Affiche le bouton comme un bloc */
+    width: 100%; /* Prend toute la largeur */
+    height: 50px; /* Hauteur fixe */
+    border-radius: 25px; /* Bordures arrondies */
+    outline: none; /* Supprime le contour */
+    border: none; /* Supprime la bordure */
+    background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f); /* Dégradé de fond */
+    background-size: 200%; /* Étire le fond pour l'animation */
+    font-size: 1.2rem; /* Taille de la police */
+    color: #fff; /* Couleur du texte */
+    font-family: 'Poppins', sans-serif; /* Police utilisée */
+    text-transform: uppercase; /* Met le texte en majuscules */
+    margin: 1rem 0; /* Marge supérieure et inférieure */
+    cursor: pointer; /* Change le curseur lors du survol */
+    transition: .5s; /* Transition douce pour les changements d'état */
+}
+
+/* Change l'arrière-plan du bouton au survol */
+.btn:hover {
+    background-position: right; /* Déplace la position du dégradé au survol */
+}
+
+/* Style pour les messages d'erreur ou de succès */
+.error {
+    color: #f00; /* Couleur rouge pour les messages d'erreur */
+    font-size: 0.9rem; /* Taille de la police */
+    text-align: center; /* Centre le texte */
+    margin: 10px 0; /* Marge supérieure et inférieure */
+}
+
+/* Style pour le message de succès */
+.success {
+    color: #0f0; /* Couleur verte pour les messages de succès */
+    font-size: 0.9rem; /* Taille de la police */
+    text-align: center; /* Centre le texte */
+    margin: 10px 0; /* Marge supérieure et inférieure */
+}
+
+/* Style pour les sous-titres */
+.subtitle {
+    color: #555; /* Couleur du texte */
+    font-size: 0.8rem; /* Taille de la police */
+    margin: 10px 0; /* Marge supérieure et inférieure */
+    text-align: center; /* Centre le texte */
+}
