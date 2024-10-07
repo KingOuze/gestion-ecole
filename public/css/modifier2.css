@@ -1,0 +1,120 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    padding: 100px;
+    padding-top: 50px; /* Ajoutez ou modifiez cette ligne pour augmenter l'espace à l'intérieur */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 600px;
+
+h1 {
+    
+        text-align: left;
+        color: #2e7d32;
+        margin-bottom: 20px;
+        margin-top: 20px; /* Ajoutez cette ligne pour donner plus d'espace au-dessus */
+        
+    }
+    
+}
+
+/* Form row pour aligner les inputs côte à côte */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.form-group:last-child {
+    margin-right: 0;
+}
+
+label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #2e7d32;
+    outline: none;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-primary, .btn-secondary {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    flex: 1;
+    margin: 0 5px;
+}
+
+.btn-primary {
+    background-color: #2e7d32;
+}
+
+.btn-secondary {
+    background-color: #f44336;
+}
+
+.btn-primary:hover {
+    background-color: #1b5e20;
+}
+
+.btn-secondary:hover {
+    background-color: #c62828;
+}
+
+/* Responsive pour petits écrans */
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-group {
+        margin-right: 0;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn-primary, .btn-secondary {
+        margin: 5px 0;
+    }
+}
