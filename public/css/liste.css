@@ -1,0 +1,159 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.dashboard {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.card-icon {
+    margin-bottom: 10px;
+}
+
+.card-icon img {
+    width: 50px; /* Ajustez la taille selon vos besoins */
+}
+
+.card-info h3 {
+    font-size: 1.2rem;
+    margin: 10px 0 5px;
+}
+
+.card-info p {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+body {
+    background-color: #f4f4f4;
+}
+
+.sidebar {
+    background-color: #20c997; /* Couleur de fond de la sidebar */
+    height: 100vh; /* Remplit la hauteur de la fenêtre */
+    padding: 20px 0;
+    position: fixed; /* Reste fixe lors du défilement */
+    top: 0;
+    left: 0;
+    width: 220px; /* Largeur de la sidebar */
+}
+
+.sidebar-header {
+    margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+    color: white; /* Couleur du texte du titre */
+}
+
+.sidebar ul {
+    padding: 0;
+}
+
+.sidebar ul li {
+    list-style: none; /* Retire les puces */
+}
+
+.sidebar ul li a {
+    color: white; /* Couleur des liens */
+    padding: 10px 15px; /* Espacement autour des liens */
+    text-decoration: none; /* Retire le soulignement */
+    display: block; /* Fait que le lien occupe toute la largeur */
+}
+
+.sidebar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Couleur de fond au survol */
+}
+
+main {
+    margin-left: 240px; /* Espace pour la sidebar */
+}
+.navbar {
+    margin-bottom: 20px; /* Espacement en bas de la barre de navigation */
+}
+
+.navbar .btn {
+    margin-left: 10px; /* Espacement entre les boutons */
+}
+.logo {
+    text-align: center; /* Centre le contenu de la classe .logo */
+    margin-bottom: 20px; /* Espacement en bas du logo */
+}
+
+.logo img {
+    max-width: 100%; /* S'assure que l'image ne dépasse pas la largeur du conteneur */
+    height: auto;    /* Garde les proportions de l'image */
+    width: auto;     /* Permet à l'image de conserver sa largeur d'origine */
+    max-height: 100px; /* Ajustez la hauteur maximale selon vos besoins */
+}
+.sidebar ul {
+    list-style-type: none; /* Enlève les puces */
+    padding: 0; /* Enlève le padding */
+}
+
+.sidebar ul li {
+    margin: 10px 0; /* Espacement entre les éléments */
+}
+
+.sidebar ul li a {
+    text-decoration: none; /* Enlève le soulignement */
+    color: #333; /* Couleur du texte */
+    padding: 10px 15px; /* Espacement interne */
+    display: block; /* Prend toute la largeur */
+    border-radius: 5px; /* Coins arrondis */
+    transition: background-color 0.3s; /* Transition pour le survol */
+}
+
+.sidebar ul li a:hover {
+    background-color: #e2e6ea; /* Couleur de fond au survol */
+}
+
+.sidebar ul li.active a {
+    background-color: #007bff; /* Couleur de fond pour l'élément actif */
+    color: white; /* Couleur du texte pour l'élément actif */
+}
+.sidebar {
+    background-color: #20c997; /* Couleur de fond de la sidebar */
+    height: 100vh; /* Remplit la hauteur de la fenêtre */
+    padding: 20px 0;
+    position: fixed; /* Reste fixe lors du défilement */
+    top: 0;
+    left: 0;
+    width: 220px; /* Largeur de la sidebar */
+    color: white; /* Couleur du texte pour toute la sidebar */
+}
+
+.sidebar-header h2 {
+    color: white; /* Couleur du texte du titre */
+}
+
+.sidebar ul li a {
+    color: white; /* Couleur des liens */
+}
+
+.sidebar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Couleur de fond au survol */
+}
+
+.sidebar ul li.active a {
+    background-color: #007bff; /* Couleur de fond pour l'élément actif */
+    color: white; /* Couleur du texte pour l'élément actif */
+}
