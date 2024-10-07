@@ -25,7 +25,6 @@
                 </ul>
             </nav>
         </aside>
-
         <main class="dashboard">
             <header class="dashboard-header">
                 <div class="search-container">
@@ -36,7 +35,6 @@
                     <i class="fas fa-sign-out-alt"></i> Déconnexion
                 </button>
             </header>
-
             <div class="cards-container">
                 <div class="card">
                     <i class="icon students fas fa-user-graduate"></i>
@@ -69,24 +67,20 @@
                     <p><?php echo $data['administrateurs']; ?></p>
                 </div>
             </div>
-
             <?php
             // Connexion à la base de données
             $host = 'localhost'; // ou l'adresse de votre serveur
             $db = 'gestion-ecole';
             $user = 'root';
             $pass = '';
-
             try {
                 $pdo = new PDO("mysql:host=$host;dbname=$db", $user, $pass);
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
                 echo "Erreur : " . htmlspecialchars($e->getMessage());
             }
-
             // Récupérer les données
             $page = $_GET['page'] ?? 'dashboard'; // Page par défaut
-
             switch ($page) {
                 case 'administrators':
                     $stmt = $pdo->query("SELECT * FROM administrateur");
@@ -113,46 +107,9 @@
                     $stmt = null; // Aucune requête
                     break;
             }
-
             $data = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : []; // Récupérer les données
             ?>
-
-            <!-- Affichage des données -->
-            <div class="data-container">
-                <h2><?php echo ucfirst($page); ?></h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if ($page === 'students'): ?>
-                            <?php foreach ($data as $row): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($row['id_eleve']); ?></td> <!-- ID pour les élèves -->
-                                    <td><?php echo htmlspecialchars($row['nom']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['prenom']); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php elseif (in_array($page, ['administrators', 'supervisors', 'professors', 'enseignants', 'comptables'])): ?>
-                            <?php foreach ($data as $row): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($row['id_admin']); ?></td> <!-- ID pour les administrateurs, etc. -->
-                                    <td><?php echo htmlspecialchars($row['nom']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['email']); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="3">Aucune donnée à afficher.</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
+          
         </main>
     </div>
 </body>

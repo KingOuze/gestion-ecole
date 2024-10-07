@@ -47,7 +47,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php include ('C:/xmp/htdocs/gestion-ecole/app/views/admin/get_administrateur.php'); ?>
+                <?php include ('../app/views/admin/get_administrateur.php'); ?>
             </tbody>
         </table>
     </div>

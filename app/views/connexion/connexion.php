@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Page de connexion</title>
-    <link rel="stylesheet" href="/public/css/connexion.css">
+    <link rel="stylesheet" href="/gestion-ecole/public/css/connexion.css">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <img class="wave" src="/public/images/connexion_image/wave.png">
+    <img class="wave" src="/gestion-ecole/public/images/connexion_image/wave.png">
     <div class="container">
         <div class="img">
-            <img src="/public/images/connexion_image/bg.svg">
+            <img src="/gestion-ecole/public/images/connexion_image/bg.svg">
         </div>
         <div class="login-content">
             
-        <form action="/app/controllers/ConnexionController.php" method="POST"> <!-- Appel au contrôleur -->
+        <form action="/gestion-ecole/app/controllers/ConnexionController.php" method="POST"> <!-- Appel au contrôleur -->
 
         
-              <img src="/public/images/connexion_image/Badge_Education_Badge_Logo-removebg-preview.png" style="width: 150px; height: auto;">
+              <img src="/gestion-ecole/public/images/connexion_image/Badge_Education_Badge_Logo-removebg-preview.png" style="width: 150px; height: auto;">
     
                 <h2 class="title">Ecole de la Réussite</h2>
 
@@ -51,6 +51,6 @@
             </form>
         </div>
     </div>
-    <script src="/public/js/connexion.js"></script>
+    <script src="/gestion-ecole/public/js/connexion.js"></script>
 </body>
 </html>

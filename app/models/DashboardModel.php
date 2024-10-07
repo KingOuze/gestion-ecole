@@ -37,4 +37,3 @@ class DashboardModel {
         return $data;
     }
 }
-?>
