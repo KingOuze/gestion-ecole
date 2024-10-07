@@ -52,18 +52,7 @@ class EnseignantController {
                 echo "Erreur lors de la mise à jour.";
             }
         }
-    }
-
-    public function destroy($id_admin) {
-        if ($this->model->delete($id_admin)) {
-            echo "Enseignant supprimé avec succès!";
-        } else {
-            echo "Erreur lors de la suppression.";
-        }
-    }
-
-    public function showOne($id) {
-        $enseignant = $this->model->getById($id);
+    }l->getById($id);
         
         if ($enseignant != NULL) {
             echo "Sélection vide.";
