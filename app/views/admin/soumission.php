@@ -47,12 +47,12 @@
                 </tr>
             </thead>
             <tbody>
-                <?php include ('C:/xmp/htdocs/gestion-ecole/app/views/admin/get_administrateur.php'); ?>
+                <?php include('C:/xmp/htdocs/gestion-ecole/app/views/admin/get_administrateur.php'); ?>
             </tbody>
         </table>
     </div>
-</div>
 
-
+    <!-- Lien vers le fichier JavaScript externe -->
+    <script src="../../../public/js/suppression.js"></script>
 </body>
 </html>
