@@ -5,48 +5,26 @@ function toggleFields() {
     const professeurFields = document.getElementById('professeurFields');
     const surveillantFields = document.getElementById('surveillantFields');
     const enseignantFields = document.getElementById('enseignantFields');
-    const formTitle = document.getElementById('formTitle');
-    const motDePasseInput = document.getElementById('motDePasse');
 
 
-    // Mise à jour du titre en fonction du rôle
-    switch (role) {
-        case 'administrateur':
-            formTitle.textContent = "Inscription administrateur";
-            break;
-        case 'professeur':
-            formTitle.textContent = "Inscription professeur";
-            break;
-        case 'enseignant':
-            formTitle.textContent = "Inscription enseignant";
-            break;
-        case 'surveillant':
-            formTitle.textContent = "Inscription surveillant";
-            break;
-        case 'comptable':
-            formTitle.textContent = "Inscription comptable";
-            break;
-        case 'eleve':
-            formTitle.textContent = "Inscription élève";
-            break;
-        default:
-            formTitle.textContent = "Inscription";
-    }
+
 
     autresInfosDiv.style.display = 'none'; // Masquer par défaut
     eleveFields.style.display = 'none'; // Masquer les champs élève
     professeurFields.style.display = 'none'; // Masquer les champs professeur
-    surveillantFields.style.display = 'none'; // Masquer les champs surveillant
-    enseignantFields.style.display = 'none'; // Masquer les champs enseignant
+    surveillantFields.style.display = 'none'; // Masquer les champs professeur
+    enseignantFields.style.display = 'none'; // Masquer les champs professeur
 
-    if (role === 'enseignant' || role === 'surveillant') {
-        surveillantFields.style.display = 'block'; // Afficher les champs surveillant pour enseignant aussi
+
+
+    if (role === 'enseignant') {
+        enseignantFields.style.display = 'block'; 
     } else if (role === 'eleve') {
         eleveFields.style.display = 'block'; // Afficher les champs élève
-        motDePasseInput.removeAttribute('required'); // Retirer l'obligation du mot de passe
-
     } else if (role === 'professeur') {
         professeurFields.style.display = 'block'; // Afficher les champs professeur
+    } else if (role === 'surveillant') {
+        surveillantFields.style.display = 'block'; // Afficher les champs élève
     }
 }
 
@@ -76,6 +54,10 @@ function validateForm() {
         document.getElementById('errorEmail').textContent = "L'email est requis.";
         return false;
     }
+    if (!motDePasse) {
+        document.getElementById('errorMotDePasse').textContent = "Le mot de passe est requis.";
+        return false;
+    }
     if (!telephone) {
         document.getElementById('errorTelephone').textContent = "Le téléphone est requis.";
         return false;
@@ -99,8 +81,6 @@ function validateForm() {
         return false;
     }
 
-
-
     // Validation des champs spécifiques selon le rôle
     if (role === 'eleve') {
         const dateNaissance = document.querySelector('input[name="dateNaissance"]').value.trim();
@@ -119,22 +99,14 @@ function validateForm() {
             document.getElementById('errorNumerotuteur').textContent = "Le numéro de tuteur est requis.";
             return false;
         }
-    } else {
-        // Validation pour le mot de passe seulement si ce n'est pas un élève
-        if (!motDePasse) {
-            document.getElementById('errorMotDePasse').textContent = "Le mot de passe est requis.";
-            return false;
-        }
-    }
-
-    if (role === 'professeur') {
+    } else if (role === 'professeur') {
         const matiereField = document.querySelector('select[name="matieres[]"]');
         const classeField = document.querySelector('select[name="classesProfesseur[]"]');
-
+    
         if (matiereField && classeField) {
             const matieres = matiereField.selectedOptions;
             const classesProfesseur = classeField.selectedOptions;
-
+    
             if (matieres.length === 0) {
                 document.getElementById('errorMatiere').textContent = "Au moins une matière est requise.";
                 return false;
@@ -143,22 +115,13 @@ function validateForm() {
                 document.getElementById('errorClasseProfesseur').textContent = "Au moins une classe est requise.";
                 return false;
             }
-        }
-    } else if (role === 'enseignant' || role === 'surveillant') {
-        const classeField = document.querySelector('select[name="classesSurveillant[]"]');
 
-        if (classeField) {
-            const classesSurveillant = classeField.selectedOptions;
-
-            if (classesSurveillant.length === 0) {
-                document.getElementById('errorClasseSurveillant').textContent = "Au moins une classe est requise.";
-                return false;
-            }
-        }
+      
     }
 
     // Si toutes les validations passent
     return true;
+}
 }
 
 let matriculeCounter = 1; // Compteur pour les matricules
@@ -169,17 +132,21 @@ function generateMatricule() {
     return prefix + paddedCounter; // Générer le matricule final
 }
 
+
+
 function ajouter() {
     // Récupérez les informations de l'administrateur ici
+
     const matricule = generateMatricule(); // Générer un nouveau matricule
     matriculeCounter++; // Incrémenter le compteur pour le prochain matricule
 
     // Ici, vous pouvez maintenant utiliser le matricule pour enregistrer l'administrateur
     console.log("Matricule généré : " + matricule);
-}
 
-// Visualiser le mot de passe
-document.getElementById('togglePassword').addEventListener('click', function() {
+
+}
+ //l'visualiser le mot de passe
+document.getElementById('togglePassword').addEventListener('click', function () {
     const passwordInput = document.getElementById('motDePasse');
     const eyeIcon = document.getElementById('eyeIcon');
 
@@ -194,6 +161,7 @@ document.getElementById('togglePassword').addEventListener('click', function() {
         eyeIcon.classList.add('fa-eye');
     }
 });
+
 
 // Modifie le formulaire pour utiliser la fonction validateForm
 document.querySelector('form').onsubmit = function() {
