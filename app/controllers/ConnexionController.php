@@ -71,4 +71,4 @@ class ConnexionController {
 // Initialiser le contrôleur et appeler la méthode login
 $controller = new ConnexionController($conn);
 $controller->login();
-?>
+
