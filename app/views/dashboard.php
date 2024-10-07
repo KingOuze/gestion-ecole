@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard du Personnel, des Étudiants et des Administrateurs</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../public/css/dashboard.css">
+    <link rel="stylesheet" href="/gestion-ecole/public/css/dashboard.css">
 </head>
 <body>
     <div class="container">
         <aside class="sidebar">
-            <img src="../public/images/logo.png" alt="Logo" class="logo">
+            <img src="/gestion-ecole/public/images/logo.png" alt="Logo" class="logo">
             <h1>École de la réussite</h1>
             <nav>
                 <ul>
@@ -115,45 +115,11 @@
             }
 
             $data = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : []; // Récupérer les données
+
+
+            
             ?>
 
-            <!-- Affichage des données -->
-            <div class="data-container">
-                <h2><?php echo ucfirst($page); ?></h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nom</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if ($page === 'students'): ?>
-                            <?php foreach ($data as $row): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($row['id_eleve']); ?></td> <!-- ID pour les élèves -->
-                                    <td><?php echo htmlspecialchars($row['nom']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['prenom']); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php elseif (in_array($page, ['administrators', 'supervisors', 'professors', 'enseignants', 'comptables'])): ?>
-                            <?php foreach ($data as $row): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($row['id_admin']); ?></td> <!-- ID pour les administrateurs, etc. -->
-                                    <td><?php echo htmlspecialchars($row['nom']); ?></td>
-                                    <td><?php echo htmlspecialchars($row['email']); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="3">Aucune donnée à afficher.</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </main>
-    </div>
+            
 </body>
 </html>

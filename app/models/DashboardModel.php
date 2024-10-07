@@ -1,9 +1,11 @@
 <?php
 class DashboardModel {
+  
+
     private $db;
 
     public function __construct() {
-        require_once '../config/db.php';
+        require_once '/gestion-ecole/config/db.php';
         $this->db = $conn; // Utiliser la connexion PDO définie dans db.php
     }
 
@@ -13,6 +15,7 @@ class DashboardModel {
         // Compter le nombre d'élèves
         $stmt = $this->db->query("SELECT COUNT(*) as count FROM eleve");
         $data['eleves'] = $stmt->fetchColumn();
+        var_dump($data['eleves']); // Debug
 
         // Compter le nombre de professeurs
         $stmt = $this->db->query("SELECT COUNT(*) as count FROM administrateur WHERE role='professeur'");
@@ -37,4 +40,3 @@ class DashboardModel {
         return $data;
     }
 }
-?>

@@ -1,7 +1,8 @@
 <?php
-require_once __DIR__ . '/../models/DashboardModel.php'; // Chemin corrigé
+require_once __DIR__ . '/gestion-ecole/app/models/DashboardModel.php'; // Chemin corrigé
 
 class DashboardController {
+    
     private $model;
 
     public function __construct() {
@@ -13,8 +14,8 @@ class DashboardController {
         $data = $this->model->getCounts();
 
         // Inclure la vue du tableau de bord
-        require_once __DIR__ . '/../views/dashboard.php'; // Assurez-vous que le chemin est correct
+        require_once __DIR__ . '/gestion-ecole/app/views/dashboard.php'; // Assurez-vous que le chemin est correct
     }
 }
-?>
+
 
