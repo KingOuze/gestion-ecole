@@ -2,7 +2,7 @@
 $host = 'localhost'; // Adresse de l'hôte (généralement localhost)
 $dbname = 'gestion-ecole'; // Nom de votre base de données
 $user = 'root'; // Nom d'utilisateur de la base de données
-$password = ' '; // Mot de passe de la base de données
+$password = ''; // Mot de passe de la base de données
 
 try {
     // Créer la connexion avec PDO

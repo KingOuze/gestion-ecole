@@ -5,8 +5,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Inclure la connexion à la base de données
-require_once __DIR__ . '/../../config/db.php'; // Chemin mis à jour basé sur la nouvelle structure
-require_once __DIR__ . '/../models/ConnexionModel.php'; // Inclure le modèle
+require_once ('/opt/lampp/htdocs/gestion-ecole/config/db.php'); // Chemin mis à jour basé sur la nouvelle structure
+require_once ('/opt/lampp/htdocs/gestion-ecole/app//models/ConnexionModel.php'); // Inclure le modèle
 
 session_start();
 
@@ -44,7 +44,7 @@ class ConnexionController {
                         header('Location: ../views/dashboard.php');
                         exit();
                     } elseif ($user['role'] == 'prof' || $user['role'] == 'enseignant') {
-                        header('Location: ../views/eleve.html');
+                        header('Location: ../views/enseignantviews.php');
                         exit();
                     } elseif ($user['role'] == 'comptable') {
                         header('Location: ../views/comptabilite.html');
