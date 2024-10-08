@@ -23,10 +23,11 @@ class ComptableController {
             $telephone = htmlspecialchars(trim($_POST['telephone'])); 
             $mot_de_passe = htmlspecialchars(trim($_POST['motDePasse']));
             $role = htmlspecialchars(trim($_POST['role']));
+            $adresse = htmlspecialchars(trim($_POST['adresse']));
 
             $matricule = generateMatricule();
             // Appel à la méthode create du modèle
-            $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role);
+            $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role, $adresse);
 
             if ($transaction) {
                 echo "Comptable enregistré avec succès! ID: $transaction";
@@ -42,10 +43,11 @@ class ComptableController {
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
-            $role = htmlspecialchars(trim($_POST['role']));
+            $adresse = htmlspecialchars(trim($_POST['adresse']));
 
-            if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone, $role)) {
-                echo "Coptable mis à jour avec succès!";
+            if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone, $adresse)) {
+                header("Location: /gestion-ecole/public/index.php?action=liste&role=comptable");
+                exit; 
             } else {
                 echo "Erreur lors de la mise à jour.";
             }
@@ -66,21 +68,39 @@ class ComptableController {
         $comptable = $this->model->getById($id);
         
         if ($comptable != NULL) {
-            echo "ID: {$comptable['id_admin']}, Nom: {$comptable['nom']}, Email: {$comptable['email']}, Telephone: {$comptable['telephone']}, Matricule: {$comptable['matricule']}<br>";
+            return $comptable;
         } else {
             echo "Comptable non trouvé.";
+        }
+    }
+
+    public function archive($id) {
+        if ($this->model->archive($id)) { // Appel de la méthode avec l'ID
+            // Redirection correcte avec "Location:"
+            header("Location: /gestion-ecole/public/index.php?action=liste&role=comptable");
+            exit; // Assurez-vous d'appeler exit après la redirection
+        } else {
+            // Gérer le cas où l'archivage a échoué
+            // Par exemple, redirection vers une page d'erreur ou affichage d'un message
+            header("Location: /gestion-ecole/public/index.php?action=erreur");
+            exit;
         }
     }
 
     public function index() {
         $comptables = $this->model->getAll();
         if ($comptables != NULL) {
-            foreach ($comptables as $comptable) { // Correction ici
-                echo "ID: {$comptable['id_admin']}, Nom: {$comptable['nom']}, Email: {$comptable['email']}, Telephone: {$comptable['telephone']}, Matricule: {$comptable['matricule']}<br>";
-            }
+            return $comptables;
         } else {
             echo "Aucun Comptable trouvé.";
         }
+    }
+
+    public function count() {
+        // Récupérer les statistiques du modèle
+        $data = $this->model->getCount();
+        // Inclure la vue du tableau de bord
+        return $data;
     }
 }
 

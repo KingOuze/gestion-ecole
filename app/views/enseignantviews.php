@@ -6,17 +6,17 @@
     <title>Interface Enseignant</title>
     <!-- Lien vers Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/public/css/enseignant.css">
+    <link rel="stylesheet" href="../../public/css/enseignant.css">
 </head>
 <body>
     <div class="sidebar">
         <div class="logo">
-            <img src="logo.png" alt="Logo de l'école">
+        <img src="/gestion-ecole/public/images/connexion_image/Badge_Education_Badge_Logo.png" alt="Logo" class="logo">
         </div>
         <h2>Ecole de la reussite</h2>
         <nav class="menu">
             <ul>
-                <li><a href="/app/views/dashboard.php"><i class="fas fa-home"></i> Tableau de bord</a></li>
+                <li><a href="dashboard.php"><i class="fas fa-home"></i> Tableau de bord</a></li>
                 <li><a href="#"><i class="fas fa-user-graduate"></i> Listes des classes</a></li>
                 <li><a href="#"><i class="fas fa-user-clock"></i> Gestion des absences</a></li>
                 <li><a href="#"><i class="fas fa-clipboard-check"></i> Saisie des évaluations</a></li>
@@ -33,7 +33,7 @@
                 <input type="text" placeholder="Recherche de l'élève par matricule">
                 <button><img src="search-icon.png" alt="Search"></button>
             </div>
-            <a href="#" class="logout">Déconnexion</a>
+            <a href="/gestion-ecole/public/index.php?" class="add-student-btn">Ajouter Élève</a>
         </header>
         
         <div class="grid-options">

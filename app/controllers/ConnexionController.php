@@ -26,6 +26,8 @@ class ConnexionController {
             $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
             $password = $_POST['password'];
 
+            //$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
             // Récupérer l'utilisateur par email
             $user = $this->connexionModel->getUserByEmail($email);
 
@@ -35,22 +37,22 @@ class ConnexionController {
                 if ($password === $user['mot_de_passe']) {
                     // Enregistrer les informations de session
                     $_SESSION['loggedin'] = true;
-                    $_SESSION['id'] = $user['id'];
+                    $_SESSION['id'] = $user['id_admin'];
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['role'] = $user['role'];
 
                     // Redirection selon le rôle
-                    if ($user['role'] == 'admin') {
-                        header('Location: ../views/dashboard.php');
+                    if ($user['role'] == 'administrateur') {
+                        header('Location: /gestion-ecole/public/index.php?action=index&role=administrateur');
                         exit();
                     } elseif ($user['role'] == 'prof' || $user['role'] == 'enseignant') {
-                        header('Location: ../views/eleve.html');
+                        header('Location: /gestion-ecole/public/index.php?action=index&role=enseignant');
                         exit();
                     } elseif ($user['role'] == 'comptable') {
-                        header('Location: ../views/comptabilite.html');
+                        header('Location: /gestion-ecole/public/index.php?action=index&role=comptable');
                         exit();
                     } elseif ($user['role'] == 'surveillant') {
-                        header('Location: ../views/surveillant.html');
+                        header('Location: /gestion-ecole/public/index.php?action=index&role=surveillant');
                         exit();
                     } else {
                         $errorMessage = "Rôle inconnu.";
@@ -69,6 +71,6 @@ class ConnexionController {
 }
 
 // Initialiser le contrôleur et appeler la méthode login
-$controller = new ConnexionController($conn);
+$controller = new ConnexionController($db);
 $controller->login();
 ?>

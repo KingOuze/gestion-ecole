@@ -6,34 +6,35 @@
     <title>Interface Surveillant</title>
     <!-- Lien vers Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/public/css/surveillant.css">
+    <link rel="stylesheet" href="/gestion-ecole/public/css/surveillant.css">
 </head>
 <body>
-<div class="sidebar">
-        <div class="logo">
-            <img src="logo.png" alt="Logo de l'école">
-        </div>
-        <h2>Ecole de la reussite</h2>
-        <nav class="menu">
+    <aside class="sidebar">
+        <img src="/gestion-ecole/public/images/connexion_image/Badge_Education_Badge_Logo.png" alt="Logo" class="logo">
+        <h1>École de la réussite</h1>
+        <nav>
             <ul>
-                <li><a href="/app/views/dashboard.php"><i class="fas fa-home"></i> Tableau de bord</a></li>
-                <li><a href="#"><i class="fas fa-user-graduate"></i>Gestions des absences et retards</a></li>
-                <li><a href="#"><i class="fas fa-user-clock"></i>Liste des professeurs</a></li>
-                <li><a href="#"><i class="fas fa-clipboard-check"></i>Listes des élèves</a></li>
-                <li><a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=acceuil">Tableau de Bord</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=administrateur">Gestion Administrateurs</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=eleve">Gestion des Élèves</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=surveillant">Gestion Surveillant</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=professeur">Gestion Professeur</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=enseignant">Gestion Enseignants</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=comptable">Gestion Comptables</a></li>
             </ul>
         </nav>
-    </div>
-    </div>
+    </aside>
     
     <div class="main-content">
         <header>
             <h1>Bienvenue</h1>
             <div class="search-bar">
                 <input type="text" placeholder="Recherche par matricule">
-                <button><img src="search-icon.png" alt="Recherche"></button>
+                <button><i class="fas fa-search search-icon"></i></button>
             </div>
-            <a href="#" class="logout">Déconnexion <i class="fas fa-sign-out-alt"></i></a>
+            <button class="add-button" id="openModalBtn">
+                <i class="fas fa-plus"></i> <a href="/gestion-ecole/public/index.php?">Ajouter un Surveillant</a>
+            </button>
         </header>
         
         <div class="grid-options">

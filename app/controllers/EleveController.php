@@ -21,10 +21,10 @@ class EleveController {
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
             $nom_tuteur = htmlspecialchars(trim($_POST['nomTuteur']));
-            $classe = htmlspecialchars(trim($_POST['classe']));
             $date_nais = htmlspecialchars(trim($_POST['dateNaissance']));
-            $addresse = htmlspecialchars(trim($_POST['addresse']));
-        
+            $addresse = htmlspecialchars(trim($_POST['adresse']));
+            $classe = htmlspecialchars(trim($_POST['classe']));
+         
 
 
             $matricule = generateMatricule();
@@ -50,8 +50,9 @@ class EleveController {
             $date_nais = htmlspecialchars(trim($_POST['dateNaissance']));
             $addresse = htmlspecialchars(trim($_POST['addresse']));
 
-            if ($this->model->update($id, $nom, $prenom, $email, $telephone, $date_nais, $addresse, $classe, $nom_tuteur)) {
-                echo "eleve mis à jour avec succès!";
+            if ($this->model->update($id_eleve, $nom, $prenom, $email, $telephone, $date_nais, $addresse, $classe, $nom_tuteur)) {
+                header("Location: /gestion-ecole/public/index.php?action=liste&role=eleve");
+                exit; 
             } else {
                 echo "Erreur lors de la mise à jour.";
             }
@@ -77,16 +78,34 @@ class EleveController {
         }
     }
 
+    public function archive($id) {
+        if ($this->model->archive($id)) { // Appel de la méthode avec l'ID
+            // Redirection correcte avec "Location:"
+            header("Location: /gestion-ecole/public/index.php?action=liste&role=eleve");
+            exit; // Assurez-vous d'appeler exit après la redirection
+        } else {
+            // Gérer le cas où l'archivage a échoué
+            // Par exemple, redirection vers une page d'erreur ou affichage d'un message
+            header("Location: /gestion-ecole/public/index.php?action=erreur");
+            exit;
+        }
+    }
+
     public function index() {
         $eleves = $this->model->getAll();
         
         if ($eleves != NULL) {
-            foreach ($eleves as $eleve) {
-                echo "ID: {$eleve['id_eleve']}, Nom: {$eleve['nom']}, Email: {$eleve['email']}, Telephone: {$eleve['telephone']}, Matricule: {$eleve['matricule']}<br>";
-            }
+            return $eleves;
         } else {
             echo "Sélection vide.";
         }
+    }
+
+    public function count() {
+        // Récupérer les statistiques du modèle
+        $data = $this->model->getCount();
+        // Inclure la vue du tableau de bord
+        return $data;
     }
 }
 

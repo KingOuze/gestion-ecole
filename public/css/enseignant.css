@@ -137,3 +137,23 @@ header h1 {
 .option button:hover {
     background-color: #2ba584;
 }
+
+/* Style pour positionner le bouton en haut à droite */
+.header-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.add-student-btn {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.add-student-btn:hover {
+    background-color: #218838;
+}

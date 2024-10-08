@@ -28,7 +28,7 @@ class Classe {
     }
 
     public function update($id, $niveau, $nom_classe) {
-        $stmt = $this->db->prepare("UPDATE classe SET niveau = ?, nom_classe = ? WHERE id_classe = ?");
+        $stmt = $this->db->prepare("UPDATE classe SET niveau = ?, nom_classe = ? WHERE id = ?");
         
         return $stmt->execute([$niveau, $nom_classe, $id]);
     }
@@ -37,7 +37,7 @@ class Classe {
         /*$stmt2 = $this->database->prepare("DELETE FROM administrateur WHERE id_admin = ?");
         $stmt2->bindParam(':id_admin', $id_admin);
         $stmt2->execute();*/
-        $stmt = $this->db->prepare("DELETE FROM classe WHERE id_classe = ?");
+        $stmt = $this->db->prepare("DELETE FROM classe WHERE id = ?");
         return $stmt->execute([$id]);
     }
 
@@ -47,10 +47,16 @@ class Classe {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getByNiveau($niveau){
+        $stmt = $this->db->prepare("SELECT * FROM classe WHERE niveau = ?");
+        $stmt->execute([$niveau]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     
     public function getById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM classe WHERE id_classe = ?");
-        $stmt->execute([$id]);
+        $stmt = $this->db->prepare("SELECT * FROM administrateur WHERE id = :id");
+        $stmt->execute(['id' => $id]); // Passer un tableau associatif
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

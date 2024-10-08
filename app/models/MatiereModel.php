@@ -28,7 +28,7 @@ class Matiere {
     }
 
     public function update($nom_matiere) {
-        $stmt = $this->db->prepare("UPDATE matiere SET niveau = ?, nom_matiere = ? WHERE id_matiere = ?");
+        $stmt = $this->db->prepare("UPDATE matiere SET niveau = ?, nom_matiere = ? WHERE id = ?");
         
         return $stmt->execute([$nom_matiere, $id]);
     }
@@ -37,7 +37,7 @@ class Matiere {
         /*$stmt2 = $this->database->prepare("DELETE FROM administrateur WHERE id_admin = ?");
         $stmt2->bindParam(':id_admin', $id_admin);
         $stmt2->execute();*/
-        $stmt = $this->db->prepare("DELETE FROM matiere WHERE id_matiere = ?");
+        $stmt = $this->db->prepare("DELETE FROM matiere WHERE id = ?");
         return $stmt->execute([$id]);
     }
 
@@ -49,7 +49,7 @@ class Matiere {
 
     
     public function getById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM matiere WHERE id_matiere = ?");
+        $stmt = $this->db->prepare("SELECT * FROM matiere WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

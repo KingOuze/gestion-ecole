@@ -4,34 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des administrateurs</title>
-    <link rel="stylesheet" href="../../../public/css/modifier.css">
+    <link rel="stylesheet" href="/gestion-ecole/public/css/modifier.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- Sidebar -->
-    <div class="sidebar">
-        <ul>
-            <img src="Badge_Education_Badge_Logo.png" alt="Logo">
-            <li><a href="#" class="school-name">Ecole de la réussite</a></li><br><br>
-            <li><a href="#">Tableau de Bord</a></li>
-            <li><a href="#">Gestion administrateurs</a></li>
-            <li><a href="#">Gestion des élèves</a></li>
-            <li><a href="#">Gestion enseignants</a></li>
-            <li><a href="#">Gestion finance</a></li>
-            <li><a href="#">Gestion surveillant</a></li>
-            <li><a class="active" href="#">Gestion professeur</a></li>
-        </ul>
-    </div>
+    <aside class="sidebar">
+        <img src="/gestion-ecole/public/images/connexion_image/Badge_Education_Badge_Logo.png" alt="Logo" class="logo">
+        <h1>École de la réussite</h1>
+        <nav>
+            <ul>
+                <li><a href="/gestion-ecole/public/index.php?action=index&role=administrateur">Tableau de Bord</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=administrateur">Gestion Administrateurs</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=eleve">Gestion des Élèves</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=surveillant">Gestion Surveillant</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=professeur">Gestion Professeur</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=enseignant">Gestion Enseignants</a></li>
+                <li><a href="/gestion-ecole/public/index.php?action=liste&role=comptable">Gestion Comptables</a></li>
+            </ul>
+        </nav>
+    </aside>
 
     <!-- Main content -->
     <div class="main-content">
         <div class="header">
             <div class="search-bar">
                 <input type="text" placeholder="Rechercher">
-                <i class="fas fa-search"></i>
+                <button><i class="fas fa-search"></i></button>
             </div>
             <button class="add-button" id="openModalBtn">
-                <i class="fas fa-plus"></i> Ajouter un administrateur
+                <i class="fas fa-plus"></i> <a href="/gestion-ecole/public/index.php?action=ajouter">Ajouter </a>
             </button>
         </div>
 
@@ -46,8 +48,28 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php include ('C:/xmp/htdocs/gestion-ecole/app/views/admin/get_administrateur.php'); ?>
+            <tbody><?php
+             if ($users != NULL) {
+                foreach($users as $user){?>
+                    <tr>
+                        <td><input type='checkbox'></td>
+                        <td><?php echo  htmlspecialchars($user["prenom"]) ?></td>
+                        <td><?php echo  htmlspecialchars($user["nom"]) ?></td>
+                        <td><?php echo  htmlspecialchars($user["telephone"]) ?></td>
+                        <td><?php echo  htmlspecialchars($user["email"]) ?></td>
+                        <td>
+                            <a href='/gestion-ecole/public/index.php?action=edite&role=<?php echo  htmlspecialchars($user["role"]) ?>&id=<?php echo htmlspecialchars($user["id"]) ?>'>
+                                <i class='fas fa-edit'></i>
+                            </a>
+                            <a href='/gestion-ecole/public/index.php?action=archive&role=<?php echo  htmlspecialchars($user["role"]) ?>&id=<?php echo htmlspecialchars($user["id"]) ?>'>
+                                <i class='fas fa-trash' onclick='confirmDelete()'></i>
+                        </td>   
+                    </tr>
+               <?php }
+            } else {
+                    echo "<tr><td colspan='6'>Aucun " . htmlspecialchars($user["role"]) ."trouvé</td></tr>";
+            }
+        ?>
             </tbody>
         </table>
     </div>
@@ -55,7 +77,7 @@
 
 <script>
     function confirmDelete(telephone) {
-        if (confirm("Êtes-vous sûr de vouloir supprimer cet administrateur ?")) {
+        if (confirm("Êtes-vous sûr de vouloir archiver cet administrateur ?")) {
             window.location.href = 'supprimer.php?telephone=' + telephone;
         }
     }

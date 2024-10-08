@@ -21,14 +21,15 @@ class ProfesseurController {
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone'])); 
-            $mot_de_passe = htmlspecialchars(trim($_POST['mot_de_passe']));
+            $mot_de_passe = htmlspecialchars(trim($_POST['motDePasse']));
             $role = htmlspecialchars(trim($_POST['role']));
+            $adresse = htmlspecialchars(trim($_POST['adresse']));
             $classe = isset($_POST['classesProfesseur[]']) ? $_POST['classesProfesseur[]'] : []; // Correction ici
             $matiere = isset($_POST['matieres[]']) ? $_POST['matieres[]'] : []; // Correction ici
 
             $matricule = generateMatricule();
             // Appel à la méthode create du modèle
-            $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role, $classe, $matiere);
+            $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role, $adresse, $classe, $matiere);
 
             if ($transaction) {
                 echo "Professeur enregistré avec succès! ID: $transaction";
@@ -44,12 +45,13 @@ class ProfesseurController {
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
-            $role = htmlspecialchars(trim($_POST['role']));
+            $adresse = htmlspecialchars(trim($_POST['adresse']));
             $classe = isset($_POST['classe']) ? $_POST['classe'] : null; // Correction ici
             $matiere = isset($_POST['matiere']) ? $_POST['matiere'] : null; // Correction ici
 
-            if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone, $role, $classe, $matiere)) {
-                echo "Professeur mis à jour avec succès!";
+            if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone,$adresse, $classe, $matiere)) {
+                header("Location: /gestion-ecole/public/index.php?action=liste&role=professeur");
+                exit;
             } else {
                 echo "Erreur lors de la mise à jour.";
             }
@@ -84,22 +86,40 @@ class ProfesseurController {
         $professeur = $this->model->getById($id);
         
         if ($professeur != NULL) {
-            echo "ID: {$professeur['id_admin']}, Nom: {$professeur['nom']}, Email: {$professeur['email']}, Telephone: {$professeur['telephone']}, Matricule: {$professeur['matricule']}<br>";
+            return $professeur;
         } else {
             echo "Professeur non trouvé.";
         }
     }
 
+    public function archive($id) {
+        if ($this->model->archive($id)) { // Appel de la méthode avec l'ID
+            // Redirection correcte avec "Location:"
+            header("Location: /gestion-ecole/public/index.php?action=liste&role=professeur");
+            exit; // Assurez-vous d'appeler exit après la redirection
+        } else {
+            // Gérer le cas où l'archivage a échoué
+            // Par exemple, redirection vers une page d'erreur ou affichage d'un message
+            header("Location: /gestion-ecole/public/index.php?action=erreur");
+            exit;
+        }
+    }
+
     public function index() {
-        $enseignants = $this->model->getAll();
+        $professeurs = $this->model->getAll();
         
-        if ($enseignants != NULL) {
-            foreach ($enseignants as $professeur) { // Correction ici
-                echo "ID: {$professeur['id_admin']}, Nom: {$professeur['nom']}, Email: {$professeur['email']}, Telephone: {$professeur['telephone']}, Matricule: {$professeur['matricule']}<br>";
-            }
+        if ($professeurs != NULL) {
+            return $professeurs;
         } else {
             echo "Aucun professeur trouvé.";
         }
+    }
+
+    public function count() {
+        // Récupérer les statistiques du modèle
+        $data = $this->model->getCount();
+        // Inclure la vue du tableau de bord
+        return $data;
     }
 }
 

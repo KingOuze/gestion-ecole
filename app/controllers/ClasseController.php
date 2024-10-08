@@ -48,6 +48,10 @@ class ClasseController {
         }
     }
 
+    public function getByNiveau($niveau){
+        return $this->model->getByNiveau($niveau);
+    }
+
     public function showOne($id) {
         $Classe = $this->model->getById($id);
         
@@ -63,11 +67,11 @@ class ClasseController {
         $Classes = $this->model->getAll();
         
         if ($Classes != NULL) {
-            foreach ($Classes as $classe) {
-                echo "ID: {$classe['id_classe']}, nom_classe: {$classe['nom_classe']}<br>";
-            }
+           return $Classes;
         } else {
             echo "Sélection vide.";
         }
     }
+
+
 }
