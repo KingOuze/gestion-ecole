@@ -1,0 +1,248 @@
+/* Global styling */
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+
+/* Sidebar styling */
+
+.sidebar {
+    background-color: #38D39F;
+    /* Green color */
+    color: white;
+    width: 200px;
+    height: 100vh;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.sidebar img {
+    width: 100%;
+    height: auto;
+    max-width: 200px;
+    /* Limite la largeur maximale de l'image */
+    margin-bottom: 20px;
+    border-radius: 100%;
+}
+
+.school-name {
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    margin: 10px 0;
+    text-align: center;
+    /* Centrer le texte */
+}
+
+.sidebar ul {
+    list-style-type: none;
+    /* Supprime les puces */
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    display: block;
+    padding: 10px 20px;
+    /* Ajout de padding horizontal pour plus d'espace */
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Transition douce */
+}
+
+.sidebar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    /* Fond transparent blanc au survol */
+    color: rgb(219, 24, 24);
+    /* Changements de couleur au survol */
+    border-radius: 5px;
+    /* Ajout d'un arrondi */
+}
+
+
+/* Main content */
+
+.content {
+    margin-left: 220px;
+    /* Décalage pour la sidebar */
+    padding: 20px;
+    display: flex;
+    /* Utilisation de flexbox pour le contenu */
+    flex-direction: column;
+    /* Aligner les éléments verticalement */
+    height: 100vh;
+    /* Hauteur de la vue */
+}
+
+
+/* Styles pour les blocs Inscription et Mensualité */
+
+.flex-blocks {
+    display: flex;
+    /* Utiliser flexbox pour aligner les blocs */
+    justify-content: center;
+    /* Centrer les blocs */
+    margin-top: 120px;
+    /* Augmente l'espace au-dessus des blocs */
+    margin-bottom: 5px;
+    /* Espace en dessous des blocs */
+}
+
+.block {
+    background-color: #38D39F;
+    /* Couleur de fond */
+    color: white;
+    /* Couleur du texte */
+    padding: 20px;
+    /* Augmenter l'espacement interne */
+    border-radius: 40px;
+    /* Coins arrondis */
+    flex: 0 1 250px;
+    /* Largeur fixe de 250px */
+    text-align: center;
+    /* Centrer le texte */
+    margin: 0 100px;
+    /* Augmenter l'espace entre les blocs */
+    font-size: 25px;
+    /* Augmentez la taille de la police ici */
+    font-weight: bold;
+    /* Texte en gras */
+}
+
+
+/* Style pour l'image de paiement */
+
+.image-container {
+    display: flex;
+    /* Utiliser flexbox */
+    justify-content: center;
+    /* Centrer horizontalement */
+    margin-top: 70px;
+    /* Augmentez l'espace au-dessus de l'image */
+}
+
+.image-paiement {
+    max-width: 100%;
+    /* Largeur maximale de l'image */
+    height: auto;
+    /* Garder le ratio d'aspect */
+    margin-bottom: 20px;
+    /* Espace en bas de l'image */
+}
+
+
+/* Style pour le lien de déconnexion */
+
+.deconnexion-link {
+    display: flex;
+    align-items: center;
+    color: #000;
+    /* Couleur du texte */
+    text-decoration: none;
+    /* Pas de soulignement */
+}
+
+.deconnexion-icon {
+    width: 20px;
+    /* Taille de l'icône */
+    height: 20px;
+    /* Taille de l'icône */
+    margin-left: 5px;
+    /* Espace entre le texte et l'icône */
+}
+
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* Styles pour le titre h1 */
+
+h1 {
+    color: #000;
+    margin-bottom: 20px;
+    /* Espace en bas du titre */
+    margin-left: 30px;
+    /* Décale le titre vers la droite */
+    margin-top: 20px;
+    /* Fait descendre le titre */
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    /* Aligne le contenu verticalement */
+    margin-top: 20px;
+    /* Espace au-dessus de l'en-tête */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    /* Espace entre la gauche et la droite */
+    align-items: center;
+    /* Centrer verticalement */
+    padding: 10px;
+    /* Espacement interne */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    /* Centrer verticalement le texte et l'icône */
+    font-size: 20px;
+    /* Augmentez la taille de la police ici */
+    font-weight: bold;
+    /* Texte en gras */
+    margin-left: 30px;
+}
+
+.home-icon {
+    width: 20px;
+    /* Ajustez la taille de l'icône */
+    height: 20px;
+    /* Ajustez la taille de l'icône */
+    margin-right: 20px;
+    /* Espace entre l'icône et le texte */
+}
+
+.header-right {
+    font-size: 16px;
+    /* Taille de la police */
+    color: #000;
+    /* Couleur du texte (ajustez si nécessaire) */
+    /* Styles pour la date */
+    font-weight: bold;
+    /* Texte en gras */
+    margin-right: 35px;
+}
+
+.divider {
+    height: 1px;
+    /* Épaisseur du trait */
+    background-color: #38D39F;
+    /* Couleur du trait */
+    margin-top: 10px;
+    /* Espace au-dessus du trait */
+    margin-right: 30px;
+    margin-left: 30px;
+}
+
+.home-icon {
+    width: 30px;
+    /* Ajustez la largeur selon vos préférences */
+    height: 30px;
+    /* Ajustez la hauteur selon vos préférences */
+    margin-right: 5px;
+    /* Espace entre l'icône et le texte */
+}
