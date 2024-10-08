@@ -27,7 +27,7 @@ class Matiere {
         }
     }
 
-    public function update($nom_matiere) {
+    public function update($id, $nom_matiere) {
         $stmt = $this->db->prepare("UPDATE matiere SET niveau = ?, nom_matiere = ? WHERE id = ?");
         
         return $stmt->execute([$nom_matiere, $id]);
