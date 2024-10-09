@@ -1,5 +1,4 @@
 function toggleFields() {
-    const role = document.getElementById('role').value;
     const autresInfosDiv = document.getElementById('autresInfos');
     const eleveFields = document.getElementById('eleveFields');
     const professeurFields = document.getElementById('professeurFields');

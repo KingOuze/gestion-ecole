@@ -58,11 +58,14 @@
                         <td><?php echo  htmlspecialchars($user["telephone"]) ?></td>
                         <td><?php echo  htmlspecialchars($user["email"]) ?></td>
                         <td>
-                            <a href='/gestion-ecole/public/index.php?action=edite&role=<?php echo  htmlspecialchars($user["role"]) ?>&id=<?php echo htmlspecialchars($user["id"]) ?>'>
+                            <?php $role = isset($user["role"]) && !empty($user["role"]) ? htmlspecialchars($user["role"]) : 'eleve';?>
+                            <a href='/gestion-ecole/public/index.php?action=edite&role=<?= $role ?>&id=<?php echo  htmlspecialchars($user["id"]) ?>'>
                                 <i class='fas fa-edit'></i>
                             </a>
-                            <a href='/gestion-ecole/public/index.php?action=archive&role=<?php echo  htmlspecialchars($user["role"]) ?>&id=<?php echo htmlspecialchars($user["id"]) ?>'>
-                                <i class='fas fa-trash' onclick='confirmDelete()'></i>
+                            
+                            <a href='/gestion-ecole/public/index.php?action=archive&role=<?= $role ?>&id=<?= htmlspecialchars($user["id"]) ?>'>
+                                <i class='fas fa-trash' onclick='confirmDelete(<?= htmlspecialchars($user["id"]) ?>, <?= htmlspecialchars($role) ?>)'></i>
+                            </a>
                         </td>   
                     </tr>
                <?php }
@@ -76,9 +79,14 @@
 </div>
 
 <script>
-    function confirmDelete(telephone) {
+    function confirmDelete(id, role) {
+            if (confirm("Êtes-vous sûr de vouloir archiver cet " + role + " ?")) {
+                window.location.href = '/gestion-ecole/public/index.php?action=archive&role=' +role+ '&id=' + telephone;
+            }
+        }
+    function confirmDelete() {
         if (confirm("Êtes-vous sûr de vouloir archiver cet administrateur ?")) {
-            window.location.href = 'supprimer.php?telephone=' + telephone;
+            window.location.href = '/gestion-ecole/public/index.php?action=archive&role= .&id=';
         }
     }
 </script>

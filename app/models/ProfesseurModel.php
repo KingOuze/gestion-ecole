@@ -15,9 +15,10 @@ class Professeur {
         
         try {
             // Insérer dans la table administrateur
-            $stmt = $this->db->prepare("INSERT INTO administrateur (nom, prenom, email, telephone, matricule, mot_de_passe, role, adresse, date_creation)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-            $stmt->execute([$nom, $prenom, $email, $telephone, $matricule, $hashed_password, $role, $adresse]);
+            $stmt = $this->db->prepare("INSERT INTO administrateur (nom, prenom, email, telephone, matricule, mot_de_passe, role, adresse, date_creation, archive)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)");
+            $archive =  0;
+            $stmt->execute([$nom, $prenom, $email, $telephone, $matricule, $hashed_password, $role, $adresse, $archive]);
 
             // Récupérer l'ID de l'admin inséré
             $id_admin = $this->db->lastInsertId();

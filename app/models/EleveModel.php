@@ -24,9 +24,10 @@ class Eleve {
             $id_classe = (int)$classe;
             
             // Insérer dans la table ELEVE
-            $stmt = $this->db->prepare("INSERT INTO eleve (matricule, nom, prenom, email, date_naissance, tuteur, telephone, adresse, date_inscription, id_classe) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?)");
-            $stmt->execute([$matricule, $nom, $prenom, $email, $date_nais, $nom_tuteur, $telephone, $addresse, $id_classe]);
+            $stmt = $this->db->prepare("INSERT INTO eleve (matricule, nom, prenom, email, date_naissance, tuteur, telephone, adresse, date_inscription, id_classe, archive) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, ?)");
+            $archive = 0;
+            $stmt->execute([$matricule, $nom, $prenom, $email, $date_nais, $nom_tuteur, $telephone, $addresse, $id_classe,$archive]);
                             // Valider la transaction
             
                 return  $this->db->commit(); // Retourner l'ID de l'administrateur
@@ -40,8 +41,9 @@ class Eleve {
     }
 
     public function update($id_eleve, $nom, $prenom, $email, $telephone, $date_nais, $addresse, $classe, $nom_tuteur) {
-        $stmt = $this->db->prepare("UPDATE eleve SET nom= ?,prenom= ?,email= ?,date_naissance= ?,tuteur= ?,telephone= ?,adresse= ?,date_inscription= ? ,id = ? WHERE id_eleve = ?");
-        $stmt->execute([$nom, $prenom, $email, $date_nais, $addresse, $nom_tuteur, $telephone, $classe, $id_eleve ]);
+        $stmt = $this->db->prepare("UPDATE eleve SET nom= ?,prenom= ?,email= ?,date_naissance= ?,tuteur= ?,telephone= ?, adresse= ?, id_classe = ? WHERE id = ?");
+        $stmt->execute([$nom, $prenom, $email, $date_nais, $nom_tuteur, $telephone,  $addresse, $classe, $id_eleve ]);
+        return true;
         
     }
 
@@ -59,7 +61,11 @@ class Eleve {
 
     
     public function getById($id) {
-        $stmt = $this->db->prepare("SELECT * FROM administrateur WHERE id = :id");
+        $stmt = $this->db->prepare("SELECT eleve. *, classe.nom_classe AS nom_classe 
+            FROM eleve 
+            INNER JOIN classe ON eleve.id_classe = classe.id 
+            WHERE eleve.id = :id
+        ");
         $stmt->execute(['id' => $id]); // Passer un tableau associatif
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -74,5 +80,11 @@ class Eleve {
         $stmt = $this->db->prepare("UPDATE eleve SET archive = 1 WHERE id = :id_admin");
         $stmt->bindParam(':id_admin', $id_admin); // Lier l'ID administrateur
         return $stmt->execute(); // Retourne le résultat de l'exécution
+    }
+
+    public function seachByMat($matricule) {
+        $stmt = $this->db->prepare('SELECT * FROM eleve WHERE matricule = :matricule');
+        $stmt->bindParam(':matricule', $matricule);
+        return $stmt->execute();
     }
 }

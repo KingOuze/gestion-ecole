@@ -17,7 +17,7 @@ error_reporting(E_ALL);
 </head>
 <body>
     <div class="container">
-        <form action="index.php?action=create=" method="POST" onsubmit="return validateForm()">
+        <form action="index.php?action=create" method="POST" onsubmit="return validateForm()">
         <h1 id="formTitle">Inscription</h1>
         <img src="/gestion-ecole/public/images/IconeInscription.png" alt="Icone " class="img-top-right">
 

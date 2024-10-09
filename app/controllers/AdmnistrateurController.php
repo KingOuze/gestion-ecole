@@ -30,7 +30,8 @@ class AdministrateurController {
             $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role, $adresse);
 
             if ($transaction) {
-                echo "Administrateur enregistré avec succès! ID: $transaction";
+                header("Location: /gestion-ecole/public/index.php?action=liste&role=administrateur");
+                exit;
             } else {
                 echo "Erreur lors de l'enregistrement.";
             }
@@ -44,6 +45,7 @@ class AdministrateurController {
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
             $adresse = htmlspecialchars(trim($_POST['adresse']));
+            
 
             if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone,$adresse)) {
                 header("Location: /gestion-ecole/public/index.php?action=liste&role=administrateur");
@@ -52,7 +54,7 @@ class AdministrateurController {
                 echo "Erreur lors de la mise à jour.";
             }
         }
-    }
+     }
 
     public function destroy($id_admin) {
         if ($this->model->delete($id_admin)) {
