@@ -24,19 +24,19 @@ error_reporting(E_ALL);
             <div class="form-row d-flex flex-wrap">
                 <div class="col-sm-4 form-group">
                     <label for="nom">Nom :</label>
-                    <input type="text" value="<?= htmlspecialchars($users["nom"])?>" name="nom" class="form-control" id="FormControlInput1" placeholder="Entrer un nom">
+                    <input type="text" value="<?= htmlspecialchars($users["nom"])?>" name="nom" class="form-control" id="FormControlInput1" placeholder="Entrer un nom" required>
                     <div class="error-message" id="errorNom"></div>
                 </div>
 
                 <div class="col-sm-4 form-group">
                     <label for="prenom">Prénom :</label>
-                    <input type="text" value="<?= htmlspecialchars($users["prenom"])?>" name="prenom" class="form-control" id="FormControlInput2" placeholder="Entrer un prenom">
+                    <input type="text" value="<?= htmlspecialchars($users["prenom"])?>" name="prenom" class="form-control" id="FormControlInput2" placeholder="Entrer un prenom" required>
                     <div class="error-message" id="errorPrenom"></div>
                 </div>
 
                 <div class="col-sm-4 form-group">
                     <label for="email">Email :</label>
-                    <input type="email"  value="<?= htmlspecialchars($users["email"])?>" name="email" class="form-control" id="FormControlInput3" placeholder="name@example.com">
+                    <input type="email"  value="<?= htmlspecialchars($users["email"])?>" name="email" class="form-control" id="FormControlInput3" placeholder="name@example.com" required>
                     <div class="error-message" id="errorEmail"></div>
                 </div>
             </div>
@@ -45,7 +45,7 @@ error_reporting(E_ALL);
                 <div class="col-sm-4 form-group">
                     <label for="motDePasse">Mot de passe :</label>
                     <div class="input-group">
-                        <input type="password" id ="motDePasse" name="motDePasse" class="form-control" placeholder="Entrer un mot de passe" >
+                        <input type="password" id ="motDePasse" name="motDePasse" class="form-control" placeholder="Entrer un mot de passe" required>
                         <div class="input-group-append">
                             <button type="button" id="togglePassword" class="btn btn-outline-secondary">
                                 <i class="fas fa-eye" id="eyeIcon"></i>
@@ -57,7 +57,7 @@ error_reporting(E_ALL);
 
                 <div class="col-sm-4 form-group">
                     <label for="telephone">Téléphone :</label>
-                    <input type="number"  value="<?= htmlspecialchars($users["telephone"])?>" name="telephone" class="form-control" placeholder="Entrer un numero de telephone" required>
+                    <input type="number"  value="<?= htmlspecialchars($users["telephone"])?>" name="telephone" class="form-control" placeholder="Entrer un numero de telephone" required required>
                     <div class="error-message" id="errorTelephone"></div>
                 </div>
 
@@ -76,7 +76,7 @@ error_reporting(E_ALL);
                 <div class="form-row d-flex flex-wrap">
                     <div class="col-sm-4 form-group">
                         <label for="dateNaissance">Date de Naissance :</label>
-                        <input type="text"  value="<?= htmlspecialchars($users["date_naissance"])?>" name="dateNaissance" class="form-control" placeholder="Entrer votre date de naissance">
+                        <input type="text"  value="<?= htmlspecialchars($users["date_naissance"])?>" name="dateNaissance" class="form-control" placeholder="Entrer votre date de naissance" required>
                         <div class="error-message" id="errorDateNaissance"></div>
                     </div>
 
@@ -95,7 +95,7 @@ error_reporting(E_ALL);
 
                     <div class="col-sm-4 form-group">
                         <label for="nomtuteur">Nom Tuteur :</label>
-                        <input type="text" name="nomTuteur" value="<?= htmlspecialchars($users["tuteur"])?>" class="form-control" placeholder="Entrer le nom de tuteur">
+                        <input type="text" name="nomTuteur" value="<?= htmlspecialchars($users["tuteur"])?>" class="form-control" placeholder="Entrer le nom de tuteur" required>
                         <div class="error-message" id="errorNumerotuteur"></div>
                     </div>
                 </div>
@@ -163,13 +163,13 @@ error_reporting(E_ALL);
            
             <div class="text-center">
                 <button type="submit" class="btn btn-primary" style="width: 200px;">Enregistrer</button>
-                <button class="btn btn-primary" style="width: 200px;"><a href="/gestion-ecole/public/index.php?action=liste&role=<?= $role?>">Retour</a></button>
+                <button class="btn btn-primary" style="width: 200px;"><a class="btn-primary" href="/gestion-ecole/public/index.php?action=liste&role=<?= $role?>">Retour</a></button>
             </div>
         </form>
     </div>
 
 
-    <script src="/gestion-ecole/public/js/edite.js"></script>
+    <script src="/gestion-ecole/public/js/inscription.js"></script>
 
 </body>
 </html>

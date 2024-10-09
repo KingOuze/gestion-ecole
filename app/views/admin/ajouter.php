@@ -108,7 +108,7 @@ error_reporting(E_ALL);
                     <select name="matieres[]" class="form-control" id="FormControlInput4" multiple >
                         <option value="" disabled selected>Sélectionner une classe</option>
                         <?php foreach ($matieres as $matiere) { ?>
-                                    <option value="<?php echo $matiere["id_matiere"]?>"><?php echo $matiere["nom_matiere"]?></option>   
+                                    <option value="<?php echo $matiere["id"]?>"><?php echo $matiere["nom_matiere"]?></option>   
                                 <?php } ?>
                     </select>                    
                     <div class="error-message" id="errorMatiere"></div>
@@ -119,7 +119,7 @@ error_reporting(E_ALL);
                     <select name="classesProfesseur[]" class="form-control" id="FormControlInput5" multiple >
                         <option value="" disabled selected>Sélectionner les classes</option>
                         <?php foreach ($secondaires as $secondaire) { ?>
-                                    <option value="<?php echo $secondaire["id_classe"]?>"><?php echo $secondaire["nom_classe"]?></option>   
+                                    <option value="<?php echo $secondaire["id"]?>"><?php echo $secondaire["nom_classe"]?></option>   
                                 <?php } ?>
                     </select>
                     <div class="error-message" id="errorClasseProfesseur"></div>
@@ -190,6 +190,8 @@ error_reporting(E_ALL);
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary" style="width: 200px;">Inscrire</button>
+                <button class="btn btn-primary" style="width: 200px;"><a class="btn-primary" href="/gestion-ecole/public/index.php?action=liste&role=<?= $role?>">Retour</a></button>
+
             </div>
         </form>
     </div>
