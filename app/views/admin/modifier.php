@@ -1,5 +1,9 @@
 <?php
-require_once('C:/xmp/htdocs/gestion-ecole/config/db.php');
+
+
+
+
+
 // Récupération des données de l'administrateur
 $telephone = isset($_GET['telephone']) ? htmlspecialchars($_GET['telephone']) : '';
 $prenom = $nom = $email = '';
