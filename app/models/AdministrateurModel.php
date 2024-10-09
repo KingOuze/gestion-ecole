@@ -38,6 +38,19 @@ class Administrateur {
         return $stmt->execute([$nom, $prenom, $email, $telephone, $adresse, $id_admin]);
         
     }
+    public function verifyPassword($id_admin, $ancienMotDePasse) {
+        $stmt = $this->db->prepare("SELECT mot_de_passe FROM administrateur WHERE id = ?");
+        $stmt->execute([$id_admin]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        return password_verify($ancienMotDePasse, $user['password']);
+    }
+    
+    public function updatePassword($id_admin, $nouveauMotDePasse) {
+        $stmt = $this->db->prepare("UPDATE administrateur SET mot_de_passe = ? WHERE id = ?");
+        return $stmt->execute([password_hash($nouveauMotDePasse, PASSWORD_DEFAULT), $id_admin]);
+    }
+    
 
     
     public function delete($id_admin) {

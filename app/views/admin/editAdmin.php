@@ -33,11 +33,9 @@ if (isset($_POST['update'])) {
     $admin->email = $_POST['email'];
     $admin->telephone = $_POST['telephone'];
     $admin->mot_de_passe = $_POST['mot_de_passe'];
-   
 
     // Effectuer la mise à jour
     if ($admin->update()) {
-        echo "Mise à jour réussie !";
         header("Location: listAdmin.php"); // Rediriger vers la liste des administrateurs
         exit;
     } else {
@@ -57,32 +55,47 @@ if (isset($_POST['update'])) {
 <body>
     <div class="container">
         <h1>Modifier Administrateur</h1>
-        <form action="" method="post">
-            <input type="hidden" name="id_admin" value="<?php echo htmlspecialchars($admin->id_admin); ?>">
+        <form id="adminForm" action="" method="post">
+            <input type="hidden" id="FormControlInput1" name="id_admin" value="<?php echo htmlspecialchars($admin->id_admin); ?>"required>
             
             <div class="form-row">
                 <div class="form-group">
                     <label for="nom">Nom:</label>
-                    <input type="text" name="nom" value="<?php echo htmlspecialchars($admin->nom); ?>" required>
+                    <input type="text" id="FormControlInput2" name="nom" value="<?php echo htmlspecialchars($admin->nom); ?>" required>
+                    <span id="errorNom" class="error-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="prenom">Prénom:</label>
-                    <input type="text" name="prenom" value="<?php echo htmlspecialchars($admin->prenom); ?>" required>
+                    <input type="text" id="FormControlInput3" name="prenom" value="<?php echo htmlspecialchars($admin->prenom); ?>" required>
+                    <span id="errorPrenom" class="error-message"></span>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" name="email" value="<?php echo htmlspecialchars($admin->email); ?>" required>
+                    <input type="email" id="FormControlInput4" name="email" value="<?php echo htmlspecialchars($admin->email); ?>" required>
+                    <span id="errorEmail" class="error-message"></span>
                 </div>
                 <div class="form-group">
                     <label for="telephone">Téléphone:</label>
-                    <input type="text" name="telephone" value="<?php echo htmlspecialchars($admin->telephone); ?>" required>
+                    <input type="text" id="FormControlInput5" name="telephone" value="<?php echo htmlspecialchars($admin->telephone); ?>" required>
+                    <span id="errorTelephone" class="error-message"></span>
                 </div>
                 <div class="form-group">
-                    <label for="mot_de_passe">Mot de passe:</label>
-                    <input type="text" name="mot_de_passe" value="<?php echo htmlspecialchars($admin->mot_de_passe); ?>" required>
+                    <label for="mot_de_passe"> Ancien mot de passe:</label>
+                    <input type="text" id="FormControlInput6" name="mot_de_passe" value="<?php echo htmlspecialchars($admin->mot_de_passe); ?>" >
+                    <span id="errorMotDePasse" class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="mot_de_passe"> Nouveau mot de passe:</label>
+                    <input type="text" id="FormControlInput6" name="mot_de_passe" value="<?php echo htmlspecialchars($admin->mot_de_passe); ?>" >
+                    <span id="errorMotDePasse" class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="mot_de_passe"> Confirmer:</label>
+                    <input type="text" id="FormControlInput6" name="mot_de_passe" value="<?php echo htmlspecialchars($admin->mot_de_passe); ?>" >
+                    <span id="errorMotDePasse" class="error-message"></span>
                 </div>
             </div>
 
@@ -92,6 +105,6 @@ if (isset($_POST['update'])) {
             </div>
         </form>
     </div>
+    <script src="../../../public/js/modifier.js"></script>
 </body>
 </html>
-

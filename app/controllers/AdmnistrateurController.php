@@ -52,7 +52,32 @@ class AdministrateurController {
                 exit; 
             } else {
                 echo "Erreur lors de la mise à jour.";
+          
             }
+             
+        // Vérification de l'ancien mot de passe
+        if (!empty($_POST['ancienMotDePasse'])) {
+            $ancienMotDePasse = htmlspecialchars(trim($_POST['ancienMotDePasse']));
+            if ($this->model->verifyPassword($id_admin, $ancienMotDePasse)) {
+                // Mise à jour du mot de passe
+                if (!empty($_POST['nouveauMotDePasse']) && $_POST['nouveauMotDePasse'] === $_POST['confirmerMotDePasse']) {
+                    $this->model->updatePassword($id_admin, htmlspecialchars(trim($_POST['nouveauMotDePasse'])));
+                } else {
+                    echo "Les nouveaux mots de passe ne correspondent pas.";
+                }
+            } else {
+                echo "Ancien mot de passe incorrect.";
+            }
+        }
+
+        // Mise à jour des autres informations
+        if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone, $adresse)) {
+            header("Location: /gestion-ecole/public/index.php?action=liste&role=administrateur");
+            exit; 
+        } else {
+            echo "Erreur lors de la mise à jour des informations.";
+        }
+    
         }
      }
 

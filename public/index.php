@@ -263,4 +263,14 @@ try {
 
 } catch (Exception $e) {
     echo 'Erreur : ' . $e->getMessage();
+    require 'database.php'; // votre connexion PDO
+    require 'AdminsitrateurModel.php';
+require 'Administrateurphp';
+
+$AdministrateurModel = new AdminModel($db);
+$AController = new AdminController($AdministrateurModel);
+
+$id = $_GET['id']; // récupérez l'ID de l'utilisateur depuis l'URL
+$userController->changePassword($id);
+
 }
