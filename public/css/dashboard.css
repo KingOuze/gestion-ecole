@@ -1,0 +1,264 @@
+/* Styles généraux */
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+/* Sidebar */
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background-color: #1abc9c;
+}
+
+/* Main content */
+.main-content {
+    margin-left: 270px; /* Ajuste le contenu principal à droite de la sidebar */
+    padding: 40px;
+    width: calc(100% - 270px);
+    position: relative; /* Permet de garder le contenu relatif à son conteneur */
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: center; /* Centrage horizontal de la barre de recherche */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+/* Conteneur principal */
+.container {
+    display: flex;
+    height: 100%;
+}
+
+/* Barre latérale */
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+
+  .logo {
+        margin: 20px 20px 20px 30px; /* Ajoutez 30px à la marge gauche */
+        max-width: 100%; /* S'assure que le logo ne dépasse pas la largeur de la barre latérale */
+        height: auto; /* Maintient le ratio d'aspect */
+        width: 100%;
+        max-width: 120px;
+        margin-bottom: 20px;
+        border-radius: 20px;
+    
+    }
+   
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .search-container {
+        display: flex; /* Alignement horizontal */
+        align-items: center; /* Alignement vertical au centre */
+    }
+
+    .search-icon {
+        color: #4CAF50; /* Couleur verte */
+        font-size: 20px; /* Ajustez la taille selon vos besoins */
+    }
+
+    .search-bar {
+        margin-right: 10px; /* Espace entre la barre de recherche et l'icône */
+        padding: 10px; /* Ajoutez du padding pour une meilleure apparence */
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+.sidebar h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.sidebar nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    margin: 15px 0;
+}
+
+
+.sidebar nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background-color: #1abc9c;
+}
+
+/* Tableau de bord */
+.dashboard {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* En-tête du tableau de bord */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 300px;
+}
+
+.logout-button {
+    padding: 10px 15px;
+    background-color: #FF5722;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #e64a19;
+}
+
+/* Conteneur pour les cartes */
+.cards-container {
+    display: flex; /* Utilisez flexbox pour aligner les cartes */
+    flex-wrap: wrap; /* Permet aux cartes de passer à la ligne si nécessaire */
+    gap: 20px; /* Espace entre les cartes */
+    margin-top: 20px; /* Assurez-vous que les cartes sont correctement espacées */
+}
+
+/* Styles des cartes */
+.card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+    min-height: 150px;
+    flex: 1 1 200px; /* Permet à chaque carte d'occuper une largeur de base de 200px */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.icon {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 18px;
+    color: #333;
+    margin: 5px 0;
+}
+
+p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+/* Couleurs spécifiques aux icônes */
+.students { color: #4CAF50; }
+.professors { color: #2196F3; }
+.teachers { color: #FFC107; }
+.accountants { color: #9C27B0; }
+.supervisors { color: #FF5722; }
+.administrators { color: #795548; }
+
+/* Media Queries pour les petits écrans */
+@media (max-width: 768px) {
+    .cards-container {
+        flex-direction: column; /* Sur les petits écrans, les cartes s'empilent */
+    }
+}
+.search-container {
+    display: flex; /* Alignement horizontal */
+    align-items: center; /* Alignement vertical au centre */
+}
+
+.search-bar {
+    margin-right: 10px; /* Espace entre la barre de recherche et l'icône */
+    padding: 10px; /* Ajoutez du padding pour une meilleure apparence */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.logout-button {
+    background-color: black; /* Couleur de fond noire */
+    color: white; /* Couleur du texte en blanc */
+    border: none; /* Supprimer la bordure par défaut */
+    padding: 10px 15px; /* Padding pour le bouton */
+    border-radius: 5px; /* Coins arrondis */
+    cursor: pointer; /* Curseur en forme de main au survol */
+    display: flex; /* Utilisation de flexbox pour aligner l'icône et le texte */
+    align-items: center; /* Centre verticalement */
+}
+
+.logout-button i {
+    margin-right: 5px; /* Espace entre l'icône et le texte */
+}

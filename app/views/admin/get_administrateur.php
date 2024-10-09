@@ -1,5 +1,5 @@
 <?php
-require_once('C:/xmp/htdocs/gestion-ecole/config/db.php');
+require_once('../../../config/db.php');
 
 try {
     $stmt = $conn->query("SELECT prenom, nom, telephone, email FROM administrateur");
