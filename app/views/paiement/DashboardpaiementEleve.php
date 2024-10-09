@@ -41,11 +41,11 @@
                 <div class="divider"></div>
             </div>
 
-            
-
             <div class="flex-blocks">
                 <div class="block">Inscription</div>
-                <div class="block">Mensualité</div>
+                <div class="block">
+                    <a href="Dashboard_Mensualite_eleve.php" style="text-decoration: none; color: inherit;">Mensualité</a>
+                </div>
             </div>
         </div>
         <div class="image-container">

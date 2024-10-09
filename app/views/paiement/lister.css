@@ -2,15 +2,13 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #F5F5F5;
+    background-color: #ECECEC;
     display: flex;
 }
 
 .sidebar {
     width: 200px;
-    /* Largeur de la sidebar */
     background-color: #38D39F;
-    /* Couleur de la sidebar */
     padding: 20px;
     color: white;
     display: flex;
@@ -18,14 +16,12 @@ body {
     align-items: center;
     height: 100vh;
     position: fixed;
-    /* Fixe la sidebar */
 }
 
 .sidebar img {
     width: 100%;
     height: auto;
     max-width: 200px;
-    /* Limite la largeur maximale de l'image */
     margin-bottom: 20px;
     border-radius: 100%;
 }
@@ -39,7 +35,6 @@ body {
     padding: 0;
     text-align: left;
     width: 100%;
-    /* Pour occuper toute la largeur */
 }
 
 .sidebar ul li a {
@@ -58,12 +53,21 @@ body {
 
 .container {
     margin-left: 250px;
-    /* Augmente le décalage pour plus d'espacement */
     padding: 20px;
     background: white;
     flex-grow: 1;
     border-radius: 20px;
-    height: 50px;
+}
+
+.container1 {
+    margin-left: 250px;
+    padding: 20px;
+    background: white;
+    flex-grow: 1;
+    border-radius: 30px;
+    height: auto;
+    width: calc(100% - 250px);
+    margin-top: 50px;
 }
 
 .school-name {
@@ -72,66 +76,45 @@ body {
     color: white;
     margin: 10px 0;
     text-align: center;
-    /* Centrer le texte */
 }
 
 .centered-paragraph {
     font-size: 30px;
-    /* Augmentez la taille de la police */
-    /* Permet au paragraphe d'utiliser l'espace disponible */
     margin: 0;
-    /* Supprime les marges par défaut */
 }
 
 .deconnexion-link {
     display: flex;
     align-items: center;
     color: #000;
-    /* Couleur du texte */
     text-decoration: none;
-    /* Pas de soulignement */
-}
-
-.deconnexion-link1 {
-    display: flex;
-    color: #000;
-    text-decoration: none;
-    margin-left: 1300px;
 }
 
 .deconnexion-icon {
     width: 20px;
-    /* Taille de l'icône */
     height: 20px;
-    /* Taille de l'icône */
     margin-left: 5px;
-    /* Espace entre le texte et l'icône */
 }
 
-header h1 {
+.header h1 {
     font-size: 24px;
     margin: 0;
 }
 
-header a {
+.header a {
     text-decoration: none;
     color: #00796b;
 }
 
 .icon {
     color: white;
-    /* Couleur de l'icône */
     font-size: 16px;
-    /* Taille de l'icône */
 }
 
 .image-container {
     display: flex;
-    /* Utiliser flexbox */
     justify-content: center;
-    /* Centrer horizontalement */
     margin-top: 10px;
-    /* Augmentez l'espace au-dessus de l'image */
 }
 
 .d-flex {
@@ -139,28 +122,16 @@ header a {
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
-    height: 50px;
+    height: 10px;
     margin-bottom: 50px;
+    width: 1500px;
 }
 
 .search {
     flex: 1;
-    /* Permet à la barre de recherche de prendre tout l'espace disponible */
-    display: flex;
-    justify-content: center;
-    /* Centre la barre de recherche */
-    margin-right: 140px;
-}
-
-.centered-paragraph {
-    margin: 0;
-    /* Supprime les marges par défaut */
-}
-
-.search {
     display: flex;
     align-items: center;
-    border-radius: 20px;
+    margin-left: 200px;
 }
 
 .search input {
@@ -168,15 +139,71 @@ header a {
     width: 400px;
     border: 1px solid #ccc;
     border-radius: 35px;
-    /* Coins arrondis pour l'input */
 }
 
 .search-button1 {
     background-color: #38D39F;
-    /* Couleur de fond du bouton */
     border: none;
     border-radius: 4px;
-    /* Coins arrondis pour le bouton */
     padding: 10px;
     cursor: pointer;
+    color: white;
+    /* Couleur du texte */
+}
+
+#special-paragraph {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.container1 h2 {
+    margin-top: 20px;
+    /* Espacement supérieur pour le titre */
+}
+
+.container1 table {
+    width: 100%;
+    /* Prend toute la largeur disponible */
+    border-collapse: collapse;
+    /* Évite les doubles bordures */
+    margin-top: 20px;
+    /* Espacement au-dessus du tableau */
+}
+
+.container1 th,
+.container1 td {
+    border: 1px solid #ccc;
+    /* Bordure des cellules */
+    padding: 10px;
+    /* Espacement à l'intérieur des cellules */
+    text-align: left;
+    /* Alignement du texte */
+}
+
+.container1 th {
+    background-color: #f2f2f2;
+    /* Couleur de fond pour les en-têtes */
+}
+
+.mois-select,
+.montant-select {
+    padding: 5px;
+    /* Espacement à l'intérieur du select */
+    border: 1px solid #ccc;
+    /* Bordure du select */
+    border-radius: 5px;
+    /* Coins arrondis */
+    background-color: white;
+    /* Couleur de fond */
+}
+
+.container1 p {
+    margin: 5px 0;
+    /* Espacement pour les paragraphes */
+    font-size: 18px;
+    /* Taille de police pour les détails de l'élève */
+    line-height: 1.5;
+    /* Hauteur de ligne pour améliorer la lisibilité */
+    color: #333;
+    /* Couleur du texte des détails */
 }
