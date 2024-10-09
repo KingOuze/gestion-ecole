@@ -117,6 +117,26 @@ body {
     /* Texte en gras */
 }
 
+.flex-blocks1 {
+    display: flex;
+    justify-content: center;
+    /* margin-top: 0px; */
+    margin-bottom: 5px;
+}
+
+.block1 {
+    background-color: #38D39F;
+    /* color: white; */
+    /* padding: 20px;
+    flex: 0 1 250px;
+    text-align: center;
+    margin: 0 100px;
+    font-size: 25px;
+    font-weight: bold; */
+    border-radius: 20px;
+    width: 1500px;
+}
+
 
 /* Style pour l'image de paiement */
 
@@ -127,6 +147,12 @@ body {
     /* Centrer horizontalement */
     margin-top: 70px;
     /* Augmentez l'espace au-dessus de l'image */
+}
+
+.image-container1 {
+    display: flex;
+    justify-content: center;
+    margin-top: 250px;
 }
 
 .image-paiement {
@@ -148,6 +174,13 @@ body {
     /* Couleur du texte */
     text-decoration: none;
     /* Pas de soulignement */
+}
+
+.deconnexion-link1 {
+    display: flex;
+    color: #000;
+    text-decoration: none;
+    margin-left: 1300px;
 }
 
 .deconnexion-icon {
@@ -176,6 +209,13 @@ h1 {
     /* Décale le titre vers la droite */
     margin-top: 20px;
     /* Fait descendre le titre */
+}
+
+h2 {
+    color: #000;
+    margin-bottom: 20px;
+    margin-left: 500px;
+    margin-top: 20px;
 }
 
 .header {
