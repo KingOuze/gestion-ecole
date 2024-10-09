@@ -8,7 +8,6 @@ function toggleFields() {
     const formTitle = document.getElementById('formTitle');
     const motDePasseInput = document.getElementById('motDePasse');
 
-
     // Mise à jour du titre en fonction du rôle
     switch (role) {
         case 'administrateur':
@@ -45,6 +44,11 @@ function toggleFields() {
         eleveFields.style.display = 'block'; // Afficher les champs élève
         motDePasseInput.removeAttribute('required'); // Retirer l'obligation du mot de passe
 
+        // Fixer la date de naissance par défaut au 31 décembre 2004
+        const dateNaissanceInput = document.querySelector('input[name="dateNaissance"]');
+        if (dateNaissanceInput) {
+            dateNaissanceInput.value = '2004-12-31'; // Format AAAA-MM-JJ pour HTML
+        }
     } else if (role === 'professeur') {
         professeurFields.style.display = 'block'; // Afficher les champs professeur
     }
@@ -98,8 +102,6 @@ function validateForm() {
         document.getElementById('errorTelephone').textContent = "Veuillez entrer un numéro de téléphone valide (9 chiffres).";
         return false;
     }
-
-
 
     // Validation des champs spécifiques selon le rôle
     if (role === 'eleve') {
@@ -199,3 +201,4 @@ document.getElementById('togglePassword').addEventListener('click', function() {
 document.querySelector('form').onsubmit = function() {
     return validateForm();
 }
+

@@ -1,3 +1,4 @@
+<?php $users  ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -59,13 +60,13 @@
                         <td><?php echo  htmlspecialchars($user["email"]) ?></td>
                         <td>
                             <?php $role = isset($user["role"]) && !empty($user["role"]) ? htmlspecialchars($user["role"]) : 'eleve';?>
-                            <a href='/gestion-ecole/public/index.php?action=edite&role=<?= $role ?>&id=<?php echo  htmlspecialchars($user["id"]) ?>'>
+                            <a href='/gestion-ecole/public/index.php?action=edite&role=<?= $role ?>&id=<?= htmlspecialchars($user["id"]) ?>'>
                                 <i class='fas fa-edit'></i>
                             </a>
-                            
-                            <a href='/gestion-ecole/public/index.php?action=archive&role=<?= $role ?>&id=<?= htmlspecialchars($user["id"]) ?>'>
-                                <i class='fas fa-trash' onclick='confirmDelete(<?= htmlspecialchars($user["id"]) ?>, <?= htmlspecialchars($role) ?>)'></i>
-                            </a>
+                            <a>
+                                
+                                <i class='fas fa-trash' onclick='confirmDelete(<?php echo htmlspecialchars($user["id"]) ?>,<?php htmlspecialchars($user["role"]) ?> )'></i>
+                            </a> 
                         </td>   
                     </tr>
                <?php }
