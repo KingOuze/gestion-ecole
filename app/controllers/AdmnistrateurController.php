@@ -37,50 +37,50 @@ class AdministrateurController {
             }
         }
     }
-
     public function update($id_admin) {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Récupération et nettoyage des données d'entrée
             $nom = htmlspecialchars(trim($_POST['nom']));
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
             $adresse = htmlspecialchars(trim($_POST['adresse']));
             
-
-            if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone,$adresse)) {
+            // Vérification de l'ancien mot de passe
+            if (!empty($_POST['ancienMotDePasse'])) {
+                $ancienMotDePasse = htmlspecialchars(trim($_POST['ancienMotDePasse']));
+                // Vérifiez si l'ancien mot de passe est correct
+                if ($this->model->verifyPassword($id_admin, $ancienMotDePasse)) {
+                    // Mise à jour du mot de passe
+                    if (!empty($_POST['nouveauMotDePasse']) && $_POST['nouveauMotDePasse'] === $_POST['confirmerMotDePasse']) {
+                        // Mise à jour dans la base de données
+                        if ($this->model->updatePassword($id_admin, htmlspecialchars(trim($_POST['nouveauMotDePasse'])))) {
+                            echo "Mot de passe mis à jour avec succès.";
+                        } else {
+                            echo "Erreur lors de la mise à jour du mot de passe.";
+                        }
+                    } else {
+                        echo "Les nouveaux mots de passe ne correspondent pas.";
+                        return; // Sortir si les mots de passe ne correspondent pas
+                    }
+                } else {
+                    echo "Ancien mot de passe incorrect.";
+                    return; // Sortir si l'ancien mot de passe est incorrect
+                }
+            }
+    
+            // Mise à jour des autres informations (uniquement si le mot de passe a été mis à jour ou si l'utilisateur ne souhaite pas changer le mot de passe)
+            if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone, $adresse)) {
                 header("Location: /gestion-ecole/public/index.php?action=liste&role=administrateur");
                 exit; 
             } else {
-                echo "Erreur lors de la mise à jour.";
-          
-            }
-             
-        // Vérification de l'ancien mot de passe
-        if (!empty($_POST['ancienMotDePasse'])) {
-            $ancienMotDePasse = htmlspecialchars(trim($_POST['ancienMotDePasse']));
-            if ($this->model->verifyPassword($id_admin, $ancienMotDePasse)) {
-                // Mise à jour du mot de passe
-                if (!empty($_POST['nouveauMotDePasse']) && $_POST['nouveauMotDePasse'] === $_POST['confirmerMotDePasse']) {
-                    $this->model->updatePassword($id_admin, htmlspecialchars(trim($_POST['nouveauMotDePasse'])));
-                } else {
-                    echo "Les nouveaux mots de passe ne correspondent pas.";
-                }
-            } else {
-                echo "Ancien mot de passe incorrect.";
+                echo "Erreur lors de la mise à jour des informations.";
             }
         }
-
-        // Mise à jour des autres informations
-        if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone, $adresse)) {
-            header("Location: /gestion-ecole/public/index.php?action=liste&role=administrateur");
-            exit; 
-        } else {
-            echo "Erreur lors de la mise à jour des informations.";
-        }
+    }
     
-        }
-     }
-
+    
+    
     public function destroy($id_admin) {
         if ($this->model->delete($id_admin)) {
             echo "Administrateur supprimé avec succès!";

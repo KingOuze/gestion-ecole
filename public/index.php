@@ -218,59 +218,56 @@ try {
                     break;
             }  
             break;    
-        case 'archive':
-            switch ($role) {
-                case 'administrateur':
-                    $admin->archive($id);
+
+                    case 'archive':
+                // Vérification de la validité du rôle
+                $rolesValid = ['administrateur', 'comptable', 'professeur', 'surveillant', 'enseignant', 'eleve'];
+                if (!in_array($role, $rolesValid)) {
+                    echo "Erreur : rôle '$role' n'est pas valide.";
                     break;
-                    
-                case 'comptable':
+                }
+            
+                switch ($role) {
+                    case 'administrateur':
+                        $admin->archive($id);
+                        break;
                         
-                    $compta->archive($id);                              
-                    break;
-
-                case 'professeur':
-                    $prof->archive($id);             
-                    break;
-
-                case 'surveillant':
-                        
-                    $surveil->archive($id) ;         
-                    break;
-
-                case 'enseignant':
-                        
-                    $enseign->archive($id);          
-                    break;
-
-                case 'eleve':
-                        
-                    $eleve->archive($id);        
-                    break;
-
+                    case 'comptable':
+                        $compta->archive($id);                              
+                        break;
+            
+                    case 'professeur':
+                        $prof->archive($id);             
+                        break;
+            
+                    case 'surveillant':
+                        $surveil->archive($id);         
+                        break;
+            
+                    case 'enseignant':
+                        $enseign->archive($id);          
+                        break;
+            
+                    case 'eleve':
+                        $eleve->archive($id);        
+                        break;
+            
                     default:
-                        echo "erreur du role";
+                        echo "Erreur : rôle '$role' inconnu.";
                         break;
                 }
                 break;
-
-        default:
-            include '../app/views/connexion/connexion.php';
-            break;
-        
+            
+            default:
+                include '../app/views/connexion/connexion.php';
+                break;
+            
     }
-        
 
 } catch (Exception $e) {
     echo 'Erreur : ' . $e->getMessage();
     require 'database.php'; // votre connexion PDO
-    require 'AdminsitrateurModel.php';
-require 'Administrateurphp';
+   
 
-$AdministrateurModel = new AdminModel($db);
-$AController = new AdminController($AdministrateurModel);
-
-$id = $_GET['id']; // récupérez l'ID de l'utilisateur depuis l'URL
-$userController->changePassword($id);
 
 }
