@@ -23,7 +23,7 @@ class EleveController {
             $nom_tuteur = htmlspecialchars(trim($_POST['nomTuteur']));
             $date_nais = htmlspecialchars(trim($_POST['dateNaissance']));
             $addresse = htmlspecialchars(trim($_POST['adresse']));
-            $classe = htmlspecialchars(trim($_POST['classe']));
+            $classe = htmlspecialchars(trim($_POST['classeId']));
          
 
 

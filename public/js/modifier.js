@@ -6,6 +6,7 @@ document.getElementById("adminForm").addEventListener("submit", function(event) 
     const prenom = document.getElementById('FormControlInput2').value.trim();
     const email = document.getElementById('FormControlInput3').value.trim();
     const telephone = document.getElementById('FormControlInput4').value.trim();
+    const ancienMotDePasse = document.getElementById('ancienMotDePasse').value.trim();
     const nouveauMotDePasse = document.getElementById('nouveauMotDePasse').value.trim();
     const confirmerMotDePasse = document.getElementById('confirmerMotDePasse').value.trim();
     
@@ -39,13 +40,24 @@ document.getElementById("adminForm").addEventListener("submit", function(event) 
         document.getElementById('errorTelephone').textContent = "Le téléphone est requis.";
         valid = false;
     }
-    if (isEmptyOrSpaces(nouveauMotDePasse)) {
-        document.getElementById('errorMotDePasse').textContent = "Le mot de passe est requis.";
-        valid = false;
-    }
-    if (nouveauMotDePasse !== confirmerMotDePasse) {
-        document.getElementById('errorMotDePasseConfirmer').textContent = "Les mots de passe ne correspondent pas.";
-        valid = false;
+
+    // Vérifier si l'ancien mot de passe est saisi
+    if (ancienMotDePasse !== "") {
+        // Rendre les champs nouveau mot de passe et confirmer obligatoires
+        if (isEmptyOrSpaces(nouveauMotDePasse)) {
+            document.getElementById('errorMotDePasse').textContent = "Le nouveau mot de passe est requis.";
+            valid = false;
+        }
+        if (isEmptyOrSpaces(confirmerMotDePasse)) {
+            document.getElementById('errorMotDePasseConfirmer').textContent = "La confirmation du mot de passe est requise.";
+            valid = false;
+        }
+
+        // Vérifier si les mots de passe correspondent
+        if (nouveauMotDePasse !== confirmerMotDePasse) {
+            document.getElementById('errorMotDePasseConfirmer').textContent = "Les mots de passe ne correspondent pas.";
+            valid = false;
+        }
     }
 
     // Si le formulaire n'est pas valide, empêcher la soumission
@@ -53,3 +65,7 @@ document.getElementById("adminForm").addEventListener("submit", function(event) 
         event.preventDefault();
     }
 });
+if (isEmptyOrSpaces(confirmerMotDePasse)) {
+    document.getElementById('errorMotDePasseConfirmer').textContent = "La confirmation du mot de passe est requise.";
+    valid = false;
+}

@@ -219,7 +219,7 @@ try {
             }  
             break;    
 
-                    case 'archive':
+                case 'archive':
                 // Vérification de la validité du rôle
                 $rolesValid = ['administrateur', 'comptable', 'professeur', 'surveillant', 'enseignant', 'eleve'];
                 if (!in_array($role, $rolesValid)) {
@@ -266,7 +266,7 @@ try {
 
 } catch (Exception $e) {
     echo 'Erreur : ' . $e->getMessage();
-    require 'database.php'; // votre connexion PDO
+    
    
 
 

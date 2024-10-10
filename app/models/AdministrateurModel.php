@@ -48,6 +48,18 @@ class Administrateur {
         $stmt = $this->db->prepare("UPDATE administrateur SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ? WHERE id = ?");
         return $stmt->execute([$nom, $prenom, $email, $telephone, $adresse, $id_admin]);
     }
+    public function checkEmailExists($email, $id_admin) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM administrateur WHERE email = ? AND id != ?");
+        $stmt->execute([$email, $id_admin]);
+        return $stmt->fetchColumn() > 0;
+    }
+    
+    public function checkPhoneExists($telephone, $id_admin) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM administrateur WHERE telephone = ? AND id != ?");
+        $stmt->execute([$telephone, $id_admin]);
+        return $stmt->fetchColumn() > 0;
+    }
+    
 
     
     public function delete($id_admin) {
