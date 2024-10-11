@@ -87,10 +87,11 @@ class Administrateur {
             return $data['count']; // Retourne le nombre d'enseignants
         }
 
-       // Méthode pour archiver un administrateur
+   // Méthode pour archiver un administrateur
     public function archive($id_admin) {
         $stmt = $this->db->prepare("UPDATE administrateur SET archive = 1 WHERE id = :id_admin");
         $stmt->bindParam(':id_admin', $id_admin); // Lier l'ID administrateur
         return $stmt->execute(); // Retourne le résultat de l'exécution
     }
+
 }

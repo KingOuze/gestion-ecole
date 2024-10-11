@@ -28,13 +28,13 @@ error_reporting(E_ALL);
 
                 <div class="col-sm-4 form-group">
                     <label for="prenom">Prénom :</label>
-                    <input type="text" value="<?= htmlspecialchars($users["prenom"])?>" name="prenom" class="form-control" id="FormControlInput2" placeholder="Entrer un prenom" required>
+                    <input type="text" value="<?= htmlspecialchars($users["prenom"])?>" name="prenom" class="form-control" id="FormControlInput2" placeholder="Entrer un prenom" >
                     <div class="error-message" id="errorPrenom"></div>
                 </div>
 
                 <div class="col-sm-4 form-group">
                     <label for="email">Email :</label>
-                    <input type="email" value="<?= htmlspecialchars($users["email"])?>" name="email" class="form-control" id="FormControlInput3" placeholder="name@example.com" required>
+                    <input type="email" value="<?= htmlspecialchars($users["email"])?>" name="email" class="form-control" id="FormControlInput3" placeholder="name@example.com">
                     <div class="error-message" id="errorEmail"></div>
                 </div>
             </div>
@@ -61,13 +61,13 @@ error_reporting(E_ALL);
             <div class="form-row d-flex flex-wrap">
                 <div class="col-sm-4 form-group">
                     <label for="telephone">Téléphone :</label>
-                    <input type="number" value="<?= htmlspecialchars($users["telephone"])?>" name="telephone" class="form-control" id="FormControlInput4" placeholder="Entrer un numéro de téléphone" required>
+                    <input type="number" value="<?= htmlspecialchars($users["telephone"])?>" name="telephone" class="form-control" id="FormControlInput4" placeholder="Entrer un numéro de téléphone" >
                     <div class="error-message" id="errorTelephone"></div>
                 </div>
 
                 <div class="col-sm-4 form-group">
                     <label for="adresse">Adresse :</label>
-                    <input type="text" value="<?= htmlspecialchars($users["adresse"])?>" name="adresse" class="form-control" placeholder="Entrer une adresse" required>
+                    <input type="text" value="<?= htmlspecialchars($users["adresse"])?>" name="adresse" class="form-control" placeholder="Entrer une adresse" >
                     <div class="error-message" id="errorAdresse"></div>
                 </div>
             </div>

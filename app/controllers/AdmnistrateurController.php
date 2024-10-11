@@ -126,22 +126,30 @@ class AdministrateurController {
         // Inclure la vue du tableau de bord
         return $data;
     }
-
     public function archive($id) {
-        if ($this->model->archive($id)) { // Appel de la méthode avec l'ID
-            // Redirection correcte avec "Location:"
-            header("Location: /gestion-ecole/public/index.php?action=liste&role=administrateur");
-            exit; // Assurez-vous d'appeler exit après la redirection
+        // Vérifiez que c'est une requête POST pour les requêtes AJAX
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($this->model->archive($id)) { // Appel de la méthode avec l'ID
+                // Réponse pour une requête AJAX réussie
+                http_response_code(200); // Code de réponse OK
+                echo json_encode(['status' => 'success']); // Réponse JSON pour indiquer le succès
+            } else {
+                // Réponse pour une requête AJAX échouée
+                http_response_code(500); // Code d'erreur interne du serveur
+                echo json_encode(['status' => 'error', 'message' => 'Échec de l\'archivage.']); // Réponse JSON pour indiquer une erreur
+            }
         } else {
-            // Gérer le cas où l'archivage a échoué
-            // Par exemple, redirection vers une page d'erreur ou affichage d'un message
-            header("Location: /gestion-ecole/public/index.php?action=erreur");
-            exit;
+            // Si ce n'est pas une requête POST, redirigez normalement
+            if ($this->model->archive($id)) {
+                header("Location: /gestion-ecole/public/index.php?action=liste&role=administrateur");
+                exit;
+            } else {
+                header("Location: /gestion-ecole/public/index.php?action=erreur");
+                exit;
+            }
         }
     }
-
-
-      
+          
 }
 
 

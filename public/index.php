@@ -216,53 +216,56 @@ try {
                     $role1 = 'eleve';
                     include '../app/views/admin/edite.php';
                     break;
-            }  
-            break;    
+                    }  
+                    break;    
 
-                case 'archive':
-                // Vérification de la validité du rôle
-                $rolesValid = ['administrateur', 'comptable', 'professeur', 'surveillant', 'enseignant', 'eleve'];
-                if (!in_array($role, $rolesValid)) {
-                    echo "Erreur : rôle '$role' n'est pas valide.";
+        case 'archive':
+
+            if (isset($_POST['id'])) {
+                $id = htmlspecialchars($_POST['id']);
+                # code...
+            }  else {
+                echo'ID null';
+            }                     
+            
+            switch ($role) {
+                
+                case 'administrateur':
+                    $admin->archive($id);
                     break;
-                }
-            
-                switch ($role) {
-                    case 'administrateur':
-                        $admin->archive($id);
-                        break;
-                        
-                    case 'comptable':
-                        $compta->archive($id);                              
-                        break;
-            
-                    case 'professeur':
-                        $prof->archive($id);             
-                        break;
-            
-                    case 'surveillant':
-                        $surveil->archive($id);         
-                        break;
-            
-                    case 'enseignant':
-                        $enseign->archive($id);          
-                        break;
-            
-                    case 'eleve':
-                        $eleve->archive($id);        
-                        break;
-            
-                    default:
-                        echo "Erreur : rôle '$role' inconnu.";
-                        break;
-                }
-                break;
-            
-            default:
-                include '../app/views/connexion/connexion.php';
-                break;
-            
+                    
+                case 'comptable':
+                    $compta->archive($id);                              
+                    break;
+        
+                case 'professeur':
+                    $prof->archive($id);             
+                    break;
+        
+                case 'surveillant':
+                    $surveil->archive($id);         
+                    break;
+        
+                case 'enseignant':
+                    $enseign->archive($id);          
+                    break;
+        
+                case 'eleve':
+                    $eleve->archive($id);      
+                    break;
+        
+                default:
+                    echo "Erreur : rôle '$role' inconnu.";
+                    break;
+            }
+            break;
+        
+        default:
+            include '../app/views/connexion/connexion.php';
+            break;
+        
     }
+   
 
 } catch (Exception $e) {
     echo 'Erreur : ' . $e->getMessage();

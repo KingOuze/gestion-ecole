@@ -81,9 +81,9 @@ $admins = array_slice($admins, $offset, $limit);
                         <td>
                               <a href="editAdmin.php?id=<?php echo $row['id_admin']; ?>" class="btn btn-primary btn-sm">Modifier</a>
 
-                              <a href="/gestion-ecole/public/index.php?action=archiveAdmin&id=<?php echo $row['id_admin']; ?>" class="btn btn-warning btn-sm">Archiver</a>
+                             <a href="/gestion-ecole/public/index.php?action=archiveAdmin&id=<?php echo $row['id_admin']; ?>" class="btn btn-warning btn-sm">Archiver</a>
                         
-                        </td>
+                            </td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>

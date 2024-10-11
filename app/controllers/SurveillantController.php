@@ -76,14 +76,13 @@ class SurveillantController {
 
     public function archive($id) {
         if ($this->model->archive($id)) { // Appel de la méthode avec l'ID
-            // Redirection correcte avec "Location:"
-            header("Location: /gestion-ecole/public/index.php?action=liste&role=surveillant");
-            exit; // Assurez-vous d'appeler exit après la redirection
-        } else {
-            // Gérer le cas où l'archivage a échoué
-            // Par exemple, redirection vers une page d'erreur ou affichage d'un message
-            header("Location: /gestion-ecole/public/index.php?action=erreur");
-            exit;
+            if ($this->model->archive($id)) { // Appel de la méthode avec l'ID
+                http_response_code(200); // Code de réponse OK
+                echo json_encode(['status' => 'success']); // Réponse JSON pour indiquer le succès
+            } else {
+                http_response_code(500); // Code d'erreur interne du serveur
+                echo json_encode(['status' => 'error', 'message' => 'Échec de l\'archivage.']); // Réponse JSON pour indiquer une erreur
+            }
         }
     }
 

@@ -104,6 +104,12 @@ body {
 
 .add-button i {
     margin-right: 10px;
+
+.add-button a {
+
+    color: white;
+    text-decoration: none;
+}
 }
 tbody{
     width: 100%;

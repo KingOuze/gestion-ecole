@@ -1,3 +1,34 @@
+<?php
+require_once __DIR__ . '/../../../config/db.php';
+require_once ('C:/xmp/htdocs/gestion-ecole/app/controllers/SuiviPaiementController.php');
+    
+// Créer une instance de la connexion à la base de données
+$database = new Database();
+$SuiviPaiementController = new SuiviPaiementController($db);
+
+
+// Pagination
+$limit = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+// Récupérer tous les paiements
+$paiements = $SuiviPaiementController->getAllPaiements();
+
+if (is_array($paiements)) {
+    if (count($paiements) > 0) {
+        // Afficher les administrateurs
+    } else {
+        echo "Aucun paiement trouvé.";
+    }
+} else {
+    echo $admins; // Affichez l'erreur
+}
+
+
+$paiements = array_slice($paiements, $offset, $limit);
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -47,7 +78,7 @@
                 </select>
 
                 <div class="search-container">
-                    <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Rechercher un employé...">
+                    <input type="text" class="form-control form-control-sm" id="searchInput" placeholder="Rechercher un employé par matricule...">
                     <span class="icon">🔍</span>
                 </div>
             </div>
@@ -63,43 +94,29 @@
                         <th>État</th>
                     </tr>
                 </thead>
-                <tbody>
+               <tbody>
+               <?php if (!empty($paiements)): ?>
+                 <?php foreach ($paiements as $paiement): ?>
                     <tr>
-                        <td>Rye</td>
-                        <td>Olivia</td>
-                        <td>ER-L-0001</td>
-                        <td>Décembre</td>
-                        <td><span class="text-danger">Non payé</span></td>
+                        <td><?php echo htmlspecialchars($paiement['nom']); ?></td>
+                        <td><?php echo htmlspecialchars($paiement['prenom']); ?></td>
+                        <td><?php echo htmlspecialchars($paiement['matricule']); ?></td>
+                        <td><?php echo htmlspecialchars($paiement['mois_payer']); ?></td>
+                        <td>
+                        <?php if ($paiement['etat_paiement'] === 'payé') : ?>
+                        <span style="color: green;"><?php echo htmlspecialchars($paiement['etat_paiement']); ?></span>
+                        <?php else : ?>
+                        <span style="color: red;"><?php echo htmlspecialchars($paiement['etat_paiement']); ?></span>
+                        <?php endif; ?>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>Slater</td>
-                        <td>Phoenix</td>
-                        <td>ER-L-0002</td>
-                        <td>Décembre</td>
-                        <td><span class="text-success">Payé</span></td>
-                    </tr>
-                    <tr>
-                        <td>Steiner</td>
-                        <td>Lana</td>
-                        <td>ER-L-0003</td>
-                        <td>Décembre</td>
-                        <td><span class="text-danger">Non payé</span></td>
-                    </tr>
-                    <tr>
-                        <td>Wilkinson</td>
-                        <td>Demi</td>
-                        <td>ER-L-0004</td>
-                        <td>Décembre</td>
-                        <td><span class="text-success">Payé</span></td>
-                    </tr>
-                    <tr>
-                        <td>Wu</td>
-                        <td>Candice</td>
-                        <td>ER-L-0005</td>
-                        <td>Décembre</td>
-                        <td><span class="text-danger">Non payé</span></td>
-                    </tr>
-                </tbody>
+                 <?php endforeach; ?>
+         s    <?php else: ?> 
+                <tr>
+                    <td colspan="10" class="text-center">Aucun paiement effectué.</td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
             </table>
         </div>
     </div>
