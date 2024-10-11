@@ -41,7 +41,7 @@ document.getElementById("adminForm").addEventListener("submit", function(event) 
         valid = false;
     }
 
-    // Vérifier si l'ancien mot de passe est saisi
+     // Vérifier si l'ancien mot de passe est saisi
     if (ancienMotDePasse !== "") {
         // Rendre les champs nouveau mot de passe et confirmer obligatoires
         if (isEmptyOrSpaces(nouveauMotDePasse)) {

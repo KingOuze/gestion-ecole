@@ -111,7 +111,7 @@ $paiements = array_slice($paiements, $offset, $limit);
                         </td>
                     </tr>
                  <?php endforeach; ?>
-         s    <?php else: ?> 
+            ,    <?php else: ?> 
                 <tr>
                     <td colspan="10" class="text-center">Aucun paiement effectué.</td>
                 </tr>
