@@ -17,43 +17,54 @@ $eleveInfo = [];
 $error_message = '';
 $update_success = false; // Indicateur de succès de mise à jour
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
-    $matricule = $_POST['matricule'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Vérification si la recherche par matricule a été soumise
+    if (isset($_POST['matricule'])) {
+        $matricule = $_POST['matricule'];
 
-    // Préparation de la requête pour récupérer les informations de l'élève
-    $stmt = $conn->prepare("
-        SELECT e.matricule, e.nom, e.prenom, sp.mois, sp.etat, c.nom_classe AS classe, pe.mensualite 
-        FROM eleve e
-        LEFT JOIN Suivi_paiements sp ON e.id = sp.id_eleve
-        LEFT JOIN paiement_eleve pe ON e.id = pe.id_eleve
-        LEFT JOIN classe c ON pe.id_classe = c.id
-        WHERE e.matricule = :matricule
-    ");
-    $stmt->bindParam(':matricule', $matricule);
-    $stmt->execute();
-    $eleveInfo = $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-// Mise à jour de l'état de paiement
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_payment'])) {
-    $month = $_POST['month'];
-    $new_state = $_POST['payment_state']; // 0 pour "Non payé", 1 pour "Payé"
-
-    // Mettre à jour l'état dans la base de données
-    $stmt = $conn->prepare("
-        INSERT INTO Suivi_paiements (id_eleve, mois, etat)
-        VALUES ((SELECT id FROM eleve WHERE matricule = :matricule), :mois, :etat)
-        ON DUPLICATE KEY UPDATE etat = :etat
-    ");
-    $stmt->bindParam(':matricule', $matricule);
-    $stmt->bindParam(':mois', $month);
-    $stmt->bindParam(':etat', $new_state);
-    
-    try {
+        // Préparation de la requête pour récupérer les informations de l'élève
+        $stmt = $conn->prepare("
+            SELECT e.matricule, e.nom, e.prenom, sp.mois, sp.etat, c.nom_classe AS classe, pe.mensualite 
+            FROM eleve e
+            LEFT JOIN Suivi_paiements sp ON e.id = sp.id_eleve
+            LEFT JOIN paiement_eleve pe ON e.id = pe.id_eleve
+            LEFT JOIN classe c ON pe.id_classe = c.id
+            WHERE e.matricule = :matricule
+        ");
+        $stmt->bindParam(':matricule', $matricule);
         $stmt->execute();
-        $update_success = ($new_state == '1'); // Vérifie si la mise à jour a été faite et si l'état est "Payé"
-    } catch (PDOException $e) {
-        $error_message = "Erreur lors de la mise à jour : " . $e->getMessage();
+        $eleveInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Mise à jour de l'état de paiement
+    if (isset($_POST['update_payment'])) {
+        $month = $_POST['month'];
+        $new_state = $_POST['payment_state']; // 0 pour "Non payé", 1 pour "Payé"
+
+        // Vérification si le mois n'est pas vide
+        if (empty($month)) {
+            $error_message = "Le mois ne peut pas être vide.";
+        } else {
+            // Préparation de la requête d'insertion
+            $stmt = $conn->prepare("
+                INSERT INTO Suivi_paiements (id_eleve, mois, etat)
+                VALUES ((SELECT id FROM eleve WHERE matricule = :matricule), :mois, :etat)
+                ON DUPLICATE KEY UPDATE etat = :etat
+            ");
+
+            // Lier les paramètres
+            $stmt->bindParam(':matricule', $matricule);
+            $stmt->bindParam(':mois', $month);
+            $stmt->bindParam(':etat', $new_state);
+            
+            try {
+                // Exécuter la requête
+                $stmt->execute();
+                $update_success = ($new_state == '1'); // Vérifie si la mise à jour a été faite et si l'état est "Payé"
+            } catch (PDOException $e) {
+                $error_message = "Erreur lors de la mise à jour : " . $e->getMessage();
+            }
+        }
     }
 }
 ?>
@@ -85,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_payment'])) {
                 <p class="centered-paragraph">Paiement Mensualité</p>
                 <form method="post" class="search">
                     <input type="text" name="matricule" placeholder="Recherche par matricule" required value="<?php echo htmlspecialchars($matricule); ?>">
-                    <button type="submit" name="search" class="search-button1">
+                    <button type="submit" class="search-button1">
                         <span class="icon">🔍</span>
                     </button>
                 </form>
@@ -142,6 +153,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_payment'])) {
                                     <option value="1" <?php echo ($eleveInfo['etat'] == '1') ? 'selected' : ''; ?>>Payé</option>
                                 </select>
                                 <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($matricule); ?>">
+                                <input type="hidden" name="etat" value="<?php echo htmlspecialchars($new_state); ?>">
+
                                 <button type="submit" name="update_payment" class="btn-submit">Mettre à jour</button>
                                 </form>
                             </td>

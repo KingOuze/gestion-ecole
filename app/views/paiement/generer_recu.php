@@ -55,26 +55,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 
                 .recu {
                     border: 2px solid #000;
-                    padding: 40px; /* Augmentez cette valeur pour plus d'espace à l'intérieur */
-                    width: 500px; /* Augmentez cette valeur pour élargir le reçu */
+                    padding: 50px; /* Augmentez cette valeur pour plus d'espace à l'intérieur */
+                    width: 600px; /* Augmentez cette valeur pour élargir le reçu */
                     margin: auto;
-                    border-radius: 10px;
+                    border-radius: 5px;
                     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
                     background-color: #fff;
+                    height: 80%;
+
                 }
                 .header {
                     text-align: center; /* Centrer le logo */
-                    margin-bottom: 20px;
+                    margin-top: 10px;
+
+
                 }
 
                 .header-info {
                     text-align: right; /* Centre le texte à droite */
+
                 }
                 .logo {
-                    width: 320px; /* Ajuste la taille de l'image de logo */
+                    width: 300px; /* Ajuste la taille de l'image de logo */
+                    margin-bottom:5px;
                 }
                 .details {
-                    margin-top: 20px;
+                    margin-top: 10px;
                     border: 1px solid #000; /* Cadre autour des détails */
                     padding: 10px; /* Espace à l'intérieur du cadre */
                     border-radius: 5px; /* Bords arrondis */
@@ -84,7 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     text-align: right;
                 }
                 .seal {
-                    width: 150px; /* Ajuste la taille de l'image du cachet */
+                    width: 100px; /* Ajuste la taille de l'image du cachet */
+                   
                 }
                 .info {
                     display: flex;
@@ -122,4 +129,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $conn = null; // Ferme la connexion
-?>

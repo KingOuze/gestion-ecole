@@ -6,6 +6,8 @@ error_reporting(E_ALL);
 
 
 require_once __DIR__ . '/../controllers/DashboardMensualiteController.php';
+require '/../controllers/EleveMensualiteController.php';
+
 
 $controller = new DashboardMensualiteController($conn);
 $controller->index();
