@@ -207,3 +207,25 @@ body {
     color: #333;
     /* Couleur du texte des détails */
 }
+
+.btn-submit {
+    background-color: #38D39F;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.btn-recu {
+    background-color: #38D39F;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.error-message {
+    color: red;
+}

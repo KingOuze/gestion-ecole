@@ -14,16 +14,47 @@ try {
 
 $matricule = '';
 $eleveInfo = [];
+$error_message = '';
+$update_success = false; // Indicateur de succès de mise à jour
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
     $matricule = $_POST['matricule'];
 
     // Préparation de la requête pour récupérer les informations de l'élève
-    $stmt = $conn->prepare("SELECT * FROM eleve WHERE matricule = :matricule");
+    $stmt = $conn->prepare("
+        SELECT e.matricule, e.nom, e.prenom, sp.mois, sp.etat, c.nom_classe AS classe, pe.mensualite 
+        FROM eleve e
+        LEFT JOIN Suivi_paiements sp ON e.id = sp.id_eleve
+        LEFT JOIN paiement_eleve pe ON e.id = pe.id_eleve
+        LEFT JOIN classe c ON pe.id_classe = c.id
+        WHERE e.matricule = :matricule
+    ");
     $stmt->bindParam(':matricule', $matricule);
     $stmt->execute();
-
-    // Récupération des données
     $eleveInfo = $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+// Mise à jour de l'état de paiement
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_payment'])) {
+    $month = $_POST['month'];
+    $new_state = $_POST['payment_state']; // 0 pour "Non payé", 1 pour "Payé"
+
+    // Mettre à jour l'état dans la base de données
+    $stmt = $conn->prepare("
+        INSERT INTO Suivi_paiements (id_eleve, mois, etat)
+        VALUES ((SELECT id FROM eleve WHERE matricule = :matricule), :mois, :etat)
+        ON DUPLICATE KEY UPDATE etat = :etat
+    ");
+    $stmt->bindParam(':matricule', $matricule);
+    $stmt->bindParam(':mois', $month);
+    $stmt->bindParam(':etat', $new_state);
+    
+    try {
+        $stmt->execute();
+        $update_success = ($new_state == '1'); // Vérifie si la mise à jour a été faite et si l'état est "Payé"
+    } catch (PDOException $e) {
+        $error_message = "Erreur lors de la mise à jour : " . $e->getMessage();
+    }
 }
 ?>
 
@@ -66,9 +97,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
         </div>
 
         <div class="container1">
-            <p id="special-paragraph">Informations de l'eleve</p>
+            <p id="special-paragraph">Informations de l'élève</p>
             <?php if (!empty($eleveInfo)): ?>
-                <h2></h2>
+                <?php if (!empty($error_message)): ?>
+                    <p class="error-message"><?php echo htmlspecialchars($error_message); ?></p>
+                <?php endif; ?>
                 <table border="1" style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr>
@@ -76,9 +109,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
                             <th>Nom</th>
                             <th>Prénom</th>
                             <th>Classe</th>
-                            <th>Niveau</th>
-                            <th>Mois</th> <!-- Colonne pour le mois -->
-                            <th>Montant</th> <!-- Nouvelle colonne pour le montant -->
+                            <th>Mois</th>
+                            <th>Mensualité</th>
+                            <th>État</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,31 +119,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['search'])) {
                             <td><?php echo htmlspecialchars($eleveInfo['matricule']); ?></td>
                             <td><?php echo htmlspecialchars($eleveInfo['nom']); ?></td>
                             <td><?php echo htmlspecialchars($eleveInfo['prenom']); ?></td>
-                            <td><?php echo htmlspecialchars($eleveInfo['classe']); ?></td> <!-- Remplace par le bon champ -->
-                            <td><?php echo htmlspecialchars($eleveInfo['niveau']); ?></td> <!-- Remplace par le bon champ -->
+                            <td><?php echo htmlspecialchars($eleveInfo['classe']); ?></td>
                             <td>
-                                <select name="mois" class="mois-select">
-                                    <option value="octobre">Octobre</option>
-                                    <option value="novembre">Novembre</option>
-                                    <option value="decembre">Décembre</option>
-                                    <option value="janvier">Janvier</option>
-                                    <option value="fevrier">Février</option>
-                                    <option value="mars">Mars</option>
-                                    <option value="avril">Avril</option>
-                                    <option value="mai">Mai</option>
-                                    <option value="juin">Juin</option>
-                                    <option value="juillet">Juillet</option>
-                                </select>
+                                <form method="post" style="display: inline;">
+                                    <select name="month" required>
+                                        <option value="Octobre" <?php echo ($eleveInfo['mois'] == 'Octobre') ? 'selected' : ''; ?>>Octobre</option>
+                                        <option value="Novembre" <?php echo ($eleveInfo['mois'] == 'Novembre') ? 'selected' : ''; ?>>Novembre</option>
+                                        <option value="Décembre" <?php echo ($eleveInfo['mois'] == 'Décembre') ? 'selected' : ''; ?>>Décembre</option>
+                                        <option value="Janvier" <?php echo ($eleveInfo['mois'] == 'Janvier') ? 'selected' : ''; ?>>Janvier</option>
+                                        <option value="Février" <?php echo ($eleveInfo['mois'] == 'Février') ? 'selected' : ''; ?>>Février</option>
+                                        <option value="Mars" <?php echo ($eleveInfo['mois'] == 'Mars') ? 'selected' : ''; ?>>Mars</option>
+                                        <option value="Avril" <?php echo ($eleveInfo['mois'] == 'Avril') ? 'selected' : ''; ?>>Avril</option>
+                                        <option value="Mai" <?php echo ($eleveInfo['mois'] == 'Mai') ? 'selected' : ''; ?>>Mai</option>
+                                        <option value="Juin" <?php echo ($eleveInfo['mois'] == 'Juin') ? 'selected' : ''; ?>>Juin</option>
+                                        <option value="Juillet" <?php echo ($eleveInfo['mois'] == 'Juillet') ? 'selected' : ''; ?>>Juillet</option>
+                                    </select>
                             </td>
+                            <td><?php echo htmlspecialchars($eleveInfo['mensualite']); ?> CFA</td>
                             <td>
-                                <select name="montant" class="montant-select">
-                                    <option value="7500f">7500 F</option>
-                                    <option value="10000f">10000 F</option>
+                                <select name="payment_state" required>
+                                    <option value="0" <?php echo (empty($eleveInfo['etat']) || $eleveInfo['etat'] == '0') ? 'selected' : ''; ?>>Non payé</option>
+                                    <option value="1" <?php echo ($eleveInfo['etat'] == '1') ? 'selected' : ''; ?>>Payé</option>
                                 </select>
+                                <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($matricule); ?>">
+                                <button type="submit" name="update_payment" class="btn-submit">Mettre à jour</button>
+                                </form>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
+                <?php if ($eleveInfo['etat'] == '1'): // Afficher le bouton si l'élève a payé ?>
+                    <form method="post" action="generer_recu.php" style="margin-top: 20px;">
+                        <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($matricule); ?>">
+                        <input type="hidden" name="mois" value="<?php echo htmlspecialchars($eleveInfo['mois']); ?>">
+                        <button type="submit" class="btn-recu">Générer un reçu</button>
+                    </form>
+                <?php endif; ?>
+
             <?php else: ?>
                 <p>Aucun élève trouvé avec ce matricule.</p>
             <?php endif; ?>
