@@ -38,7 +38,7 @@ try {
         </div>
         <ul>
             <li><a href="#">Tableau de Bord</a></li>
-            <li><a href="#">Gestion Finance</a></li>
+            <li><a href="lister_eleve.php">Paiement Mensuel</a></li>
         </ul>
     </div>
 

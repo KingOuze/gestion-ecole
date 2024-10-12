@@ -14,7 +14,9 @@ try {
 
 $matricule = '';
 $eleveInfo = [];
+$paiements = [];
 $error_message = '';
+$success_message = ''; // Message de succès
 $update_success = false; // Indicateur de succès de mise à jour
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,9 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Préparation de la requête pour récupérer les informations de l'élève
         $stmt = $conn->prepare("
-            SELECT e.matricule, e.nom, e.prenom, sp.mois, sp.etat, c.nom_classe AS classe, pe.mensualite 
+            SELECT e.id, e.matricule, e.nom, e.prenom, c.nom_classe AS classe, pe.mensualite 
             FROM eleve e
-            LEFT JOIN Suivi_paiements sp ON e.id = sp.id_eleve
             LEFT JOIN paiement_eleve pe ON e.id = pe.id_eleve
             LEFT JOIN classe c ON pe.id_classe = c.id
             WHERE e.matricule = :matricule
@@ -36,34 +37,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $eleveInfo = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Récupérer tous les paiements de l'élève
+    if (!empty($eleveInfo)) {
+        $stmt = $conn->prepare("
+            SELECT mois, etat 
+            FROM Suivi_paiements 
+            WHERE id_eleve = :id_eleve
+        ");
+        $stmt->bindParam(':id_eleve', $eleveInfo['id']);
+        $stmt->execute();
+        $paiements = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Mise à jour de l'état de paiement
     if (isset($_POST['update_payment'])) {
-        $month = $_POST['month'];
+        $payment_month = $_POST['month']; // Mois à mettre à jour
         $new_state = $_POST['payment_state']; // 0 pour "Non payé", 1 pour "Payé"
+        
+        // Vérifier si l'élève a déjà un suivi de paiement
+        $stmt = $conn->prepare("
+            SELECT * FROM Suivi_paiements 
+            WHERE id_eleve = (SELECT id FROM eleve WHERE matricule = :matricule) 
+            AND mois = :mois
+        ");
+        $stmt->bindParam(':matricule', $matricule);
+        $stmt->bindParam(':mois', $payment_month);
+        $stmt->execute();
+        $existing_payment = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Vérification si le mois n'est pas vide
-        if (empty($month)) {
-            $error_message = "Le mois ne peut pas être vide.";
-        } else {
-            // Préparation de la requête d'insertion
+        // Si l'enregistrement existe, on met à jour
+        if ($existing_payment) {
             $stmt = $conn->prepare("
-                INSERT INTO Suivi_paiements (id_eleve, mois, etat)
-                VALUES ((SELECT id FROM eleve WHERE matricule = :matricule), :mois, :etat)
-                ON DUPLICATE KEY UPDATE etat = :etat
+                UPDATE Suivi_paiements
+                SET etat = :etat
+                WHERE id_eleve = (SELECT id FROM eleve WHERE matricule = :matricule) 
+                AND mois = :mois
             ");
+        } else {
+            // Sinon, on insère un nouvel enregistrement
+            $stmt = $conn->prepare("
+                INSERT INTO Suivi_paiements (id_eleve, mois, etat) 
+                VALUES ((SELECT id FROM eleve WHERE matricule = :matricule), :mois, :etat)
+            ");
+        }
 
-            // Lier les paramètres
-            $stmt->bindParam(':matricule', $matricule);
-            $stmt->bindParam(':mois', $month);
-            $stmt->bindParam(':etat', $new_state);
-            
-            try {
-                // Exécuter la requête
-                $stmt->execute();
-                $update_success = ($new_state == '1'); // Vérifie si la mise à jour a été faite et si l'état est "Payé"
-            } catch (PDOException $e) {
-                $error_message = "Erreur lors de la mise à jour : " . $e->getMessage();
-            }
+        // Lier les paramètres
+        $stmt->bindParam(':matricule', $matricule);
+        $stmt->bindParam(':mois', $payment_month);
+        $stmt->bindParam(':etat', $new_state);
+
+        try {
+            // Exécuter la requête
+            $stmt->execute();
+            $update_success = true; // Indique que la mise à jour ou insertion a réussi
+            $success_message = "L'etat de paiement a été enregistré avec succès."; // Message de succès
+        } catch (PDOException $e) {
+            $error_message = "Erreur lors de la mise à jour : " . $e->getMessage();
         }
     }
 }
@@ -86,7 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <ul>
             <li><a href="#">Tableau de Bord</a></li>
-            <li><a href="#">Gestion Finance</a></li>
+            <li><a href="Dashboard_Mensualite_eleve.php">Suivi de paiement d'un eleve</a></li>
+            <li><a href="Dashboard_Mensualite_eleve.php">Retour</a></li>
         </ul>
     </div>
 
@@ -113,6 +143,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if (!empty($error_message)): ?>
                     <p class="error-message"><?php echo htmlspecialchars($error_message); ?></p>
                 <?php endif; ?>
+                <?php if (!empty($success_message)): ?>
+                    <p class="success-message"><?php echo htmlspecialchars($success_message); ?></p>
+                <?php endif; ?>
                 <table border="1" style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr>
@@ -123,6 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <th>Mois</th>
                             <th>Mensualité</th>
                             <th>État</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -134,16 +168,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <td>
                                 <form method="post" style="display: inline;">
                                     <select name="month" required>
-                                        <option value="Octobre" <?php echo ($eleveInfo['mois'] == 'Octobre') ? 'selected' : ''; ?>>Octobre</option>
-                                        <option value="Novembre" <?php echo ($eleveInfo['mois'] == 'Novembre') ? 'selected' : ''; ?>>Novembre</option>
-                                        <option value="Décembre" <?php echo ($eleveInfo['mois'] == 'Décembre') ? 'selected' : ''; ?>>Décembre</option>
-                                        <option value="Janvier" <?php echo ($eleveInfo['mois'] == 'Janvier') ? 'selected' : ''; ?>>Janvier</option>
-                                        <option value="Février" <?php echo ($eleveInfo['mois'] == 'Février') ? 'selected' : ''; ?>>Février</option>
-                                        <option value="Mars" <?php echo ($eleveInfo['mois'] == 'Mars') ? 'selected' : ''; ?>>Mars</option>
-                                        <option value="Avril" <?php echo ($eleveInfo['mois'] == 'Avril') ? 'selected' : ''; ?>>Avril</option>
-                                        <option value="Mai" <?php echo ($eleveInfo['mois'] == 'Mai') ? 'selected' : ''; ?>>Mai</option>
-                                        <option value="Juin" <?php echo ($eleveInfo['mois'] == 'Juin') ? 'selected' : ''; ?>>Juin</option>
-                                        <option value="Juillet" <?php echo ($eleveInfo['mois'] == 'Juillet') ? 'selected' : ''; ?>>Juillet</option>
+                                        <option value="Octobre">Octobre</option>
+                                        <option value="Novembre">Novembre</option>
+                                        <option value="Décembre">Décembre</option>
+                                        <option value="Janvier">Janvier</option>
+                                        <option value="Février">Février</option>
+                                        <option value="Mars">Mars</option>
+                                        <option value="Avril">Avril</option>
+                                        <option value="Mai">Mai</option>
+                                        <option value="Juin">Juin</option>
+                                        <option value="Juillet">Juillet</option>
                                     </select>
                             </td>
                             <td><?php echo htmlspecialchars($eleveInfo['mensualite']); ?> CFA</td>
@@ -153,8 +187,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <option value="1" <?php echo ($eleveInfo['etat'] == '1') ? 'selected' : ''; ?>>Payé</option>
                                 </select>
                                 <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($matricule); ?>">
-                                <input type="hidden" name="etat" value="<?php echo htmlspecialchars($new_state); ?>">
-
                                 <button type="submit" name="update_payment" class="btn-submit">Mettre à jour</button>
                                 </form>
                             </td>
@@ -162,12 +194,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </tbody>
                 </table>
 
-                <?php if ($eleveInfo['etat'] == '1'): // Afficher le bouton si l'élève a payé ?>
-                    <form method="post" action="generer_recu.php" style="margin-top: 20px;">
-                        <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($matricule); ?>">
-                        <input type="hidden" name="mois" value="<?php echo htmlspecialchars($eleveInfo['mois']); ?>">
-                        <button type="submit" class="btn-recu">Générer un reçu</button>
-                    </form>
+                <?php if (!empty($paiements)): ?>
+                    <h3>Paiements de l'élève</h3>
+                    <table border="1" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr>
+                                <th>Mois</th>
+                                <th>État</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($paiements as $paiement): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($paiement['mois']); ?></td>
+                                    <td><?php echo $paiement['etat'] == 1 ? 'Payé' : 'Non payé'; ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 <?php endif; ?>
 
             <?php else: ?>

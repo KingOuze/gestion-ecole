@@ -31,6 +31,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $eleveInfo = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($eleveInfo) {
+        // Récupérer le dernier numéro de reçu et l'incrémenter
+        $stmt = $conn->prepare("SELECT MAX(numero_recu) AS dernier_recu FROM Suivi_paiements");
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $numeroRecu = $result['dernier_recu'] ? $result['dernier_recu'] + 1 : 1;
+
+        // Enregistrer le nouveau numéro de reçu dans la base de données (si nécessaire)
+        $updateStmt = $conn->prepare("
+            UPDATE Suivi_paiements 
+            SET numero_recu = :numero_recu 
+            WHERE id_eleve = (SELECT id FROM eleve WHERE matricule = :matricule) AND mois = :mois
+        ");
+        $updateStmt->bindParam(':numero_recu', $numeroRecu);
+        $updateStmt->bindParam(':matricule', $matricule);
+        $updateStmt->bindParam(':mois', $mois);
+        $updateStmt->execute();
+
         // Informations pour le reçu
         $dateGeneration = date('d/m/Y');
         $montant = htmlspecialchars($eleveInfo['mensualite']);
@@ -49,63 +66,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    height: 100vh; /* Centrer verticalement */
-                    background-color: #f9f9f9; /* Couleur de fond */
+                    height: 100vh;
+                    background-color: #f9f9f9;
                 }
                 
                 .recu {
                     border: 2px solid #000;
-                    padding: 50px; /* Augmentez cette valeur pour plus d'espace à l'intérieur */
-                    width: 600px; /* Augmentez cette valeur pour élargir le reçu */
+                    padding: 50px;
+                    width: 600px;
                     margin: auto;
                     border-radius: 5px;
                     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
                     background-color: #fff;
                     height: 80%;
-
                 }
                 .header {
-                    text-align: center; /* Centrer le logo */
+                    text-align: center;
                     margin-top: 10px;
-
-
-                }
-
-                .header-info {
-                    text-align: right; /* Centre le texte à droite */
-
                 }
                 .logo {
-                    width: 300px; /* Ajuste la taille de l'image de logo */
+                    width: 300px;
                     margin-bottom:5px;
                 }
                 .details {
                     margin-top: 10px;
-                    border: 1px solid #000; /* Cadre autour des détails */
-                    padding: 10px; /* Espace à l'intérieur du cadre */
-                    border-radius: 5px; /* Bords arrondis */
+                    border: 1px solid #000;
+                    padding: 10px;
+                    border-radius: 5px;
                 }
                 .footer {
                     margin-top: 30px;
                     text-align: right;
                 }
                 .seal {
-                    width: 100px; /* Ajuste la taille de l'image du cachet */
-                   
+                    width: 100px; 
                 }
                 .info {
                     display: flex;
-                    justify-content: space-between; /* Alignement des attributs et valeurs */
-                    margin-bottom: 20px; /* Ajuste cette valeur pour augmenter l'espace */
+                    justify-content: space-between;
+                    margin-bottom: 20px;
+                }
+                .buttons {
+                    text-align: center;
+                    margin-top: 20px;
+                }
+                .btn {
+                    padding: 10px 20px;
+                    margin: 5px;
+                    border: none;
+                    border-radius: 5px;
+                    background-color: #38D39F;
+                    color: white;
+                    cursor: pointer;
+                }
+                .btn:hover {
+                    background-color: #B6FF00;
                 }
             </style>
+            <script>
+                function imprimer() {
+                    window.print();
+                }
+            </script>
         </head>
         <body>
             <div class='recu'>
                 <div class='header'>
-                    <img src='Badge_Education_Badge_Logo.png' alt='Logo de l'école' class='logo'> <!-- Remplace le chemin par l'URL de l'image -->
+                    <img src='Badge_Education_Badge_Logo.png' alt='Logo de l'école' class='logo'>
                     <p>Date: $dateGeneration</p>
-                    <p>N° Reçu: N-0003</p>
+                    <p>N° Reçu: N-$numeroRecu</p>
                 </div>
                 <h3 style='text-align: center;'>REÇU DE PAIEMENT</h3>
                 <div class='details'>
@@ -116,7 +145,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class='info'><strong>Mois</strong> <span>" . htmlspecialchars($mois) . "</span></div>
                 </div>
                 <div class='footer'>
-                    <img src='cachet_EcoleReussite.png' alt='Cachet de l'école' class='seal'> <!-- Remplace le chemin par l'URL de l'image -->
+                    <img src='cachet_EcoleReussite.png' alt='Cachet de l'école' class='seal'>
+                </div>
+                <div class='buttons'>
+                    <button class='btn' onclick='window.history.back();'>Retour</button>
+                    <button class='btn' onclick='imprimer();'>Imprimer le reçu</button>
                 </div>
             </div>
         </body>

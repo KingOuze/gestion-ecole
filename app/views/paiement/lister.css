@@ -229,3 +229,12 @@ body {
 .error-message {
     color: red;
 }
+
+.success-message {
+    color: green;
+    /* Couleur du texte en vert */
+    font-weight: bold;
+    /* Texte en gras */
+    margin: 10px 0;
+    /* Espace autour du message */
+}
