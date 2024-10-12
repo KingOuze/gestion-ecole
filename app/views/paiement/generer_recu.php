@@ -12,18 +12,19 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Vérification que le formulaire a été soumis
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['matricule']) && isset($_POST['month'])) {
     $matricule = $_POST['matricule'];
-    $mois = $_POST['mois'];
+    $mois = $_POST['month'];
 
-    // Requête pour récupérer les informations de l'élève
+    // Récupérer les informations de l'élève et le paiement pour le mois sélectionné
     $stmt = $conn->prepare("
-        SELECT e.matricule, e.nom, e.prenom, c.nom_classe AS classe, pe.mensualite 
+        SELECT e.matricule, e.nom, e.prenom, c.nom_classe AS classe, pe.mensualite, sp.mois, sp.etat 
         FROM eleve e
-        LEFT JOIN Suivi_paiements sp ON e.id = sp.id_eleve
-        LEFT JOIN paiement_eleve pe ON e.id = pe.id_eleve
-        LEFT JOIN classe c ON pe.id_classe = c.id
-        WHERE e.matricule = :matricule AND sp.mois = :mois
+        JOIN Suivi_paiements sp ON e.id = sp.id_eleve
+        JOIN paiement_eleve pe ON e.id = pe.id_eleve
+        JOIN classe c ON pe.id_classe = c.id
+        WHERE e.matricule = :matricule AND sp.mois = :mois AND sp.etat = 1
     ");
     $stmt->bindParam(':matricule', $matricule);
     $stmt->bindParam(':mois', $mois);
@@ -31,28 +32,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $eleveInfo = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($eleveInfo) {
-        // Récupérer le dernier numéro de reçu et l'incrémenter
-        $stmt = $conn->prepare("SELECT MAX(numero_recu) AS dernier_recu FROM Suivi_paiements");
+        // Récupérer le dernier numéro de reçu pour cet élève
+        $stmt = $conn->prepare("
+            SELECT MAX(numero_recu) AS dernier_recu 
+            FROM Suivi_paiements 
+            WHERE id_eleve = (SELECT id FROM eleve WHERE matricule = :matricule)
+        ");
+        $stmt->bindParam(':matricule', $matricule);
         $stmt->execute();
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $numeroRecu = $result['dernier_recu'] ? $result['dernier_recu'] + 1 : 1;
 
-        // Enregistrer le nouveau numéro de reçu dans la base de données (si nécessaire)
-        $updateStmt = $conn->prepare("
-            UPDATE Suivi_paiements 
-            SET numero_recu = :numero_recu 
-            WHERE id_eleve = (SELECT id FROM eleve WHERE matricule = :matricule) AND mois = :mois
+        // Enregistrer le paiement avec le numéro de reçu
+        $stmt = $conn->prepare("
+            INSERT INTO Suivi_paiements (id_eleve, mois, etat, numero_recu) 
+            VALUES ((SELECT id FROM eleve WHERE matricule = :matricule), :mois, 1, :numero_recu)
         ");
-        $updateStmt->bindParam(':numero_recu', $numeroRecu);
-        $updateStmt->bindParam(':matricule', $matricule);
-        $updateStmt->bindParam(':mois', $mois);
-        $updateStmt->execute();
+        $stmt->bindParam(':matricule', $matricule);
+        $stmt->bindParam(':mois', $mois);
+        $stmt->bindParam(':numero_recu', $numeroRecu);
+        $stmt->execute();
 
         // Informations pour le reçu
         $dateGeneration = date('d/m/Y');
         $montant = htmlspecialchars($eleveInfo['mensualite']);
-        $etat = 'Payé'; // Puisque nous générons le reçu pour un élève qui a payé
-
+        
         // Affichage du reçu
         echo "<html lang='fr'>
         <head>
@@ -99,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     text-align: right;
                 }
                 .seal {
-                    width: 100px; 
+                    width: 100px;
                 }
                 .info {
                     display: flex;
@@ -155,7 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </body>
         </html>";
     } else {
-        echo "<p>Aucune information trouvée pour cet élève.</p>";
+        echo "<p>Aucune information trouvée pour cet élève ou le paiement n'a pas été effectué pour le mois sélectionné.</p>";
     }
 } else {
     echo "<p>Accès non autorisé.</p>";

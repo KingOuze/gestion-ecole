@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Exécuter la requête
             $stmt->execute();
             $update_success = true; // Indique que la mise à jour ou insertion a réussi
-            $success_message = "L'etat de paiement a été enregistré avec succès."; // Message de succès
+            $success_message = "L'état de paiement a été enregistré avec succès."; // Message de succès
         } catch (PDOException $e) {
             $error_message = "Erreur lors de la mise à jour : " . $e->getMessage();
         }
@@ -156,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <th>Mois</th>
                             <th>Mensualité</th>
                             <th>État</th>
-                            <th>Actions</th>
+                          
                         </tr>
                     </thead>
                     <tbody>
@@ -195,12 +195,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </table>
 
                 <?php if (!empty($paiements)): ?>
-                    <h3>Paiements de l'élève</h3>
+                    <p id="special-paragraph">Suivi des paiements de l'élève</p>
+
                     <table border="1" style="width: 100%; border-collapse: collapse;">
                         <thead>
                             <tr>
                                 <th>Mois</th>
                                 <th>État</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -208,6 +210,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <tr>
                                     <td><?php echo htmlspecialchars($paiement['mois']); ?></td>
                                     <td><?php echo $paiement['etat'] == 1 ? 'Payé' : 'Non payé'; ?></td>
+                                    <td>
+                                        <?php if ($paiement['etat'] == 1): ?>
+                                            <form method="post" action="generer_recu.php" style="display: inline;">
+                                                <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($eleveInfo['matricule']); ?>">
+                                                <input type="hidden" name="month" value="<?php echo htmlspecialchars($paiement['mois']); ?>">
+                                                <button type="submit" class="btn-recu">Générer un reçu</button>
+                                            </form>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
