@@ -18,6 +18,7 @@ error_reporting(E_ALL);
         <form id="adminForm" action="/gestion-ecole/public/index.php?action=update&role=<?= $role ?>&id=<?= $users["id"]?>" method="POST">
             <h1 id="formTitle">Modification</h1>
             <img src="/gestion-ecole/public/images/IconeInscription.png" alt="Icone" class="img-top-right">
+           
 
             <div class="form-row d-flex flex-wrap">
                 <div class="col-sm-4 form-group">
@@ -40,6 +41,9 @@ error_reporting(E_ALL);
             </div>
 
             <div class="form-row d-flex flex-wrap">
+            <?php if (isset($errorMessage)): ?>
+                    <p style='color:red;'><?php echo $errorMessage; ?></p>
+                <?php endif; ?>
                 <div class="col-sm-4 form-group">
                     <label for="ancienMotDePasse">Ancien Mot de passe :</label>
                     <input type="password" id="ancienMotDePasse" name="ancienMotDePasse" class="form-control" placeholder="Entrer l'ancien mot de passe">

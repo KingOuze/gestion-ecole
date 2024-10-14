@@ -41,11 +41,11 @@ document.getElementById("adminForm").addEventListener("submit", function(event) 
         valid = false;
     }
 
-     // Vérifier si l'ancien mot de passe est saisi
-    if (ancienMotDePasse !== "") {
-        // Rendre les champs nouveau mot de passe et confirmer obligatoires
-        if (isEmptyOrSpaces(nouveauMotDePasse)) {
-            document.getElementById('errorMotDePasse').textContent = "Le nouveau mot de passe est requis.";
+    // Validation pour le mot de passe
+    if (!isEmptyOrSpaces(nouveauMotDePasse)) {
+        // Si le nouveau mot de passe est fourni, vérifier l'ancien mot de passe
+        if (isEmptyOrSpaces(ancienMotDePasse)) {
+            document.getElementById('errorMotDePasse').textContent = "L'ancien mot de passe est requis pour modifier le mot de passe.";
             valid = false;
         }
         if (isEmptyOrSpaces(confirmerMotDePasse)) {
@@ -65,7 +65,3 @@ document.getElementById("adminForm").addEventListener("submit", function(event) 
         event.preventDefault();
     }
 });
-if (isEmptyOrSpaces(confirmerMotDePasse)) {
-    document.getElementById('errorMotDePasseConfirmer').textContent = "La confirmation du mot de passe est requise.";
-    valid = false;
-}

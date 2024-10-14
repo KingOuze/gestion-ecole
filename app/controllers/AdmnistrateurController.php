@@ -23,7 +23,7 @@ class AdministrateurController {
             $mot_de_passe = htmlspecialchars(trim($_POST['motDePasse']));
             $role = htmlspecialchars(trim($_POST['role']));
             $adresse = htmlspecialchars(trim($_POST['adresse']));
-
+            
 
             $matricule = generateMatricule();
 
@@ -44,6 +44,7 @@ class AdministrateurController {
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
             $adresse = htmlspecialchars(trim($_POST['adresse']));
+             $errors = [];
                 
         // Vérification de l'email et du téléphone
         if ($this->model->checkEmailExists($email, $id_admin)) {
