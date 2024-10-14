@@ -190,6 +190,8 @@ error_reporting(E_ALL);
 
             <div class="text-center">
                 <button type="submit" class="btn btn-primary" style="width: 200px;">Inscrire</button>
+                <button class="btn btn-primary" style="width: 200px;"><a class="btn-primary" href="/gestion-ecole/public/index.php?action=liste&role=<?= $role?>">Retour</a></button>
+
             </div>
         </form>
     </div>

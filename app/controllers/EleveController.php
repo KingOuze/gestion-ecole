@@ -32,9 +32,7 @@ class EleveController {
             $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $date_nais, $addresse, $classe, $nom_tuteur);
 
             if ($transaction) {
-
-            header("Location: /gestion-ecole/public/index.php?action=liste&role=eleve");
-            exit;
+                echo "eleve enregistré avec succès! ID: $transaction";
             } else {
                 echo "Erreur lors de l'enregistrement.";
             }
@@ -48,17 +46,21 @@ class EleveController {
             $email = htmlspecialchars(trim($_POST['email']));
             $telephone = htmlspecialchars(trim($_POST['telephone']));
             $nom_tuteur = htmlspecialchars(trim($_POST['nomTuteur']));
-            $classe = htmlspecialchars(trim($_POST['classe']));
+            $classe = htmlspecialchars(trim($_POST['classeEleve']));
             $date_nais = htmlspecialchars(trim($_POST['dateNaissance']));
-            $addresse = htmlspecialchars(trim($_POST['addresse']));
+            $addresse = htmlspecialchars(trim($_POST['adresse']));
 
-            if ($this->model->update($id_eleve, $nom, $prenom, $email, $telephone, $date_nais, $addresse, $classe, $nom_tuteur)) {
-                header("Location: /gestion-ecole/public/index.php?action=liste&role=eleve");
-                exit; 
-            } else {
-                echo "Erreur lors de la mise à jour.";
+            try {
+                //code...
+                if($this->model->update($id_eleve, $nom, $prenom, $email, $telephone, $date_nais, $addresse, $classe, $nom_tuteur)) {
+                    header("Location: /gestion-ecole/public/index.php?action=liste&role=eleve");
+                    exit; 
+                }
+            } catch (\Throwable $th) {
+                //throw $th;
+                echo 'erre'. $th->getMessage();
             }
-        }
+        } 
     }
 
     public function destroy($id_eleve) {
@@ -71,10 +73,8 @@ class EleveController {
 
     public function showOne($id) {
         $eleve = $this->model->getById($id);
-        
         if ($eleve != NULL) {
-            echo "ID: {$eleve['id_eleve']}, Nom: {$eleve['nom']}, Email: {$eleve['email']}, Telephone: {$eleve['telephone']}, Matricule: {$eleve['matricule']}<br>";
-
+            return $eleve;
         } else {
             echo "Sélection vide.";
         }
@@ -108,6 +108,13 @@ class EleveController {
         $data = $this->model->getCount();
         // Inclure la vue du tableau de bord
         return $data;
+    }
+
+    public function getByMat($matricule) {
+        $data = $this->model->seachByMat($matricule);
+        if ($data != NULL) {
+            return $data;
+        }
     }
 }
 

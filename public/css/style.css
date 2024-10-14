@@ -129,3 +129,77 @@ form {
     object-fit: cover; /* S'assurer que l'image couvre bien le conteneur */
     margin-bottom: 20px; /* Espace en bas du logo */
 }
+    background-color: #f8f9fa;
+}
+.sidebar {
+    background-color: #29E0BF; /* Couleur vert success */
+    color: white; /* Couleur du texte */
+    padding: 20px; /* Padding pour le menu */
+    height: 100vh; /* Hauteur de la sidebar */
+    width: 240px; /* Largeur réduite du menu */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrer le contenu horizontalement */
+}
+.sidebar img {
+    max-width: 80%; /* Limiter la largeur de l'image */
+    margin-bottom: 20px; /* Espace sous l'image */
+    border-radius: 50%; /* Rendre l'image ronde */
+}
+.sidebar a {
+    color: white; /* Couleur du texte des liens */
+    text-decoration: none; /* Supprimer le soulignement */
+    margin: 10px 0; /* Espace entre les liens */
+}
+.header {
+    background-color: rgb(216, 216, 216);
+    padding: 15px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between; /* Espace entre le titre et le bouton */
+    align-items: center; /* Centrer verticalement */
+}
+.search-bar {
+    margin: 20px 0; /* Marge en haut et en bas */
+}
+.card {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.container-fluid {
+    margin: 20px; /* Espace autour du conteneur */
+}
+.text-center {
+    text-align: center;
+}
+.card-icon {
+    font-size: 40px; /* Taille de l'icône */
+    color: #29E0BF; /* Couleur de l'icône */
+}
+
+.btn-logout {
+    background-color: #dc3545; /* Couleur rouge pour le bouton de déconnexion */
+    color: white; 
+}
+.bottom-image {
+    text-align: center; /* Centrer l'image */
+    margin-top: auto; /* Pousse l'image vers le bas */
+}
+.bottom-image img {
+    max-width: 100%; /* Adapter l'image à la largeur du conteneur */
+    height: auto; /* Conserver le ratio */
+    border-radius: 10px; /* Coins arrondis pour l'image */
+}
+
+.student-table {
+    margin-top: 20px; /* Marge au-dessus du tableau */
+}
+.student-table th, .student-table td {
+    text-align: center; /* Centrer le texte dans le tableau */
+}
+.status-non-payé {
+    color: #dc3545; /* Couleur rouge pour "non payé" */
+}

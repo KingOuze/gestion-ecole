@@ -122,6 +122,7 @@ label {
     margin-right: 10px;
 }
 
+
 #eleveFields .form-group:last-child,
 #professeurFields .form-group:last-child,
 #surveillantFields .form-group:last-child,
@@ -163,6 +164,8 @@ label {
 
 .btn-primary {
     background-color: #38D39F;
+
+    
 }
 
 .btn-secondary {
@@ -171,6 +174,7 @@ label {
 
 .btn-primary:hover {
     background-color: #38D39F;
+    color: #38D39F;
 }
 
 .btn-secondary:hover {

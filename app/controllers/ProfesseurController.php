@@ -32,7 +32,8 @@ class ProfesseurController {
             $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role, $adresse, $classe, $matiere);
 
             if ($transaction) {
-                echo "Professeur enregistré avec succès! ID: $transaction";
+                header("Location: /gestion-ecole/public/index.php?action=liste&role=professeur");
+                exit;
             } else {
                 echo "Erreur lors de l'enregistrement.";
             }

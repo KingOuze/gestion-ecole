@@ -68,7 +68,7 @@ try {
         case 'update':
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
-                $role = htmlspecialchars(trim($_GET['role']));
+                $role = htmlspecialchars(trim($_GET["role"]));
                 
                 switch ($role) {
                     case 'administrateur':
@@ -212,8 +212,9 @@ try {
 
                 case 'eleve':
                     $allClass = $classe->index();
-                    $users = $admin->showOne($id); 
-                    include '../app/views/enseignantviews.php';
+                    $users = $eleve->showOne($id); 
+                    $role1 = 'eleve';
+                    include '../app/views/admin/edite.php';
                     break;
             }  
             break;    
