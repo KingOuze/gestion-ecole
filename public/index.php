@@ -252,7 +252,7 @@ try {
                         break;
                 }
                 break;
-
+                
         default:
             include '../app/views/connexion/connexion.php';
             break;

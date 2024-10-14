@@ -1,0 +1,131 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex; /* Utilisation de flexbox pour aligner la barre latérale et le contenu principal */
+    height: 100vh; /* Hauteur de la fenêtre */
+}
+
+.sidebar {
+    width: 250px; /* Largeur de la barre latérale */
+    background-color: #2c3e50; /* Couleur de fond de la barre latérale */
+    color: white;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    height: 100%; /* Hauteur de la barre latérale à 100% */
+    position: fixed; /* Fixe la barre latérale */
+    top: 0; /* S'assure que la barre est alignée en haut */
+    left: 0; /* S'assure que la barre est alignée à gauche */
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo img {
+    max-width: 100%; /* Rendre le logo responsive */
+    height: auto;
+}
+
+.sidebar ul {
+    list-style-type: none; /* Supprime les puces de la liste */
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 10px 0;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none; /* Supprime le soulignement des liens */
+    display: block;
+    padding: 10px;
+    transition: background-color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Change le fond au survol */
+}
+
+.main-content {
+    margin-left: 260px; /* Espace pour la barre latérale */
+    padding: 20px;
+    width: calc(100% - 260px); /* Ajuste la largeur du contenu principal */
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Styles de la recherche, tableau et autres éléments restent les mêmes */
+.search-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="submit"], button {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 5px;
+}
+
+input[type="text"] {
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input[type="submit"], button {
+    background-color: #2c3e50; /* Utilisation de la même couleur que la barre latérale */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover, button:hover {
+    background-color: #38D39F;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #2c3e50;/* Couleur de fond des en-têtes de table pour correspondre à la barre latérale */
+    color: white; /* Couleur du texte */
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+form {
+    display: inline;
+}
+.logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.logo img {
+    width: 150px; /* Augmenter la largeur du logo */
+    height: 150px; /* Augmenter la hauteur du logo */
+    border-radius: 50%; /* Arrondir complètement le logo */
+    border: 3px solid #2c3e50; /* Ajouter une bordure (choisissez votre couleur) */
+    object-fit: cover; /* S'assurer que l'image couvre bien le conteneur */
+    margin-bottom: 20px; /* Espace en bas du logo */
+}

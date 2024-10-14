@@ -23,7 +23,7 @@ class EleveController {
             $nom_tuteur = htmlspecialchars(trim($_POST['nomTuteur']));
             $date_nais = htmlspecialchars(trim($_POST['dateNaissance']));
             $addresse = htmlspecialchars(trim($_POST['adresse']));
-            $classe = htmlspecialchars(trim($_POST['classe']));
+            $classe = htmlspecialchars(trim($_POST['classeId']));
          
 
 
@@ -32,7 +32,9 @@ class EleveController {
             $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $date_nais, $addresse, $classe, $nom_tuteur);
 
             if ($transaction) {
-                echo "eleve enregistré avec succès! ID: $transaction";
+
+            header("Location: /gestion-ecole/public/index.php?action=liste&role=eleve");
+            exit;
             } else {
                 echo "Erreur lors de l'enregistrement.";
             }

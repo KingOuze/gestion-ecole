@@ -37,7 +37,7 @@ class ConnexionController {
                 if ($password === $user['mot_de_passe']) {
                     // Enregistrer les informations de session
                     $_SESSION['loggedin'] = true;
-                    $_SESSION['id'] = $user['id_admin'];
+                    $_SESSION['id'] = $user['id'];
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['role'] = $user['role'];
 
@@ -45,7 +45,7 @@ class ConnexionController {
                     if ($user['role'] == 'administrateur') {
                         header('Location: /gestion-ecole/public/index.php?action=index&role=administrateur');
                         exit();
-                    } elseif ($user['role'] == 'prof' || $user['role'] == 'enseignant') {
+                    } elseif ($user['role'] == 'professeur' || $user['role'] == 'enseignant') {
                         header('Location: /gestion-ecole/public/index.php?action=index&role=enseignant');
                         exit();
                     } elseif ($user['role'] == 'comptable') {

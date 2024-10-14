@@ -17,7 +17,7 @@ error_reporting(E_ALL);
 </head>
 <body>
     <div class="container">
-        <form action="index.php?action=create=" method="POST" onsubmit="return validateForm()">
+        <form action="index.php?action=create" method="POST" onsubmit="return validateForm()">
         <h1 id="formTitle">Inscription</h1>
         <img src="/gestion-ecole/public/images/IconeInscription.png" alt="Icone " class="img-top-right">
 
@@ -84,7 +84,7 @@ error_reporting(E_ALL);
                         <select name="classeId" class="form-control" id="FormControlInput7" >
                             <option value="" disabled selected>Sélectionner une classe</option>
                             <?php foreach ($allClass as $classe) { ?>
-                                <option value="<?php echo $classe["id_classe"]; ?>">
+                                <option value="<?php echo $classe["id"]; ?>">
                                     <?php echo $classe["nom_classe"]; ?>
                                 </option>
                             <?php }; ?>
@@ -108,7 +108,7 @@ error_reporting(E_ALL);
                     <select name="matieres[]" class="form-control" id="FormControlInput4" multiple >
                         <option value="" disabled selected>Sélectionner une classe</option>
                         <?php foreach ($matieres as $matiere) { ?>
-                                    <option value="<?php echo $matiere["id_matiere"]?>"><?php echo $matiere["nom_matiere"]?></option>   
+                                    <option value="<?php echo $matiere["id"]?>"><?php echo $matiere["nom_matiere"]?></option>   
                                 <?php } ?>
                     </select>                    
                     <div class="error-message" id="errorMatiere"></div>
@@ -119,7 +119,7 @@ error_reporting(E_ALL);
                     <select name="classesProfesseur[]" class="form-control" id="FormControlInput5" multiple >
                         <option value="" disabled selected>Sélectionner les classes</option>
                         <?php foreach ($secondaires as $secondaire) { ?>
-                                    <option value="<?php echo $secondaire["id_classe"]?>"><?php echo $secondaire["nom_classe"]?></option>   
+                                    <option value="<?php echo $secondaire["id"]?>"><?php echo $secondaire["nom_classe"]?></option>   
                                 <?php } ?>
                     </select>
                     <div class="error-message" id="errorClasseProfesseur"></div>
@@ -141,7 +141,7 @@ error_reporting(E_ALL);
                     <select name="classesSurveillant[]" class="form-control" id="FormControlInput5" multiple >
                         <option value="" disabled selected>Sélectionner les classes</option>
                         <?php foreach ($secondaires as $secondaire) { ?>
-                                    <option value="<?php echo $secondaire["id_classe"]?>"><?php echo $secondaire["nom_classe"]?></option>   
+                                    <option value="<?php echo $secondaire["id"]?>"><?php echo $secondaire["nom_classe"]?></option>   
                                 <?php } ?>
                     </select>
                     <div class="error-message" id="errorClasseSurveillant"></div>
@@ -166,7 +166,7 @@ error_reporting(E_ALL);
                         <select name="classe" class="form-control" id="FormControlInput7" >
                             <option value="" disabled selected>Sélectionner une classe</option>
                             <?php foreach ($secondaires as $secondaire) { ?>
-                                <option value="<?php echo $secondaire["id_classe"]?>"><?php echo $secondaire["nom_classe"]?></option>   
+                                <option value="<?php echo $secondaire["id"]?>"><?php echo $secondaire["nom_classe"]?></option>   
                             <?php } ?>
                         </select>
                         <div class="error-message" id="errorClasseEnseignant"></div>

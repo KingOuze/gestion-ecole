@@ -31,7 +31,9 @@ class SurveillantController {
             $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role, $adresse, $classe);
 
             if ($transaction) {
-                echo "Surveillant enregistré avec succès! ID: $transaction";
+                
+                header("Location: /gestion-ecole/public/index.php?action=liste&role=surveillant");
+                exit;
             } else {
                 echo "Erreur lors de l'enregistrement.";
             }
