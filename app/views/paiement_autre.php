@@ -77,13 +77,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enregistrer'])) {
 
 // Vérifier les paiements pour chaque élève
 foreach ($eleveInfo as &$row) {
-    $mois = $_POST['mois'] ?? date('m'); // Utiliser le mois sélectionné
+    $mois = $_POST['mois'] ?? date('m');
     $stmt = $conn->prepare("SELECT COUNT(*) FROM suivit_de_paiement WHERE matricule = :matricule AND mois_payer = :mois");
     $stmt->bindParam(':matricule', $row['matricule']);
     $stmt->bindParam(':mois', $mois);
     $stmt->execute();
     
     $row['paiement_existe'] = $stmt->fetchColumn() > 0; // Vérifier si un paiement existe
+    
+    // Récupérer tous les mois payés pour cet élève
+    $stmt = $conn->prepare("SELECT mois_payer FROM suivit_de_paiement WHERE matricule = :matricule");
+    $stmt->bindParam(':matricule', $row['matricule']);
+    $stmt->execute();
+    $row['mois_payes'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 ?>
 
@@ -98,19 +104,19 @@ foreach ($eleveInfo as &$row) {
     <link rel="stylesheet" href="/public/css/paiement_autre.css">
     <style>
         .image-section {
-    display: flex; /* Utilise le flexbox pour centrer l'image */
-    justify-content: center; /* Centre horizontalement */
-    align-items: center; /* Centre verticalement */
-    margin-top: 0; /* Enlève la marge supérieure */
-    height: 110vh; /* Prend toute la hauteur de la fenêtre */
-    overflow: hidden; /* Cache tout débordement */
-}
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 0;
+            height: 110vh;
+            overflow: hidden;
+        }
 
-.responsive-image {
-    width: 100%; /* L'image prend toute la largeur de son conteneur */
-    height: 100%; /* L'image prend toute la hauteur de son conteneur */
-    object-fit: cover; /* Couvre complètement le conteneur tout en gardant les proportions */
-}
+        .responsive-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -174,7 +180,12 @@ foreach ($eleveInfo as &$row) {
                                             "05" => "Mai", "06" => "Juin", "07" => "Juillet", "08" => "Août",
                                             "09" => "Septembre", "10" => "Octobre", "11" => "Novembre", "12" => "Décembre"
                                         ];
-                                        foreach ($months as $num => $name): ?>
+                                        foreach ($months as $num => $name): 
+                                            // Vérifiez si le mois a déjà été payé
+                                            if (in_array($num, $row['mois_payes'])) {
+                                                continue; // Ignorez ce mois
+                                            }
+                                        ?>
                                             <option value="<?php echo $num; ?>"><?php echo $name; ?></option>
                                         <?php endforeach; ?>
                                     </select>
@@ -302,94 +313,93 @@ foreach ($eleveInfo as &$row) {
     
     <script>
        document.addEventListener('DOMContentLoaded', function() {
-    let currentRow;
+            let currentRow;
 
-    // Gérer l'affichage de la section d'image et du tableau
-    function toggleImageAndTable() {
-        const imageSection = document.getElementById('image-section');
-        const resultsTable = document.getElementById('results-table');
+            // Gérer l'affichage de la section d'image et du tableau
+            function toggleImageAndTable() {
+                const imageSection = document.getElementById('image-section');
+                const resultsTable = document.getElementById('results-table');
 
-        // Si le tableau existe et qu'il a des lignes, on masque l'image
-        if (resultsTable && resultsTable.style.display !== 'none') {
-            imageSection.style.display = 'none'; // Masquer l'image si le tableau est visible
-        } else {
-            imageSection.style.display = 'block'; // Afficher l'image si le tableau est masqué
-        }
-    }
-
-    // Appel initial pour définir l'affichage
-    toggleImageAndTable();
-
-    // Événement pour le champ matricule
-    const matriculeInput = document.querySelector('input[name="matricule"]');
-    matriculeInput.addEventListener('input', function() {
-        if (!this.value.trim()) { // Si le champ est vide
-            toggleImageAndTable(); // Met à jour l'affichage
-        }
-    });
-
-    // Événement pour le bouton de recherche
-    document.querySelector('form').addEventListener('submit', function() {
-        toggleImageAndTable(); // Met à jour l'affichage lors de la soumission
-    });
-
-    document.querySelectorAll('.payment-status').forEach(select => {
-        select.addEventListener('change', function() {
-            const selectedValue = this.value;
-            currentRow = this.closest('tr');
-
-            if (selectedValue === 'payer') {
-                $('#paymentConfirmationModal').modal('show');
-            } else if (selectedValue === 'deja-paye') {
-                const receiptButton = currentRow.querySelector('.btn-receipt');
-                receiptButton.style.display = 'inline-block';
-            } else {
-                const receiptButton = currentRow.querySelector('.btn-receipt');
-                receiptButton.style.display = 'none';
+                if (resultsTable && resultsTable.style.display !== 'none') {
+                    imageSection.style.display = 'none'; // Masquer l'image si le tableau est visible
+                } else {
+                    imageSection.style.display = 'block'; // Afficher l'image si le tableau est masqué
+                }
             }
+
+            // Appel initial pour définir l'affichage
+            toggleImageAndTable();
+
+            // Événement pour le champ matricule
+            const matriculeInput = document.querySelector('input[name="matricule"]');
+            matriculeInput.addEventListener('input', function() {
+                if (!this.value.trim()) { // Si le champ est vide
+                    toggleImageAndTable(); // Met à jour l'affichage
+                }
+            });
+
+            // Événement pour le bouton de recherche
+            document.querySelector('form').addEventListener('submit', function() {
+                toggleImageAndTable(); // Met à jour l'affichage lors de la soumission
+            });
+
+            document.querySelectorAll('.payment-status').forEach(select => {
+                select.addEventListener('change', function() {
+                    const selectedValue = this.value;
+                    currentRow = this.closest('tr');
+
+                    if (selectedValue === 'payer') {
+                        $('#paymentConfirmationModal').modal('show');
+                    } else if (selectedValue === 'deja-paye') {
+                        const receiptButton = currentRow.querySelector('.btn-receipt');
+                        receiptButton.style.display = 'inline-block';
+                    } else {
+                        const receiptButton = currentRow.querySelector('.btn-receipt');
+                        receiptButton.style.display = 'none';
+                    }
+                });
+            });
+
+            document.getElementById('confirmPaymentButton').addEventListener('click', function() {
+                const matricule = currentRow.querySelector('.payment-status').dataset.matricule;
+                const nom = currentRow.querySelector('.payment-status').dataset.nom;
+                const prenom = currentRow.querySelector('.payment-status').dataset.prenom;
+                const montant = currentRow.querySelector('.payment-status').dataset.montant;
+                const mois = currentRow.querySelector('.month-select').value;
+
+                const form = new FormData();
+                form.append('matricule', matricule);
+                form.append('nom', nom);
+                form.append('prenom', prenom);
+                form.append('montant', montant);
+                form.append('mois', mois);
+                form.append('enregistrer', true);
+
+                fetch(window.location.href, {
+                    method: 'POST',
+                    body: form
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert(data.message);
+                        $('#paymentConfirmationModal').modal('hide');
+
+                        const paymentStatusSelect = currentRow.querySelector('.payment-status');
+                        paymentStatusSelect.value = 'deja-paye'; // Mettre à jour le sélecteur
+                        const receiptButton = currentRow.querySelector('.btn-receipt');
+                        receiptButton.style.display = 'inline-block'; // Afficher le bouton "Générer un reçu"
+                    } else {
+                        $('#paymentAlreadyExistsModal').modal('show');
+                        document.getElementById('existingPaymentMessage').textContent = data.message;
+                    }
+                });
+            });
+
+            document.getElementById('printReceiptButton').addEventListener('click', function() {
+                window.print();
+            });
         });
-    });
-
-    document.getElementById('confirmPaymentButton').addEventListener('click', function() {
-        const matricule = currentRow.querySelector('.payment-status').dataset.matricule;
-        const nom = currentRow.querySelector('.payment-status').dataset.nom;
-        const prenom = currentRow.querySelector('.payment-status').dataset.prenom;
-        const montant = currentRow.querySelector('.payment-status').dataset.montant;
-        const mois = currentRow.querySelector('.month-select').value;
-
-        const form = new FormData();
-        form.append('matricule', matricule);
-        form.append('nom', nom);
-        form.append('prenom', prenom);
-        form.append('montant', montant);
-        form.append('mois', mois);
-        form.append('enregistrer', true);
-
-        fetch(window.location.href, {
-            method: 'POST',
-            body: form
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert(data.message);
-                $('#paymentConfirmationModal').modal('hide');
-
-                const paymentStatusSelect = currentRow.querySelector('.payment-status');
-                paymentStatusSelect.value = 'deja-paye'; // Mettre à jour le sélecteur
-                const receiptButton = currentRow.querySelector('.btn-receipt');
-                receiptButton.style.display = 'inline-block'; // Afficher le bouton "Générer un reçu"
-            } else {
-                $('#paymentAlreadyExistsModal').modal('show');
-                document.getElementById('existingPaymentMessage').textContent = data.message;
-            }
-        });
-    });
-
-    document.getElementById('printReceiptButton').addEventListener('click', function() {
-        window.print();
-    });
-});
     </script>
 </body>
 </html>

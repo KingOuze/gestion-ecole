@@ -45,7 +45,7 @@
             <div class="option">
                 <h2>Paiement employés</h2>
                 <p>Liste des paiements effectués aux employés (dates, montants, employés concernés).</p>
-                <button>Voir</button>
+                <button><a href="/app/views/paiement/Gestion_paiement.php">Voir</a></button>
             </div>
             <div class="option">
                 <h2>Paiement Professeur</h2>

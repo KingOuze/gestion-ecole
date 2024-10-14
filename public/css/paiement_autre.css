@@ -67,6 +67,22 @@ table tr:hover {
     background-color: #d1f7d1;
 }
 
+/* Styles pour les états de paiement */
+.payment-status {
+    border-radius: 10px;
+    padding: 5px;
+    color: white; /* Couleur du texte par défaut */
+}
+
+.payment-status[data-status="non-paye"] {
+    background-color: #dc3545; /* Rouge pour "Non payé" */
+}
+
+.payment-status[data-status="payer"], 
+.payment-status[data-status="deja-paye"] {
+    background-color: #28a745; /* Vert pour "Payer" et "Déjà payé" */
+}
+
 /* Boutons */
 button {
     padding: 8px 12px;
@@ -99,7 +115,7 @@ button.btn-danger:hover {
 /* Conteneur de recherche */
 .search-container {
     display: relative ;
-    align-items :first baseline; /* Aligne les éléments sur la même ligne */
+    align-items: first baseline; /* Aligne les éléments sur la même ligne */
     margin-bottom: 10px;
     position: relative; /* Permet de positionner le bouton correctement */
 }
@@ -138,6 +154,7 @@ button.btn-danger:hover {
 .search-container button:hover {
     background-color: #16a085; /* Change la couleur au survol */
 }
+
 /* Logo */
 .logo {
     margin: 20px 20px 20px 30px;
