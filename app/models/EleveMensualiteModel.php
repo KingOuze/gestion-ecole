@@ -16,33 +16,83 @@ class EleveModel {
         }
     }
 
-    public function getEleveInfo($matricule) {
+    public function getEleveByMatricule($matricule) {
         $stmt = $this->conn->prepare("
-            SELECT e.matricule, e.nom, e.prenom, sp.mois, sp.etat, c.nom_classe AS classe, pe.mensualite 
+            SELECT e.id, e.matricule, e.nom, e.prenom, c.nom_classe AS classe, pe.mensualite 
             FROM eleve e
-            LEFT JOIN Suivi_paiements sp ON e.id = sp.id_eleve
             LEFT JOIN paiement_eleve pe ON e.id = pe.id_eleve
             LEFT JOIN classe c ON pe.id_classe = c.id
             WHERE e.matricule = :matricule
         ");
         $stmt->bindParam(':matricule', $matricule);
         $stmt->execute();
+        
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function updatePaymentStatus($matricule, $month, $new_state) {
+    public function getPaiementsByEleveId($id_eleve) {
         $stmt = $this->conn->prepare("
-            INSERT INTO Suivi_paiements (id_eleve, mois, etat)
-            VALUES ((SELECT id FROM eleve WHERE matricule = :matricule), :mois, :etat)
-            ON DUPLICATE KEY UPDATE etat = :etat
+            SELECT mois, etat 
+            FROM Suivi_paiements 
+            WHERE id_eleve = :id_eleve
+            GROUP BY mois
         ");
-        $stmt->bindParam(':matricule', $matricule);
-        $stmt->bindParam(':mois', $month);
-        $stmt->bindParam(':etat', $new_state);
+        $stmt->bindParam(':id_eleve', $id_eleve);
         $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function __destruct() {
-        $this->conn = null; // Ferme la connexion
+    public function updatePayment($matricule, $month, $state) {
+        try {
+            // Étape 1 : Récupérer l'ID de l'élève
+            $stmt = $this->conn->prepare("SELECT id FROM eleve WHERE matricule = :matricule");
+            $stmt->bindParam(':matricule', $matricule);
+            $stmt->execute();
+    
+            $eleve = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if (!$eleve) {
+                echo "L'élève avec le matricule $matricule n'existe pas.";
+                return;
+            }
+    
+            $id_eleve = $eleve['id'];
+
+            // Étape 2 : Vérifier si le paiement pour le mois existe déjà
+            $stmt = $this->conn->prepare("SELECT * FROM Suivi_paiements WHERE id_eleve = :id_eleve AND mois = :mois");
+            $stmt->bindParam(':id_eleve', $id_eleve);
+            $stmt->bindParam(':mois', $month);
+            $stmt->execute();
+    
+            $existing_payment = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            // Étape 3 : Insérer ou mettre à jour le paiement
+            if ($existing_payment) {
+                // Si le paiement existe déjà, mettre à jour son état
+                $stmt = $this->conn->prepare("UPDATE Suivi_paiements SET etat = :etat WHERE id_eleve = :id_eleve AND mois = :mois");
+            } else {
+                // Sinon, insérer un nouveau paiement
+                $stmt = $this->conn->prepare("INSERT INTO Suivi_paiements (id_eleve, mois, etat) VALUES (:id_eleve, :mois, :etat)");
+            }
+    
+            // Liez les paramètres
+            $stmt->bindParam(':id_eleve', $id_eleve);
+            $stmt->bindParam(':mois', $month);
+            $stmt->bindParam(':etat', $state);
+    
+            // Exécutez la requête
+            if ($stmt->execute()) {
+                echo "Paiement ajouté avec succès.";
+            } else {
+                echo "Erreur lors de l'insertion : " . implode(" ", $stmt->errorInfo());
+            }
+    
+        } catch (PDOException $e) {
+            echo "Erreur lors de la mise à jour : " . $e->getMessage();
+        }
+    }
+
+    public function closeConnection() {
+        $this->conn = null;
     }
 }
