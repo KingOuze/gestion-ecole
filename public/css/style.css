@@ -1,102 +1,114 @@
+/* Styles généraux */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-    display: flex; /* Utilisation de flexbox pour aligner la barre latérale et le contenu principal */
-    height: 100vh; /* Hauteur de la fenêtre */
+    display: flex;
+    height: 100vh;
 }
 
+/* Barre latérale */
 .sidebar {
-    width: 250px; /* Largeur de la barre latérale */
-    background-color: #2c3e50; /* Couleur de fond de la barre latérale */
+    width: 250px;
+    background-color: #2c3e50; /* Bleu foncé élégant */
     color: white;
     padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    height: 100%; /* Hauteur de la barre latérale à 100% */
-    position: fixed; /* Fixe la barre latérale */
-    top: 0; /* S'assure que la barre est alignée en haut */
-    left: 0; /* S'assure que la barre est alignée à gauche */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.logo {
-    text-align: center;
+.sidebar .logo img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
     margin-bottom: 20px;
 }
 
-.logo img {
-    max-width: 100%; /* Rendre le logo responsive */
-    height: auto;
-}
-
 .sidebar ul {
-    list-style-type: none; /* Supprime les puces de la liste */
+    list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .sidebar ul li {
-    margin: 10px 0;
+    margin: 20px 0;
 }
 
 .sidebar ul li a {
     color: white;
-    text-decoration: none; /* Supprime le soulignement des liens */
+    text-decoration: none;
+    font-size: 18px;
     display: block;
     padding: 10px;
-    transition: background-color 0.3s;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
 }
 
 .sidebar ul li a:hover {
-    background-color: rgba(255, 255, 255, 0.2); /* Change le fond au survol */
+    background-color: rgba(255, 255, 255, 0.2); /* Fond légèrement transparent au survol */
 }
 
+.sidebar .bottom-image img {
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+/* Contenu principal */
 .main-content {
-    margin-left: 260px; /* Espace pour la barre latérale */
+    margin-left: 250px; /* Espace pour la barre latérale */
     padding: 20px;
-    width: calc(100% - 260px); /* Ajuste la largeur du contenu principal */
+    width: calc(100% - 260px);
 }
 
 h1 {
     text-align: center;
-    margin: 20px 0;
-}
-
-/* Styles de la recherche, tableau et autres éléments restent les mêmes */
-.search-container {
-    text-align: center;
     margin-bottom: 20px;
 }
 
-input[type="text"], input[type="submit"], button {
-    padding: 10px;
-    font-size: 16px;
-    margin-top: 5px;
+/* Formulaire de recherche */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
 }
 
 input[type="text"] {
-    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    width: 300px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-right: 10px;
 }
 
-input[type="submit"], button {
-    background-color: #2c3e50; /* Utilisation de la même couleur que la barre latérale */
+input[type="submit"] {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #38D39F; /* Vert agréable */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-input[type="submit"]:hover, button:hover {
-    background-color: #38D39F;
+input[type="submit"]:hover {
+    background-color: #2ecc71; /* Vert plus foncé au survol */
 }
 
+/* Tableau */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
     background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
 }
 
 th, td {
@@ -106,100 +118,130 @@ th, td {
 }
 
 th {
-    background-color: #2c3e50;/* Couleur de fond des en-têtes de table pour correspondre à la barre latérale */
-    color: white; /* Couleur du texte */
+    background-color: #2c3e50; /* Correspond à la barre latérale */
+    color: white;
 }
 
 tr:hover {
     background-color: #f5f5f5;
 }
 
-form {
-    display: inline;
-}
-.logo {
+td {
     text-align: center;
-    margin-bottom: 20px;
 }
-.logo img {
-    width: 150px; /* Augmenter la largeur du logo */
-    height: 150px; /* Augmenter la hauteur du logo */
-    border-radius: 50%; /* Arrondir complètement le logo */
-    border: 3px solid #2c3e50; /* Ajouter une bordure (choisissez votre couleur) */
-    object-fit: cover; /* S'assurer que l'image couvre bien le conteneur */
-    margin-bottom: 20px; /* Espace en bas du logo */
+
+button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #38D39F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 5px;
 }
-    background-color: #f8f9fa;
+
+button:hover {
+    background-color: #2ecc71;
 }
-.sidebar {
-    background-color: #29E0BF; /* Couleur vert success */
-    color: white; /* Couleur du texte */
-    padding: 20px; /* Padding pour le menu */
-    height: 100vh; /* Hauteur de la sidebar */
-    width: 240px; /* Largeur réduite du menu */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centrer le contenu horizontalement */
+
+/* Modal pour le reçu */
+.modal-header {
+    background-color: #2c3e50;
+    color: white;
 }
-.sidebar img {
-    max-width: 80%; /* Limiter la largeur de l'image */
-    margin-bottom: 20px; /* Espace sous l'image */
-    border-radius: 50%; /* Rendre l'image ronde */
+
+.modal-title {
+    font-size: 24px;
 }
-.sidebar a {
-    color: white; /* Couleur du texte des liens */
-    text-decoration: none; /* Supprimer le soulignement */
-    margin: 10px 0; /* Espace entre les liens */
-}
-.header {
-    background-color: rgb(216, 216, 216);
-    padding: 15px;
-    border-radius: 15px 15px 0 0;
-    display: flex;
-    justify-content: space-between; /* Espace entre le titre et le bouton */
-    align-items: center; /* Centrer verticalement */
-}
-.search-bar {
-    margin: 20px 0; /* Marge en haut et en bas */
-}
-.card {
-    margin: 20px;
+
+.modal-body {
     padding: 20px;
-    border-radius: 15px;
-    background-color: #ffffff;
+}
+
+.bulletin-container {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-.container-fluid {
-    margin: 20px; /* Espace autour du conteneur */
+
+.bulletin-container .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
-.text-center {
-    text-align: center;
+
+.bulletin-container .header img {
+    width: 100px;
+    height: auto;
 }
-.card-icon {
-    font-size: 40px; /* Taille de l'icône */
-    color: #29E0BF; /* Couleur de l'icône */
+
+.bulletin-container .title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.bulletin-container .date-reçu {
+    text-align: right;
+}
+
+.bulletin-container .info-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.bulletin-container .info {
+    width: 48%;
+}
+
+.bulletin-container .info label {
+    font-weight: bold;
+}
+
+.bulletin-container .footer {
+    text-align: right;
+    margin-top: 30px;
+}
+
+.bulletin-container .signature {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.bulletin-container .signature-logo {
+    width: 80px;
+    height: auto;
+}
+
+/* Styles supplémentaires */
+.btn-receipt {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #38D39F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-receipt:hover {
+    background-color: #2ecc71;
 }
 
 .btn-logout {
-    background-color: #dc3545; /* Couleur rouge pour le bouton de déconnexion */
-    color: white; 
-}
-.bottom-image {
-    text-align: center; /* Centrer l'image */
-    margin-top: auto; /* Pousse l'image vers le bas */
-}
-.bottom-image img {
-    max-width: 100%; /* Adapter l'image à la largeur du conteneur */
-    height: auto; /* Conserver le ratio */
-    border-radius: 10px; /* Coins arrondis pour l'image */
+    background-color: #dc3545;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
 }
 
-.student-table {
-    margin-top: 20px; /* Marge au-dessus du tableau */
-}
-.student-table th, .student-table td {
-    text-align: center; /* Centrer le texte dans le tableau */
-}
-.status-non-payé {
-    color: #dc3545; /* Couleur rouge pour "non payé" */
+.btn-logout:hover {
+    background-color: #c82333;
 }

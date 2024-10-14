@@ -1,0 +1,153 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    background-image: url('/gestion-ecole/public/images/profs.png');
+    background-size: 900px;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-color: #f0f0f0;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #38D39F;
+    color: white;
+    padding: 20px;
+    position: fixed;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.logo img {
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 20px;
+    border-radius: 100%;
+}
+
+.content {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    color: black;
+    background-color: #f0f0f0;
+}
+
+.header-actions {
+    margin-left: 870px ;
+    
+}
+
+.header-actions a {
+    color: black;
+    text-decoration: none;
+}
+
+.year {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    border-bottom: 1px solid #38D39F;
+    padding-bottom: 10px;
+    width: 100%; /* S'assure que la ligne de l'année prend toute la largeur */
+}
+
+.year a {
+    color: #070000;
+    text-decoration: none;
+}
+
+.year p {
+    margin-left: auto;
+    color: #070000;
+}
+
+.box {
+    background-color: #38D39F;
+    border-radius: 40px;
+    padding: 20px;
+    text-align: center;
+    flex: 1 1 30%;
+    min-width: 250px;
+    max-width: 30%;
+    height: 60px;
+    margin: 10px;
+   
+}
+
+.box h3 {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+/* Media queries pour la réactivité */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 150px;
+    }
+
+    .content {
+        margin-left: 150px;
+        width: calc(100% - 150px);
+    }
+
+    .box {
+        width: 45%;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 100px;
+    }
+
+    .content {
+        margin-left: 100px;
+        width: calc(100% - 100px);
+    }
+
+    .box {
+        width: 90%;
+    }
+}
+
+.divider {
+    border: none;
+    height: 1px;
+    background-color: #38D39F;
+    margin: 20px 0;
+    width: 0%; /* Corrigé pour prendre toute la largeur */
+}

@@ -8,6 +8,7 @@ class Paie {
 
     // Obtenir les paiements en fonction des paramètres de recherche
     public function obtenirPaiements($search, $mois) {
+        
         $sql = "SELECT a.prenom, a.nom, a.matricule, s.taux_horaire, SUM(s.heures_travaillees) AS heures_travaillees,
                 SUM(s.total_salaire) AS total_salaire, s.mois, s.paiement_effectue
                 FROM administrateur a 

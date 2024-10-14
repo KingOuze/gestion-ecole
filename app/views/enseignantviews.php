@@ -16,7 +16,7 @@
         <h2>Ecole de la reussite</h2>
         <nav class="menu">
             <ul>
-                <li><a href="dashboard.php"><i class="fas fa-home"></i> Tableau de bord</a></li>
+                <li><a href="/gestion-ecole/app/views/dashboard.php"><i class="fas fa-home"></i> Tableau de bord</a></li>
                 <li><a href="#"><i class="fas fa-user-graduate"></i> Listes des classes</a></li>
                 <li><a href="#"><i class="fas fa-user-clock"></i> Gestion des absences</a></li>
                 <li><a href="#"><i class="fas fa-clipboard-check"></i> Saisie des évaluations</a></li>
