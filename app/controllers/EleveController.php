@@ -23,7 +23,7 @@ class EleveController {
             $nom_tuteur = htmlspecialchars(trim($_POST['nomTuteur']));
             $date_nais = htmlspecialchars(trim($_POST['dateNaissance']));
             $addresse = htmlspecialchars(trim($_POST['adresse']));
-            $classe = htmlspecialchars(trim($_POST['classe']));
+            $classe = htmlspecialchars(trim($_POST['classeId']));
          
 
 
@@ -111,11 +111,25 @@ class EleveController {
         return $data;
     }
 
-    public function getByMat($matricule) {
+   /* public function getByMat($matricule) {
         $data = $this->model->seachByMat($matricule);
         if ($data != NULL) {
             return $data;
         }
+    }*/
+
+    public function getJoinMat($matricule) {
+        $student = $this->model->getJoinMat($matricule);
+        if ($student) {
+            return $student;
+        } else {
+            return "Aucune éleve trouvé avec ce matricule";
+        }
+    }
+
+    public function processPayment( $id) {
+         
+        return $this->model->processPayment($id);
     }
 }
 

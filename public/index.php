@@ -253,7 +253,27 @@ try {
                         break;
                 }
                 break;
+        case "inscription":
 
+            if (isset($_POST["matricule"])) {
+                $matricule = htmlspecialchars($_POST['matricule']);
+        
+                // Check if the id is set to process payment
+                if (isset($_POST["id"])) {
+                    $id = htmlspecialchars($_POST['id']);
+                    $result = $eleve->processPayment( $id);
+                    echo json_encode(['success' => $result]);
+                } else {
+                    // If id is not set, retrieve student data
+                    $student = $eleve->getJoinMat($matricule);
+                    include '../app/views/paiement/inscriptionEleve.php';
+                }
+            } else {
+                // If matricule is not set, initialize student to NULL
+                $student = NULL;
+                include '../app/views/paiement/inscriptionEleve.php';
+            }
+            break;
         default:
             include '../app/views/connexion/connexion.php';
             break;

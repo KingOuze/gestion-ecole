@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 
 class Eleve {
@@ -82,9 +85,75 @@ class Eleve {
         return $stmt->execute(); // Retourne le résultat de l'exécution
     }
 
-    public function seachByMat($matricule) {
+   /* public function seachByMat($matricule) {
         $stmt = $this->db->prepare('SELECT * FROM eleve WHERE matricule = :matricule');
         $stmt->bindParam(':matricule', $matricule);
         return $stmt->execute();
+    }*/
+
+    public function getJoinMat($matricule) {
+        try {
+            //code...
+            $stmt = $this->db->prepare("SELECT eleve.*, 
+                classe.nom_classe AS nom_classe, 
+                classe.niveau AS niveau_classe,
+                paiement_eleve.annee AS annee,
+                paiement.id AS id,
+                paiement.status AS status,
+                paiement_eleve.frais_inscription AS montant_tarif FROM eleve 
+                INNER JOIN classe ON eleve.id_classe = classe.id 
+                INNER JOIN paiement_eleve ON classe.id = paiement_eleve.id_classe 
+                INNER JOIN paiement ON paiement.id_eleve = eleve.id
+                WHERE eleve.matricule = :matricule");
+
+            $stmt->execute(['matricule' => $matricule]);
+            $eleve = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $eleve;
+
+        } catch (\Throwable $th) {
+            return 'Erreur'.$th;
+        }
+        
     }
+
+    function processPayment($id) {
+       
+        $stmt = $this->db->prepare("UPDATE paiement SET status = 1 WHERE id = :id");
+        $stmt->bindParam(':id' ,$id);
+        
+        if ($stmt->execute()) {
+            $rowsAffected = $stmt->rowCount(); // Nombre de lignes affectées
+            if ($rowsAffected > 0) {
+                return true; // Mise à jour réussie
+            } else {
+                echo "Aucune ligne mise à jour. Vérifiez le matricule.";
+                return false; // Aucune ligne mise à jour
+            }
+        } else {
+            return false; // Échec de la mise à jour
+        }
+        
+    
+        /* $sql = "UPDATE paiement
+                SET id = :id
+                WHERE id IN (
+                    SELECT e.id
+                    FROM eleve e
+                    WHERE e.matricule = :matricule
+                )";
+
+        $stmt = $this->db->prepare($sql);
+        
+        // Liez les paramètres
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':matricule', $matricule);
+
+        if ($stmt->execute()) {
+            return true; // Paiement enregistré avec succès
+        } else {
+            return false; // Échec de l'enregistrement
+        }*/
+    } 
+
+
 }

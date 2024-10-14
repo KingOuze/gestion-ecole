@@ -2,17 +2,17 @@ body {
     background-color: #f8f9fa;
 }
 .sidebar {
-    background-color: #29E0BF; /* Couleur vert success */
+    background-color: #38D39F; /* Couleur vert success */
     color: white; /* Couleur du texte */
     padding: 20px; /* Padding pour le menu */
     height: 100vh; /* Hauteur de la sidebar */
-    width: 240px; /* Largeur réduite du menu */
+    width: 100px; /* Largeur réduite du menu */
     display: flex;
     flex-direction: column;
     align-items: center; /* Centrer le contenu horizontalement */
 }
 .sidebar img {
-    max-width: 80%; /* Limiter la largeur de l'image */
+    max-width: 40%; /* Limiter la largeur de l'image */
     margin-bottom: 20px; /* Espace sous l'image */
     border-radius: 50%; /* Rendre l'image ronde */
 }
@@ -47,7 +47,7 @@ body {
 }
 .card-icon {
     font-size: 40px; /* Taille de l'icône */
-    color: #29E0BF; /* Couleur de l'icône */
+    color: #38D39F; /* Couleur de l'icône */
 }
 
 .btn-logout {
@@ -70,6 +70,15 @@ body {
 .student-table th, .student-table td {
     text-align: center; /* Centrer le texte dans le tableau */
 }
-.status-non-payé {
+.id_non_payé {
     color: #dc3545; /* Couleur rouge pour "non payé" */
+}
+
+
+.btn-generate {
+    position: relative;
+    bottom: 20px;
+    right: 20px;
+    float: right;
+    display: none; /* Cacher par défaut */
 }

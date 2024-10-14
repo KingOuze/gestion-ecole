@@ -84,7 +84,7 @@ error_reporting(E_ALL);
                         <select name="classeId" class="form-control" id="FormControlInput7" >
                             <option value="" disabled selected>Sélectionner une classe</option>
                             <?php foreach ($allClass as $classe) { ?>
-                                <option value="<?php echo $classe["id_classe"]; ?>">
+                                <option value="<?php echo $classe["id"]; ?>">
                                     <?php echo $classe["nom_classe"]; ?>
                                 </option>
                             <?php }; ?>
