@@ -31,7 +31,7 @@ class EnseignantController {
             $transaction = $this->model->create($nom, $prenom, $email, $telephone, $matricule, $mot_de_passe, $role, $adresse, $classe);
 
             if ($transaction) {
-                header("Location: /gestion-ecole/public/index.php?action=liste&role=enseignant");
+                header("Location: /public/index.php?action=liste&role=enseignant");
                 exit; 
             } else {
                 echo "Erreur lors de l'enregistrement.";
@@ -49,7 +49,7 @@ class EnseignantController {
             $classe = htmlspecialchars(trim($_POST['classe']));
 
             if ($this->model->update($id_admin, $nom, $prenom, $email, $telephone,  $adresse,  $classe)) {
-                header("Location: /gestion-ecole/public/index.php?action=liste&role=enseignant");
+                header("Location:  /public/index.php?action=liste&role=enseignant");
                 exit; 
             } else {
                 echo "Erreur lors de la mise à jour.";
@@ -71,12 +71,12 @@ class EnseignantController {
     public function archive($id) {
         if ($this->model->archive($id)) { // Appel de la méthode avec l'ID
             // Redirection correcte avec "Location:"
-            header("Location: /gestion-ecole/public/index.php?action=liste&role=enseignant");
+            header("Location: /public/index.php?action=liste&role=enseignant");
             exit; // Assurez-vous d'appeler exit après la redirection
         } else {
             // Gérer le cas où l'archivage a échoué
             // Par exemple, redirection vers une page d'erreur ou affichage d'un message
-            header("Location: /gestion-ecole/public/index.php?action=erreur");
+            header("Location: /public/index.php?action=erreur");
             exit;
         }
     }

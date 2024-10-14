@@ -11,15 +11,15 @@ error_reporting(E_ALL);
     <meta charset="UTF-8">
     <title>Modification</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="/gestion-ecole/public/css/inscription.css">
+    <link rel="stylesheet" href="/public/css/inscription.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 </head>
 <body>
     <div class="container">
-        <form action="/gestion-ecole/public/index.php?action=update&role=<?= $role ?>&id=<?= $users["id"]?>" method="POST" onsubmit="return validateForm()">
+        <form action="/public/index.php?action=update&role=<?= $role ?>&id=<?= $users["id"]?>" method="POST" onsubmit="return validateForm()">
         <h1 id="formTitle">Modification</h1>
-        <img src="/gestion-ecole/public/images/IconeInscription.png" alt="Icone " class="img-top-right">
+        <img src="/public/images/IconeInscription.png" alt="Icone " class="img-top-right">
 
             <div class="form-row d-flex flex-wrap">
                 <div class="col-sm-4 form-group">
@@ -163,13 +163,13 @@ error_reporting(E_ALL);
            
             <div class="text-center">
                 <button type="submit" class="btn btn-primary" style="width: 200px;">Enregistrer</button>
-                <button class="btn btn-primary" style="width: 200px;"><a class="btn-primary" href="/gestion-ecole/public/index.php?action=liste&role=<?= $role?>">Retour</a></button>
+                <button class="btn btn-primary" style="width: 200px;"><a class="btn-primary" href="/public/index.php?action=liste&role=<?= $role?>">Retour</a></button>
             </div>
         </form>
     </div>
 
 
-    <script src="/gestion-ecole/public/js/inscription.js"></script>
+    <script src="/public/js/inscription.js"></script>
 
 </body>
 </html>

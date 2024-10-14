@@ -47,7 +47,7 @@
                 </tr>
             </thead>
             <tbody>
-            <?php include ('C:/xmp/htdocs/gestion-ecole/app/views/ModifierEleve/get_eleve.php'); ?> 
+            <?php include ('../app/views/ModifierEleve/get_eleve.php'); ?> 
             </tbody>
         </table>
     </div>

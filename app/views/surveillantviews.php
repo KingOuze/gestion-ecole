@@ -6,7 +6,7 @@
     <title>Interface Surveillant</title>
     <!-- Lien vers Font Awesome pour les icônes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="/gestion-ecole/public/css/surveillant.css">
+    <link rel="stylesheet" href="/public/css/surveillant.css">
 </head>
 <body>
     <aside class="sidebar">
@@ -14,13 +14,13 @@
         <h1>École de la réussite</h1>
         <nav>
             <ul>
-                <li><a href="/gestion-ecole/public/index.php?action=acceuil">Tableau de Bord</a></li>
-                <li><a href="/gestion-ecole/public/index.php?action=liste&role=administrateur">Gestion Administrateurs</a></li>
-                <li><a href="/gestion-ecole/public/index.php?action=liste&role=eleve">Gestion des Élèves</a></li>
-                <li><a href="/gestion-ecole/public/index.php?action=liste&role=surveillant">Gestion Surveillant</a></li>
-                <li><a href="/gestion-ecole/public/index.php?action=liste&role=professeur">Gestion Professeur</a></li>
-                <li><a href="/gestion-ecole/public/index.php?action=liste&role=enseignant">Gestion Enseignants</a></li>
-                <li><a href="/gestion-ecole/public/index.php?action=liste&role=comptable">Gestion Comptables</a></li>
+                <li><a href="/public/index.php?action=acceuil">Tableau de Bord</a></li>
+                <li><a href="/public/index.php?action=liste&role=administrateur">Gestion Administrateurs</a></li>
+                <li><a href="/public/index.php?action=liste&role=eleve">Gestion des Élèves</a></li>
+                <li><a href="/public/index.php?action=liste&role=surveillant">Gestion Surveillant</a></li>
+                <li><a href="/public/index.php?action=liste&role=professeur">Gestion Professeur</a></li>
+                <li><a href="/public/index.php?action=liste&role=enseignant">Gestion Enseignants</a></li>
+                <li><a href="/public/index.php?action=liste&role=comptable">Gestion Comptables</a></li>
             </ul>
         </nav>
     </aside>
@@ -33,7 +33,7 @@
                 <button><i class="fas fa-search search-icon"></i></button>
             </div>
             <button class="add-button" id="openModalBtn">
-                <i class="fas fa-plus"></i> <a href="/gestion-ecole/public/index.php?">Ajouter un Surveillant</a>
+                <i class="fas fa-plus"></i> <a href="/public/index.php?">Ajouter un Surveillant</a>
             </button>
         </header>
         

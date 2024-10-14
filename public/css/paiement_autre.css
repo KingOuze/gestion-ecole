@@ -1,0 +1,273 @@
+/* Styles généraux pour tout écran */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f5f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* Conteneur du tableau de bord */
+.dashboard-container {
+    display: flex;
+    flex-direction: row; /* Disposition horizontale sur les grands écrans */
+}
+
+/* Barre latérale */
+.sidebar {
+    background-color: #2c3e50; /* Couleur de fond */
+    width: 250px;
+    height: 100vh;
+    color: #fff;
+    position: fixed;
+    padding-top: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Contenu principal */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+}
+
+/* En-tête */
+.header {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Ajout d'un espacement supérieur */
+}
+
+table th, table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #1abc9c;
+    color: #fff;
+}
+
+table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table tr:hover {
+    background-color: #d1f7d1;
+}
+
+/* Boutons */
+button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button.btn-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+button.btn-success:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+button.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+button.btn-danger:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
+/* Conteneur de recherche */
+.search-container {
+    display: relative ;
+    align-items :first baseline; /* Aligne les éléments sur la même ligne */
+    margin-bottom: 10px;
+    position: relative; /* Permet de positionner le bouton correctement */
+}
+
+.search-container input {
+    border: 4px solid #ddd;
+    padding: -10px;
+    border-radius: 10px; /* Coins arrondis pour l'input */
+    width: 100%;
+    max-width: 250px; /* Largeur maximale de l'input */
+    box-sizing: border-box; /* Inclut le padding et la bordure dans la largeur totale */
+    transition: border-color 0.3s;
+}
+
+.search-container input:focus {
+    border-color: #1abc9c; /* Changer la couleur de la bordure au focus */
+    outline: none; /* Enlève le contour par défaut */
+}
+
+.search-container button {
+    position: relative;
+    left: 225px;
+    bottom: 42px;
+    top: -39px;
+    border: none; /* Enlève la bordure par défaut */
+    padding: 8px 12px ;
+    background-color: #1abc9c;
+    color: #fff;
+    border-radius: 4px; /* Coins arrondis pour le bouton */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: -1px; /* Évite le double contour entre l'input et le bouton */
+    height: 100%; /* Fait en sorte que le bouton ait la même hauteur que l'input */
+}
+
+.search-container button:hover {
+    background-color: #16a085; /* Change la couleur au survol */
+}
+/* Logo */
+.logo {
+    margin: 20px 20px 20px 30px;
+    max-width: 120px;
+    height: auto;
+    border-radius: 20px;
+}
+
+/* Styles pour la section bulletin */
+.bulletin-container {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.info-section {
+    margin-top: 20px;
+}
+
+.info {
+    margin-bottom: 10px;
+}
+
+.info label {
+    font-weight: bold;
+}
+
+/* Pied de page */
+.footer {
+    text-align: center;
+    font-weight: bold;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    margin-top: 20px;
+}
+
+/* Responsivité pour les tablettes */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column; /* Disposition verticale */
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+/* Responsivité pour les petits écrans (mobiles) */
+@media (max-width: 480px) {
+    .header {
+        padding: 10px 15px;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    table th, table td {
+        padding: 8px;
+    }
+
+    .search-container input {
+        width: 100%;
+    }
+
+    button {
+        padding: 6px 10px;
+    }
+
+    .bulletin-container {
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+
+    .info label {
+        font-size: 14px;
+    }
+
+    .footer {
+        font-size: 14px;
+    }
+}
+
+/* Styles pour la barre latérale - évitez la redondance */
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px 20px;
+    transition: background-color 0.3s, padding-left 0.3s; /* Transition pour l'effet de survol */
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #fff; /* Couleur du texte */
+    display: flex; /* Utiliser flexbox pour aligner les icônes et le texte */
+    align-items: center; /* Centrer verticalement */
+}
+
+/* Effet de survol pour les éléments */
+.sidebar ul li:hover {
+    background-color: #1abc9c; /* Couleur de fond au survol */
+    padding-left: 30px; /* Effet de décalage à gauche au survol */
+}
+
+/* Espacement pour les icônes */
+.sidebar ul li i {
+    margin-right: 10px; /* Espacement entre l'icône et le texte */
+    font-size: 1.2em; /* Taille des icônes */
+}

@@ -49,7 +49,7 @@
             </thead>
             <tbody>
                 <?php
-                require_once('C:/xmp/htdocs/gestion-ecole/config/db.php');
+                require_once('/../config/db.php');
                 try {
                     $stmt = $conn->query("SELECT professeur.*, administrateur.prenom AS admin_prenom, administrateur.nom AS admin_nom, administrateur.email AS admin_email, nom_matiere AS matiere
                       FROM professeur 

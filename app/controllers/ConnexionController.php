@@ -43,16 +43,16 @@ class ConnexionController {
 
                     // Redirection selon le rôle
                     if ($user['role'] == 'administrateur') {
-                        header('Location: /gestion-ecole/public/index.php?action=index&role=administrateur');
+                        header('Location: /public/index.php?action=index&role=administrateur');
                         exit();
                     } elseif ($user['role'] == 'prof' || $user['role'] == 'enseignant') {
-                        header('Location: /gestion-ecole/public/index.php?action=index&role=enseignant');
+                        header('Location: /public/index.php?action=index&role=enseignant');
                         exit();
                     } elseif ($user['role'] == 'comptable') {
-                        header('Location: /gestion-ecole/public/index.php?action=index&role=comptable');
+                        header('Location: /public/index.php?action=index&role=comptable');
                         exit();
                     } elseif ($user['role'] == 'surveillant') {
-                        header('Location: /gestion-ecole/public/index.php?action=index&role=surveillant');
+                        header('Location: /public/index.php?action=index&role=surveillant');
                         exit();
                     } else {
                         $errorMessage = "Rôle inconnu.";
