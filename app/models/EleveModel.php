@@ -133,27 +133,21 @@ class Eleve {
             return false; // Échec de la mise à jour
         }
         
-    
-        /* $sql = "UPDATE paiement
-                SET id = :id
-                WHERE id IN (
-                    SELECT e.id
-                    FROM eleve e
-                    WHERE e.matricule = :matricule
-                )";
-
-        $stmt = $this->db->prepare($sql);
-        
-        // Liez les paramètres
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':matricule', $matricule);
-
-        if ($stmt->execute()) {
-            return true; // Paiement enregistré avec succès
-        } else {
-            return false; // Échec de l'enregistrement
-        }*/
     } 
+
+    public function countPayement() {
+        $stmt = $this->db->prepare("SELECT COUNT(*) as count FROM paiement WHERE status = 1 ");
+        $stmt->execute();
+        $nbrePayement = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $nbrePayement['count']; // Retourne le nombre de paiements payés
+    }
+
+    public function getRestePayement() {
+        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM paiement WHERE status = 0 ");
+        $stmt->execute();
+        $totalPaiement = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $totalPaiement['total']; // Retourne le montant total des paiements payés
+    }
 
 
 }

@@ -1,6 +1,8 @@
 <?php 
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -34,21 +36,21 @@ ini_set('display_errors', 1);
                         <div class="card text-center">
                             <i class="fas fa-user-graduate card-icon"></i>
                             <h5>Total élèves</h5>
-                            <h2>5,423</h2>
+                            <h2><?= $totalEleves ; ?></h2>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card text-center">
                             <i class="fas fa-money-bill-wave card-icon"></i>
-                            <h5>Total élèves à payer</h5>
-                            <h2>1,893</h2>
+                            <h5>Nombres de Paiements Validés</h5>
+                            <h2><?= $totalPayer ; ?></h2>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card text-center">
                             <i class="fas fa-check-circle card-icon"></i>
-                            <h5>Total élèves payés</h5>
-                            <h2>189</h2>
+                            <h5>Nombres d'Eleves Restants</h5>
+                            <h2><?= $totalRestant ; ?></h2>
                         </div>
                     </div>
                 </div>
@@ -162,7 +164,7 @@ ini_set('display_errors', 1);
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-                        <button type="button" class="btn btn-success" >valider</button>
+                        <button type="button" class="btn btn-success" id="valide" >valider</button>
                     </div>
                 </div>
             </div>
@@ -209,9 +211,7 @@ ini_set('display_errors', 1);
                     if (jsonResponse.success) {
                         //console.log(data);
                         toggleRecuButton(); // cacher la génération de reçu et le texte NB
-                        updateTable(); //faire une mise a jour de la table
-                        //mettre a jour le tableau
-                        <?php $student['status'] == 1 ?>
+                        location.reload(); // Actualise la page
 
                     } else {
                         alert('Erreur lors du paiement, veuillez réessayer.');
@@ -244,7 +244,7 @@ ini_set('display_errors', 1);
         function openModal() {
             $('#confirmModal').modal('show');
         }
-        document.querySelector('.btn-success').addEventListener('click', function() {
+        document.getElementById('valide').addEventListener('click', function() {
             // Logique de confirmation ici...
             processPayment();
             $('#confirmModal').modal('hide'); // Ferme le modal 

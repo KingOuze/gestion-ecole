@@ -111,12 +111,6 @@ class EleveController {
         return $data;
     }
 
-   /* public function getByMat($matricule) {
-        $data = $this->model->seachByMat($matricule);
-        if ($data != NULL) {
-            return $data;
-        }
-    }*/
 
     public function getJoinMat($matricule) {
         $student = $this->model->getJoinMat($matricule);
@@ -130,6 +124,20 @@ class EleveController {
     public function processPayment( $id) {
          
         return $this->model->processPayment($id);
+    }
+
+    public function countPayements() {
+        // Récupérer les statistiques du modèle
+        $nbrePayement = $this->model->countPayement();
+        // Inclure la vue du tableau de bord
+        return $nbrePayement;
+    }
+
+    public function getRestePayement() {
+        // Récupérer les statistiques du modèle
+        $restePayement = $this->model->getRestePayement();
+        // Inclure la vue du tableau de bord
+        return $restePayement;
     }
 }
 
