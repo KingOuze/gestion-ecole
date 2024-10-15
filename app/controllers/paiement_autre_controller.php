@@ -1,62 +1,56 @@
 <?php
-require_once ('C:/xmp/htdocs/gestion-ecole/config/db.php');; // Inclusion du fichier de connexion
-require_once ('C:/xmp/htdocs/gestion-ecole/app/models/paiement_autre_model.php');
+require_once '../models/paiement_autre_model';
 
-class PaiementAutreController {
+class PaiementController {
     private $model;
 
     public function __construct($db) {
-        $this->model = new PaiementAutreModel($db);
+        $this->model = new PaiementModel($db);
     }
 
     public function handleRequest() {
+        // Initialisation des variables
         $matricule = '';
         $eleveInfo = [];
         $showTable = false;
 
+        // Traiter la soumission du formulaire pour rechercher l'élève
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['matricule'])) {
             $matricule = trim($_POST['matricule']);
             $eleveInfo = $this->model->getEleveInfo($matricule);
             $showTable = !empty($eleveInfo);
         }
 
-        include ('C:/xmp/htdocs/gestion-ecole/app/views/paiement/paiement_autre.php');
-        
-    }
-
-    public function enregistrerPaiement() {
+        // Enregistrement du paiement
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enregistrer'])) {
-            $matricule = $_POST['matricule'];
             $nom = $_POST['nom'];
             $prenom = $_POST['prenom'];
             $montant = $_POST['montant'];
             $mois = $_POST['mois'];
 
-            // Enregistrer le paiement et récupérer l'ID
-            $paiementId = $this->model->enregistrerPaiement($matricule, $nom, $prenom, $montant, $mois);
+            // Vérifier si un paiement existe déjà pour ce mois
+            if ($this->model->paiementExiste($matricule, $mois)) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Ce paiement a déjà été effectué pour le mois sélectionné.'
+                ]);
+                exit;
+            }
 
-            if ($paiementId) {
-                // Récupérer les informations du paiement pour le reçu
-                $paiementInfo = $this->model->getPaiementInfo($paiementId);
-                echo json_encode(['status' => 'success', 'paiementInfo' => $paiementInfo]); // Réponse à l'appel AJAX
-            } else {
-                echo json_encode(['status' => 'error']);
+            // Enregistrement du paiement
+            if ($this->model->enregistrerPaiement($matricule, $nom, $prenom, $mois, $montant)) {
+                $recuNumber = $this->model->getDernierRecu();
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Paiement enregistré avec succès.',
+                    'recuNumber' => 'N-' . str_pad($recuNumber, 4, '0', STR_PAD_LEFT),
+                    'date' => date('d/m/Y')
+                ]);
+                exit;
             }
         }
-    }
 
-    public function getReceipt() {
-        if (isset($_GET['getReceiptId'])) {
-            $id = $_GET['getReceiptId'];
-            $paiementInfo = $this->model->getPaiementInfo($id);
-            
-            if ($paiementInfo) {
-                echo json_encode(['status' => 'success', 'paiementInfo' => $paiementInfo]);
-            } else {
-                echo json_encode(['status' => 'error']);
-            }
-            exit; // Pour arrêter l'exécution
-        }
+        return [$matricule, $eleveInfo, $showTable];
     }
 }
 ?>

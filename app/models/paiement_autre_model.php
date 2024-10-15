@@ -1,17 +1,14 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-class PaiementAutreModel {
-    private $db;
+class PaiementModel {
+    private $conn;
 
     public function __construct($db) {
-        $this->db = $db;
+        $this->conn = $db;
     }
 
-    // Méthode existante pour obtenir les informations de l'élève
+    // Récupérer les informations de l'élève par matricule
     public function getEleveInfo($matricule) {
-        $stmt = $this->db->prepare("
+        $stmt = $this->conn->prepare("
             SELECT a.matricule, a.nom, a.prenom, t.montant 
             FROM administrateur a 
             INNER JOIN tarifs t ON a.role COLLATE utf8mb4_unicode_ci = t.role COLLATE utf8mb4_unicode_ci 
@@ -22,34 +19,61 @@ class PaiementAutreModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Méthode pour enregistrer le paiement
-    public function enregistrerPaiement($matricule, $nom, $prenom, $montant, $mois) {
-        $stmt = $this->db->prepare("
+    // Enregistrer le paiement
+    public function enregistrerPaiement($matricule, $nom, $prenom, $mois, $montant) {
+        $moisEnToutes = $this->convertirMoisEnTexte($mois);
+    
+        $insertStmt = $this->conn->prepare("
             INSERT INTO suivit_de_paiement (matricule, nom, prenom, mois_payer, montant, etat_paiement)
             VALUES (:matricule, :nom, :prenom, :mois, :montant, 'payé')
         ");
-        $stmt->bindParam(':matricule', $matricule);
-        $stmt->bindParam(':nom', $nom);
-        $stmt->bindParam(':prenom', $prenom);
-        $stmt->bindParam(':mois', $mois);
-        $stmt->bindParam(':montant', $montant);
-
-        if ($stmt->execute()) {
-            return $this->db->lastInsertId();
-        }
-        return false;
+        $insertStmt->bindParam(':matricule', $matricule);
+        $insertStmt->bindParam(':nom', $nom);
+        $insertStmt->bindParam(':prenom', $prenom);
+        $insertStmt->bindParam(':mois', $moisEnToutes);
+        $insertStmt->bindParam(':montant', $montant);
+        return $insertStmt->execute();
+    }
+    
+    // Convertir le mois en texte
+    private function convertirMoisEnTexte($mois) {
+        $moisEnToutes = array(
+            '01' => 'Janvier',
+            '02' => 'Février',
+            '03' => 'Mars',
+            '04' => 'Avril',
+            '05' => 'Mai',
+            '06' => 'Juin',
+            '07' => 'Juillet',
+            '08' => 'Août',
+            '09' => 'Septembre',
+            '10' => 'Octobre',
+            '11' => 'Novembre',
+            '12' => 'Décembre'
+        );
+    
+        return $moisEnToutes[$mois];
     }
 
-    // Nouvelle méthode pour récupérer les informations du dernier paiement
-    public function getPaiementInfo($id) {
-        $stmt = $this->db->prepare("
-            SELECT matricule, nom, prenom, mois_payer, montant, date_paiement
-            FROM suivit_de_paiement
-            WHERE id = :id
+    // Vérifier si un paiement existe déjà pour un mois donné
+    public function paiementExiste($matricule, $mois) {
+        $checkStmt = $this->conn->prepare("
+            SELECT COUNT(*) FROM suivit_de_paiement 
+            WHERE matricule = :matricule AND mois_payer = :mois
         ");
-        $stmt->bindParam(':id', $id); // Corrigé ici
+        $checkStmt->bindParam(':matricule', $matricule);
+        $checkStmt->bindParam(':mois', $mois);
+        $checkStmt->execute();
+        return $checkStmt->fetchColumn() > 0;
+    }
+
+    // Récupérer le dernier numéro de reçu
+    public function getDernierRecu() {
+        $stmt = $this->conn->prepare("
+            SELECT MAX(id) AS dernier_recu FROM suivit_de_paiement
+        ");
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchColumn();
     }
 }
 ?>
