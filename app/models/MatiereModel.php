@@ -15,7 +15,7 @@ class Matiere {
         
         try {
             // Insérer dans la table administrateur
-            $stmt = $this->db->prepare("INSERT INTO matiere (nom_matiere) VALUES (?, ?)");
+            $stmt = $this->db->prepare("INSERT INTO matiere (nom_matiere) VALUES (?)");
 
             return $stmt->execute([$nom_matiere]);
             
@@ -28,7 +28,7 @@ class Matiere {
     }
 
     public function update($id, $nom_matiere) {
-        $stmt = $this->db->prepare("UPDATE matiere SET niveau = ?, nom_matiere = ? WHERE id = ?");
+        $stmt = $this->db->prepare("UPDATE matiere SET nom_matiere = ? WHERE id = ?");
         
         return $stmt->execute([$nom_matiere, $id]);
     }

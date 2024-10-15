@@ -16,7 +16,7 @@ class MatiereController {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nom_matiere = htmlspecialchars(trim($_POST['matiere']));
 
-            $transaction = $this->model->create($niveau, $nom_matiere);
+            $transaction = $this->model->create($nom_matiere);
 
             if ($transaction) {
                 echo "Matiere enregistré avec succès! ID: $transaction";
@@ -29,9 +29,8 @@ class MatiereController {
     public function update($id) {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $nom_matiere = htmlspecialchars(trim($_POST['matiere']));
-            $niveau = htmlspecialchars(trim($_POST['niveau']));
 
-            if ($this->model->update($id, $niveau, $nom_matiere)) {
+            if ($this->model->update($id, $nom_matiere)) {
                 echo "matiere mis à jour avec succès!";
             } else {
                 echo "Erreur lors de la mise à jour.";
