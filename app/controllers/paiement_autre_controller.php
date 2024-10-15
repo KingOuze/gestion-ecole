@@ -1,54 +1,53 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+require_once '../models/paiement_autre_model';
 
-require_once '../../config/db.php'; 
-require_once '../../app/models/paiement_autre_model.php';
-
-class PaiementAutreController {
+class PaiementController {
     private $model;
 
     public function __construct($db) {
-        $this->model = new PaiementAutreModel($db);
+        $this->model = new PaiementModel($db);
     }
 
     public function handleRequest() {
+        // Initialisation des variables
         $matricule = '';
         $eleveInfo = [];
         $showTable = false;
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if (isset($_POST['matricule'])) {
-                $matricule = trim($_POST['matricule']);
-                $eleveInfo = $this->model->getEleveInfo($matricule);
-                $showTable = !empty($eleveInfo);
+        // Traiter la soumission du formulaire pour rechercher l'élève
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['matricule'])) {
+            $matricule = trim($_POST['matricule']);
+            $eleveInfo = $this->model->getEleveInfo($matricule);
+            $showTable = !empty($eleveInfo);
+        }
+
+        // Enregistrement du paiement
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enregistrer'])) {
+            $nom = $_POST['nom'];
+            $prenom = $_POST['prenom'];
+            $montant = $_POST['montant'];
+            $mois = $_POST['mois'];
+
+            // Vérifier si un paiement existe déjà pour ce mois
+            if ($this->model->paiementExiste($matricule, $mois)) {
+                echo json_encode([
+                    'status' => 'error',
+                    'message' => 'Ce paiement a déjà été effectué pour le mois sélectionné.'
+                ]);
+                exit;
             }
 
-            if (isset($_POST['enregistrer'])) {
-                $this->enregistrerPaiement($matricule);
+            // Enregistrement du paiement
+            if ($this->model->enregistrerPaiement($matricule, $nom, $prenom, $mois, $montant)) {
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Paiement enregistré avec succès.'
+                ]);
+                exit;
             }
         }
 
-        include '../../app/views/paiement_autre.php';
-    }
-
-    private function enregistrerPaiement($matricule) {
-        $nom = $_POST['nom'];
-        $prenom = $_POST['prenom'];
-        $montant = $_POST['montant'];
-        $mois = $_POST['mois'];
-
-        $paiementExistant = $this->model->checkExistingPayment($matricule, $mois);
-
-        if ($paiementExistant) {
-            echo json_encode(['status' => 'error', 'message' => 'Ce paiement a déjà été effectué pour le mois sélectionné.']);
-            exit;
-        }
-
-        $this->model->enregistrerPaiement($matricule, $nom, $prenom, $montant, $mois);
-        echo json_encode(['status' => 'success', 'message' => 'Paiement enregistré avec succès.']);
-        exit;
+        return [$matricule, $eleveInfo, $showTable];
     }
 }
 ?>

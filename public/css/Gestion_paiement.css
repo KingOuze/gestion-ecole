@@ -7,7 +7,6 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    background-image: url('/public/images/paiement.png');
     background-size: 900px;
     background-position: bottom;
     background-repeat: no-repeat;
@@ -47,7 +46,9 @@ body {
 }
 
 h1 {
-    margin-bottom: 10px;
+    flex-grow: 1; /* Permet au h1 de prendre l'espace disponible */
+    text-align: center; /* Centre le texte */
+    margin: 0; /* Supprime la marge par défaut */
 }
 
 .info {
@@ -64,16 +65,18 @@ header {
     padding: 20px;
     color: black;
     background-color: #f0f0f0;
+    width: 100%; /* S'assure que le header prend toute la largeur */
 }
 
 .header-actions {
-    margin-left: 870px ;
-    
+    display: flex;
+    align-items: center;
 }
 
 .header-actions a {
     color: black;
     text-decoration: none;
+    margin-left: 20px; /* Ajout d'espacement entre les éléments */
 }
 
 .year {
@@ -105,7 +108,6 @@ header {
     max-width: 30%;
     height: 60px;
     margin: 10px;
-   
 }
 
 .box h3 {
@@ -127,8 +129,16 @@ header {
     .box {
         width: 45%;
     }
-}
 
+    header {
+        flex-direction: column; /* Empile les éléments sur des écrans plus petits */
+        align-items: flex-start; /* Aligne les éléments à gauche */
+    }
+
+    .header-actions {
+        margin-top: 10px; /* Ajoute de l'espacement en haut */
+    }
+}
 
 @media (max-width: 480px) {
     .sidebar {
@@ -143,13 +153,38 @@ header {
     .box {
         width: 90%;
     }
+
+    header {
+        padding: 10px; /* Réduit le padding */
+    }
+
+    .header-actions a {
+        font-size: 14px; /* Réduit la taille de la police */
+    }
 }
 
 .divider {
     border: none;
     height: 1px;
     background-color: #38D39F;
-
     margin: 20px 0;
-    width: 0%; /* Corrigé pour prendre toute la largeur */
+    width: 100%; /* Corrigé pour prendre toute la largeur */
+}
+
+.btn-secondary {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 40px;
+    background-color: #38D39F;
+    transition: background-color 0.3s ease;
+    height: 100%; /* Fait en sorte que le bouton prenne toute la hauteur de son conteneur */
+}
+
+.btn-secondary:hover {
+    background-color: #2ebd8b; /* Changement de couleur au survol */
 }

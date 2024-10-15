@@ -3,12 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Initialisation des variables
-$matricule = '';
-$eleveInfo = [];
-$showTable = false;
-
-// Connexion à la base de données avec PDO
+// Inclure la connexion à la base de données
 try {
     $conn = new PDO("mysql:host=localhost;dbname=gestion-ecole;charset=utf8", 'niassy', '1903');
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -16,82 +11,12 @@ try {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Traiter la soumission du formulaire
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['matricule'])) {
-    $matricule = trim($_POST['matricule']);
-    $stmt = $conn->prepare("
-        SELECT a.matricule, a.nom, a.prenom, t.montant 
-        FROM administrateur a 
-        INNER JOIN tarifs t ON a.role COLLATE utf8mb4_unicode_ci = t.role COLLATE utf8mb4_unicode_ci 
-        WHERE a.archivage = FALSE AND a.matricule = :matricule
-    ");
-    $stmt->bindParam(':matricule', $matricule);
-    $stmt->execute();
-    $eleveInfo = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    $showTable = !empty($eleveInfo);
-}
-
-// Enregistrement du paiement
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['enregistrer'])) {
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-    $montant = $_POST['montant'];
-    $mois = $_POST['mois'];
-
-    // Vérifier si un paiement existe déjà pour ce mois
-    $checkStmt = $conn->prepare("
-        SELECT COUNT(*) FROM suivit_de_paiement 
-        WHERE matricule = :matricule AND mois_payer = :mois
-    ");
-    $checkStmt->bindParam(':matricule', $matricule);
-    $checkStmt->bindParam(':mois', $mois);
-    $checkStmt->execute();
-    $paiementExistant = $checkStmt->fetchColumn() > 0;
-
-    if ($paiementExistant) {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Ce paiement a déjà été effectué pour le mois sélectionné.'
-        ]);
-        exit;
-    }
-
-    // Enregistrement du paiement
-    $insertStmt = $conn->prepare("
-        INSERT INTO suivit_de_paiement (matricule, nom, prenom, mois_payer, montant, etat_paiement)
-        VALUES (:matricule, :nom, :prenom, :mois, :montant, 'payé')
-    ");
-    $insertStmt->bindParam(':matricule', $matricule);
-    $insertStmt->bindParam(':nom', $nom);
-    $insertStmt->bindParam(':prenom', $prenom);
-    $insertStmt->bindParam(':mois', $mois);
-    $insertStmt->bindParam(':montant', $montant);
-    $insertStmt->execute();
-
-    echo json_encode([
-        'status' => 'success',
-        'message' => 'Paiement enregistré avec succès.'
-    ]);
-    exit;
-}
-
-// Vérifier les paiements pour chaque élève
-foreach ($eleveInfo as &$row) {
-    $mois = $_POST['mois'] ?? date('m');
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM suivit_de_paiement WHERE matricule = :matricule AND mois_payer = :mois");
-    $stmt->bindParam(':matricule', $row['matricule']);
-    $stmt->bindParam(':mois', $mois);
-    $stmt->execute();
-    
-    $row['paiement_existe'] = $stmt->fetchColumn() > 0; // Vérifier si un paiement existe
-    
-    // Récupérer tous les mois payés pour cet élève
-    $stmt = $conn->prepare("SELECT mois_payer FROM suivit_de_paiement WHERE matricule = :matricule");
-    $stmt->bindParam(':matricule', $row['matricule']);
-    $stmt->execute();
-    $row['mois_payes'] = $stmt->fetchAll(PDO::FETCH_COLUMN);
-}
+// Inclure le contrôleur
+require_once '../controllers/paiement_autre_controller.php';
+$controller = new PaiementController($conn);
+list($matricule, $eleveInfo, $showTable) = $controller->handleRequest();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -102,22 +27,6 @@ foreach ($eleveInfo as &$row) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/public/css/paiement_autre.css">
-    <style>
-        .image-section {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 0;
-            height: 110vh;
-            overflow: hidden;
-        }
-
-        .responsive-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-    </style>
 </head>
 <body>
     <div class="dashboard-container">
@@ -126,11 +35,10 @@ foreach ($eleveInfo as &$row) {
                 <div class="logo">
                     <img src="/public/images/connexion_image/Badge_Education_Badge_Logo.png" alt="Logo" class="logo">
                 </div>
-                <li><a href="dashboard.php"><i class="fas fa-home"></i> Tableau de bord</a></li>
-                <li><a href="admin.php"><i class="fas fa-user-shield"></i> Gestion des administrateurs</a></li>
-                <li><a href="eleve.html"><i class="fas fa-users"></i> Gestion des élèves</a></li>
-                <li><a href="employer.html"><i class="fas fa-briefcase"></i> Gestion des employés</a></li>
-                <li><a href="comptabilite.html"><i class="fas fa-calculator"></i> Comptabilité</a></li>
+                <li><a href="/app/views/comptableviews.php"><i class="fas fa-home"></i> Tableau de bord</a></li>
+                <li><a href="/app/"><i class="fas fa-user-graduate"></i> Paiements Élèves</a></li>
+                <li><a href="/app/views/paiement/Gestion_paiement.php"><i class="fas fa-user-tie"></i> Paiements Employés</a></li>
+                <li><a href="#"><i class="fas fa-chalkboard-teacher"></i> Paiements Professeurs</a></li>
             </ul>
         </nav>
 
@@ -180,12 +88,7 @@ foreach ($eleveInfo as &$row) {
                                             "05" => "Mai", "06" => "Juin", "07" => "Juillet", "08" => "Août",
                                             "09" => "Septembre", "10" => "Octobre", "11" => "Novembre", "12" => "Décembre"
                                         ];
-                                        foreach ($months as $num => $name): 
-                                            // Vérifiez si le mois a déjà été payé
-                                            if (in_array($num, $row['mois_payes'])) {
-                                                continue; // Ignorez ce mois
-                                            }
-                                        ?>
+                                        foreach ($months as $num => $name): ?>
                                             <option value="<?php echo $num; ?>"><?php echo $name; ?></option>
                                         <?php endforeach; ?>
                                     </select>
@@ -195,7 +98,7 @@ foreach ($eleveInfo as &$row) {
                                     <select class="form-control payment-status" data-matricule="<?php echo htmlspecialchars($row['matricule']); ?>" data-nom="<?php echo htmlspecialchars($row['nom']); ?>" data-prenom="<?php echo htmlspecialchars($row['prenom']); ?>" data-montant="<?php echo htmlspecialchars($row['montant']); ?>">
                                         <option value="non-paye">Non payé</option>
                                         <option value="payer">Payer</option>
-                                        <option value="deja-paye" <?php echo $row['paiement_existe'] ? 'selected' : ''; ?>>Déjà payé</option>
+                                       
                                     </select>
                                     <button class="btn btn-secondary btn-receipt" style="display: none;">Générer un reçu</button>
                                 </td>
@@ -308,98 +211,127 @@ foreach ($eleveInfo as &$row) {
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.btn-receipt').on('click', function() {
+        // Récupérer les données nécessaires pour le reçu
+        var matricule = $(this).closest('tr').find('.payment-status').data('matricule');
+        var nom = $(this).closest('tr').find('.payment-status').data('nom');
+        var prenom = $(this).closest('tr').find('.payment-status').data('prenom');
+        var montant = $(this).closest('tr').find('.payment-status').data('montant');
+        var mois = $(this).closest('tr').find('.month-select').val();
+        var date = new Date().toLocaleDateString(); // Date actuelle pour le reçu
+        var numeroRecu = 'N-0001'; // Exemple de numéro de reçu, vous pouvez le générer dynamiquement si nécessaire
+
+        // Remplir les données du reçu dans le modal
+        $('#receiptModal .modal-body .bulletin-container #modal-matricule').text(matricule);
+        $('#receiptModal .modal-body .bulletin-container #modal-nom').text(nom + ' ' + prenom);
+        $('#receiptModal .modal-body .bulletin-container #modal-montant').text(montant + ' FCFA');
+        $('#receiptModal .modal-body .bulletin-container #modal-mois').text(mois);
+        $('#receiptModal .modal-body .bulletin-container .date-reçu div:first-child span').text(date);
+        $('#receiptModal .modal-body .bulletin-container .date-reçu div:last-child').text('Reçu : ' + numeroRecu);
+
+        // Afficher le modal
+        $('#receiptModal').modal('show');
+    });
+});
+</script>
+
+
     
     <script>
        document.addEventListener('DOMContentLoaded', function() {
-            let currentRow;
+    let currentRow;
 
-            // Gérer l'affichage de la section d'image et du tableau
-            function toggleImageAndTable() {
-                const imageSection = document.getElementById('image-section');
-                const resultsTable = document.getElementById('results-table');
+    // Gérer l'affichage de la section d'image et du tableau
+    function toggleImageAndTable() {
+        const imageSection = document.getElementById('image-section');
+        const resultsTable = document.getElementById('results-table');
 
-                if (resultsTable && resultsTable.style.display !== 'none') {
-                    imageSection.style.display = 'none'; // Masquer l'image si le tableau est visible
-                } else {
-                    imageSection.style.display = 'block'; // Afficher l'image si le tableau est masqué
-                }
+        // Si le tableau existe et qu'il a des lignes, on masque l'image
+        if (resultsTable && resultsTable.style.display !== 'none') {
+            imageSection.style.display = 'none'; // Masquer l'image si le tableau est visible
+        } else {
+            imageSection.style.display = 'block'; // Afficher l'image si le tableau est masqué
+        }
+    }
+
+    // Appel initial pour définir l'affichage
+    toggleImageAndTable();
+
+    // Événement pour le champ matricule
+    const matriculeInput = document.querySelector('input[name="matricule"]');
+    matriculeInput.addEventListener('input', function() {
+        if (!this.value.trim()) { // Si le champ est vide
+            toggleImageAndTable(); // Met à jour l'affichage
+        }
+    });
+
+    // Événement pour le bouton de recherche
+    document.querySelector('form').addEventListener('submit', function() {
+        toggleImageAndTable(); // Met à jour l'affichage lors de la soumission
+    });
+
+    document.querySelectorAll('.payment-status').forEach(select => {
+        select.addEventListener('change', function() {
+            const selectedValue = this.value;
+            currentRow = this.closest('tr');
+
+            if (selectedValue === 'payer') {
+                $('#paymentConfirmationModal').modal('show');
+            } else if (selectedValue === 'deja-paye') {
+                const receiptButton = currentRow.querySelector('.btn-receipt');
+                receiptButton.style.display = 'inline-block';
+            } else {
+                const receiptButton = currentRow.querySelector('.btn-receipt');
+                receiptButton.style.display = 'none';
             }
-
-            // Appel initial pour définir l'affichage
-            toggleImageAndTable();
-
-            // Événement pour le champ matricule
-            const matriculeInput = document.querySelector('input[name="matricule"]');
-            matriculeInput.addEventListener('input', function() {
-                if (!this.value.trim()) { // Si le champ est vide
-                    toggleImageAndTable(); // Met à jour l'affichage
-                }
-            });
-
-            // Événement pour le bouton de recherche
-            document.querySelector('form').addEventListener('submit', function() {
-                toggleImageAndTable(); // Met à jour l'affichage lors de la soumission
-            });
-
-            document.querySelectorAll('.payment-status').forEach(select => {
-                select.addEventListener('change', function() {
-                    const selectedValue = this.value;
-                    currentRow = this.closest('tr');
-
-                    if (selectedValue === 'payer') {
-                        $('#paymentConfirmationModal').modal('show');
-                    } else if (selectedValue === 'deja-paye') {
-                        const receiptButton = currentRow.querySelector('.btn-receipt');
-                        receiptButton.style.display = 'inline-block';
-                    } else {
-                        const receiptButton = currentRow.querySelector('.btn-receipt');
-                        receiptButton.style.display = 'none';
-                    }
-                });
-            });
-
-            document.getElementById('confirmPaymentButton').addEventListener('click', function() {
-                const matricule = currentRow.querySelector('.payment-status').dataset.matricule;
-                const nom = currentRow.querySelector('.payment-status').dataset.nom;
-                const prenom = currentRow.querySelector('.payment-status').dataset.prenom;
-                const montant = currentRow.querySelector('.payment-status').dataset.montant;
-                const mois = currentRow.querySelector('.month-select').value;
-
-                const form = new FormData();
-                form.append('matricule', matricule);
-                form.append('nom', nom);
-                form.append('prenom', prenom);
-                form.append('montant', montant);
-                form.append('mois', mois);
-                form.append('enregistrer', true);
-
-                fetch(window.location.href, {
-                    method: 'POST',
-                    body: form
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        alert(data.message);
-                        $('#paymentConfirmationModal').modal('hide');
-
-                        const paymentStatusSelect = currentRow.querySelector('.payment-status');
-                        paymentStatusSelect.value = 'deja-paye'; // Mettre à jour le sélecteur
-                        const receiptButton = currentRow.querySelector('.btn-receipt');
-                        receiptButton.style.display = 'inline-block'; // Afficher le bouton "Générer un reçu"
-                    } else {
-                        $('#paymentAlreadyExistsModal').modal('show');
-                        document.getElementById('existingPaymentMessage').textContent = data.message;
-                    }
-                });
-            });
-
-            document.getElementById('printReceiptButton').addEventListener('click', function() {
-                window.print();
-            });
         });
+    });
+
+    document.getElementById('confirmPaymentButton').addEventListener('click', function() {
+        const matricule = currentRow.querySelector('.payment-status').dataset.matricule;
+        const nom = currentRow.querySelector('.payment-status').dataset.nom;
+        const prenom = currentRow.querySelector('.payment-status').dataset.prenom;
+        const montant = currentRow.querySelector('.payment-status').dataset.montant;
+        const mois = currentRow.querySelector('.month-select').value;
+
+        const form = new FormData();
+        form.append('matricule', matricule);
+        form.append('nom', nom);
+        form.append('prenom', prenom);
+        form.append('montant', montant);
+        form.append('mois', mois);
+        form.append('enregistrer', true);
+
+        fetch(window.location.href, {
+            method: 'POST',
+            body: form
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert(data.message);
+                $('#paymentConfirmationModal').modal('hide');
+
+                const paymentStatusSelect = currentRow.querySelector('.payment-status');
+                paymentStatusSelect.value = 'deja-paye'; // Mettre à jour le sélecteur
+                const receiptButton = currentRow.querySelector('.btn-receipt');
+                receiptButton.style.display = 'inline-block'; // Afficher le bouton "Générer un reçu"
+            } else {
+                $('#paymentAlreadyExistsModal').modal('show');
+                document.getElementById('existingPaymentMessage').textContent = data.message;
+            }
+        });
+    });
+
+    document.getElementById('printReceiptButton').addEventListener('click', function() {
+        window.print();
+    });
+});
     </script>
 </body>
 </html>

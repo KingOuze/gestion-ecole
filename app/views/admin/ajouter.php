@@ -19,7 +19,7 @@ error_reporting(E_ALL);
     <div class="container">
         <form action="index.php?action=create" method="POST" onsubmit="return validateForm()">
         <h1 id="formTitle">Inscription</h1>
-        <img src="/gestion-ecole/public/images/IconeInscription.png" alt="Icone " class="img-top-right">
+        <img src="/public/images/IconeInscription.png" alt="Icone " class="img-top-right">
 
             <div class="form-row d-flex flex-wrap">
                 <div class="col-sm-4 form-group">

@@ -6,18 +6,10 @@
     <title>Gestion des employés</title>
     <link rel="stylesheet" href="/public/css/Gestion_paiement.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Pour les icônes -->
+    <link rel="stylesheet" href="/public/css/modifier.css">
 </head>
 <body>
-    <div class="sidebar">
-        <div class="logo">
-            <img src="Badge_Education_Badge_Logo.png" alt="Logo"><br>
-        </div>
-        <nav>
-            <ul>
-                <li class="active">Ecole de réussite</li>
-            </ul>
-        </nav>
-    </div>
+    <?php require_once __DIR__ . '/../../views/paiement_header.php'; ?> <!-- Assurez-vous d'ajuster le chemin -->
 
     <div class="content">
         <header>
@@ -33,21 +25,20 @@
         </div>
         <hr class="divider">
         <div class="info">
-        <div class="info">
-    <div class="box">
+            <div class="box">
+                <a href="" class="btn-secondary">Professeur</a>
+            </div>
+            <div class="box">
+                <a href="/app/views/paiement/suivit_paiement.php" class="btn-secondary">Suivi Paiement</a>
+            </div>
+            <div class="box">
+                <a href="/app/views/paiement_autre.php" class="btn-secondary">Autres</a>
+            </div>
+        </div>
 
-        <a href="" class="btn-secondary">Professeur</a>
-
+        <section class="image-section">
+            <img src="/public/images/paiement.png" alt="">
+        </section>
     </div>
-    <div class="box">
-    <a href="SuiviPaiement.php" class="btn-secondary">SuiviPaiement</a>
-    </div>
-    <div class="box">
-    <a href="" class="btn-secondary">Autres</a>
-    </div>
-</div>
-
-
-    <div class="image"></div>
 </body>
 </html>

@@ -37,23 +37,12 @@ $paiements = array_slice($paiements, $offset, $limit);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suivi des Paiements</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/public/css/SuivitPaiement.css">
+    <link rel="stylesheet" href="/public/css/suivit_paiement.css">
+    <link rel="stylesheet" href="/public/css/modifier.css">
 </head>
 <body>
-    <!-- Barre latérale -->
     <div class="d-flex">
-        <div class="sidebar">
-            <div class="logo text-center">
-                <img src="Badge_Education_Badge_Logo.png" alt="Logo">
-            </div>
-            <nav class="nav flex-column">
-                <h4>Ecole de la réussite</h4>
-                <a class="nav-link active" href="#">Accueil</a>
-                <a class="nav-link" href="#">Professeur</a>
-                <a class="nav-link" href="#">Suivi Paiement</a>
-                <a class="nav-link" href="#">Autres</a>
-            </nav>
-        </div>
+    <?php require_once __DIR__ . '/../../views/paiement_header.php'; ?> <!-- Assurez-vous d'ajuster le chemin -->
 
         <!-- Contenu principal -->
         <div class="content flex-grow-1 p-4">
@@ -63,7 +52,7 @@ $paiements = array_slice($paiements, $offset, $limit);
             <div class="form-group d-flex align-items-center mb-3">
                 <label for="monthSelect" class="mr-3">Sélectionnez le Mois</label>
                 <select class="form-control custom-select mr-3" id="monthSelect">
-                    <option value="">--Selectionnez le mois--</option>
+                    <option value="">--Sélectionnez le mois--</option>
                     <option>Janvier</option>
                     <option>Février</option>
                     <option>Mars</option>
