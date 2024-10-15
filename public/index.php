@@ -20,7 +20,6 @@ $compta = new ComptableController($db);
 $enseign = new EnseignantController($db);
 $eleve = new EleveController($db);
 $classe = new ClasseController($db);
-$matiere = new MatiereController($db);
 
 
 
