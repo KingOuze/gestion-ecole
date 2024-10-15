@@ -14,7 +14,7 @@
         <img src="/gestion-ecole/public/images/connexion_image/Badge_Education_Badge_Logo.png" alt="Logo" class="logo">
     </div>
     <ul>
-        <li><a href="#">Accueil</a></li>
+        <li><a href="/gestion-ecole/app/views/Gestion_paiement.php">Accueil</a></li>
         <li><a href="#">Professeurs</a></li>
         <li><a href="#">Paiements</a></li>
         <li><a href="#">Rapports</a></li>

@@ -28,14 +28,14 @@
         </header>
 
         <div class="year">
-            <a href="/home" class="home"><i class="fas fa-home"></i> Accueil</a>
+            <a href="" class="home"><i class="fas fa-home"></i> Accueil</a>
             <p>Année scolaire 2024-2025</p>
         </div>
         <hr class="divider">
         <div class="info">
         <div class="info">
     <div class="box">
-      <a href="/gestion-ecole/public/index.php?action=paiement ?>" class="btn-secondary">Professeur</a>
+      <a href="/gestion-ecole/app/index.php?action=paiement" class="btn-secondary">Professeur</a>
       
     </div>
     <div class="box">
