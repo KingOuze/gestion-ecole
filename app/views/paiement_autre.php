@@ -225,7 +225,6 @@ list($matricule, $eleveInfo, $showTable) = $controller->handleRequest();
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                 <button type="button" class="btn btn-outline-primary" id="printReceiptButton"><i class="fas fa-print"></i> Imprimer</button>
             </div>
         </div>
@@ -235,29 +234,48 @@ list($matricule, $eleveInfo, $showTable) = $controller->handleRequest();
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-    $(document).ready(function() {
-        $('.btn-receipt').on('click', function() {
-            // Récupérer les données nécessaires pour le reçu
-            var matricule = $(this).closest('tr').find('.payment-status').data('matricule');
-            var nom = $(this).closest('tr').find('.payment-status').data('nom');
-            var prenom = $(this).closest('tr').find('.payment-status').data('prenom');
-            var montant = $(this).closest('tr').find('.payment-status').data('montant');
-            var mois = $(this).closest('tr').find('.month-select').val();
-            var date = new Date().toLocaleDateString(); // Date actuelle pour le reçu
-            var numeroRecu = 'N-0001'; // Exemple de numéro de reçu, vous pouvez le générer dynamiquement si nécessaire
 
-            // Remplir les données du reçu dans le modal
-            $('#receiptModal .modal-body .bulletin-container #modal-matricule').text(matricule);
-            $('#receiptModal .modal-body .bulletin-container #modal-nom').text(nom + ' ' + prenom);
-            $('#receiptModal .modal-body .bulletin-container #modal-montant').text(montant + ' FCFA');
-            $('#receiptModal .modal-body .bulletin-container #modal-mois').text(mois);
-            $('#receiptModal .modal-body .bulletin-container .date-reçu div:first-child span').text(date);
-            $('#receiptModal .modal-body .bulletin-container .date-reçu div:last-child').text('Reçu : ' + numeroRecu);
+$(document).ready(function() {
+    let numeroRecuCounter = 1; // Compteur pour le numéro de reçu
 
-            // Afficher le modal
-            $('#receiptModal').modal('show');
-        });
+    $('.btn-receipt').on('click', function() {
+        // Récupérer les données nécessaires pour le reçu
+        var matricule = $(this).closest('tr').find('.payment-status').data('matricule');
+        var nom = $(this).closest('tr').find('.payment-status').data('nom');
+        var prenom = $(this).closest('tr').find('.payment-status').data('prenom');
+        var montant = $(this).closest('tr').find('.payment-status').data('montant');
+        var mois = $(this).closest('tr').find('.month-select').val();
+        var date = new Date().toLocaleDateString(); // Date actuelle pour le reçu
+
+        // Générer le numéro de reçu en l'incrémentant
+        var numeroRecu = 'N-' + String(numeroRecuCounter).padStart(4, '0');
+        numeroRecuCounter++; // Incrémenter le compteur
+
+        // Convertir le mois en format lisible
+        var moisNom = convertMonthToString(mois);
+
+        // Remplir les données du reçu dans le modal
+        $('#receiptModal .modal-body .bulletin-container #modal-matricule').text(matricule);
+        $('#receiptModal .modal-body .bulletin-container #modal-nom').text(nom + ' ' + prenom);
+        $('#receiptModal .modal-body .bulletin-container #modal-montant').text(montant + ' FCFA');
+        $('#receiptModal .modal-body .bulletin-container #modal-mois').text(moisNom);
+        $('#receiptModal .modal-body .bulletin-container .date-reçu div:first-child span').text(date);
+        $('#receiptModal .modal-body .bulletin-container .date-reçu div:last-child').text('Reçu : ' + numeroRecu);
+
+        // Afficher le modal
+        $('#receiptModal').modal('show');
     });
+
+    // Fonction pour convertir le mois en chaîne lisible
+    function convertMonthToString(mois) {
+        const moisNoms = [
+            "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+            "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+        ];
+        return moisNoms[mois - 1]; // Assurez-vous que 'mois' est un nombre de 1 à 12
+    }
+});
+
 
     document.addEventListener('DOMContentLoaded', function() {
         let currentRow;
