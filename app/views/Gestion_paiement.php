@@ -35,7 +35,7 @@
         <div class="info">
         <div class="info">
     <div class="box">
-      <a href="/gestion-ecole/public/index.php?action=paiement&search ?>" class="btn-secondary">Professeur</a>
+      <a href="/gestion-ecole/public/index.php?action=paiement ?>" class="btn-secondary">Professeur</a>
       
     </div>
     <div class="box">
