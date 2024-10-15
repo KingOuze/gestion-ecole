@@ -1,5 +1,4 @@
 function toggleFields() {
-    const role = document.getElementById('role').value;
     const autresInfosDiv = document.getElementById('autresInfos');
     const eleveFields = document.getElementById('eleveFields');
     const professeurFields = document.getElementById('professeurFields');
@@ -8,50 +7,32 @@ function toggleFields() {
     const formTitle = document.getElementById('formTitle');
     const motDePasseInput = document.getElementById('motDePasse');
 
+
     // Mise à jour du titre en fonction du rôle
     switch (role) {
         case 'administrateur':
-            formTitle.textContent = "Inscription administrateur";
+            formTitle.textContent = "Modification administrateur";
             break;
         case 'professeur':
-            formTitle.textContent = "Inscription professeur";
+            formTitle.textContent = "Modification professeur";
             break;
         case 'enseignant':
-            formTitle.textContent = "Inscription enseignant";
+            formTitle.textContent = "Modification enseignant";
             break;
         case 'surveillant':
-            formTitle.textContent = "Inscription surveillant";
+            formTitle.textContent = "Modification surveillant";
             break;
         case 'comptable':
-            formTitle.textContent = "Inscription comptable";
+            formTitle.textContent = "Modification comptable";
             break;
         case 'eleve':
-            formTitle.textContent = "Inscription élève";
+            formTitle.textContent = "Modification élève";
             break;
         default:
-            formTitle.textContent = "Inscription";
+            formTitle.textContent = "Modification";
     }
 
-    autresInfosDiv.style.display = 'none'; // Masquer par défaut
-    eleveFields.style.display = 'none'; // Masquer les champs élève
-    professeurFields.style.display = 'none'; // Masquer les champs professeur
-    surveillantFields.style.display = 'none'; // Masquer les champs surveillant
-    enseignantFields.style.display = 'none'; // Masquer les champs enseignant
 
-    if (role === 'enseignant' || role === 'surveillant') {
-        surveillantFields.style.display = 'block'; // Afficher les champs surveillant pour enseignant aussi
-    } else if (role === 'eleve') {
-        eleveFields.style.display = 'block'; // Afficher les champs élève
-        motDePasseInput.removeAttribute('required'); // Retirer l'obligation du mot de passe
-
-        // Fixer la date de naissance par défaut au 31 décembre 2004
-        const dateNaissanceInput = document.querySelector('input[name="dateNaissance"]');
-        if (dateNaissanceInput) {
-            dateNaissanceInput.value = '2004-12-31'; // Format AAAA-MM-JJ pour HTML
-        }
-    } else if (role === 'professeur') {
-        professeurFields.style.display = 'block'; // Afficher les champs professeur
-    }
 }
 
 function validateForm() {
@@ -102,6 +83,8 @@ function validateForm() {
         document.getElementById('errorTelephone').textContent = "Veuillez entrer un numéro de téléphone valide (9 chiffres).";
         return false;
     }
+
+
 
     // Validation des champs spécifiques selon le rôle
     if (role === 'eleve') {
@@ -163,22 +146,8 @@ function validateForm() {
     return true;
 }
 
-let matriculeCounter = 1; // Compteur pour les matricules
 
-function generateMatricule() {
-    const prefix = 'ADM-'; // Préfixe pour le matricule
-    const paddedCounter = String(matriculeCounter).padStart(3, '0'); // Ajouter des zéros devant pour avoir toujours 3 chiffres
-    return prefix + paddedCounter; // Générer le matricule final
-}
 
-function ajouter() {
-    // Récupérez les informations de l'administrateur ici
-    const matricule = generateMatricule(); // Générer un nouveau matricule
-    matriculeCounter++; // Incrémenter le compteur pour le prochain matricule
-
-    // Ici, vous pouvez maintenant utiliser le matricule pour enregistrer l'administrateur
-    console.log("Matricule généré : " + matricule);
-}
 
 // Visualiser le mot de passe
 document.getElementById('togglePassword').addEventListener('click', function() {
@@ -201,4 +170,3 @@ document.getElementById('togglePassword').addEventListener('click', function() {
 document.querySelector('form').onsubmit = function() {
     return validateForm();
 }
-
