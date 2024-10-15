@@ -43,7 +43,7 @@
                 <a href="SuiviPaiement.php" class="btn-secondary">SuiviPaiement</a>
             </div>
             <div class="box">
-                <a href="" class="btn-secondary">Autres</a>
+                <a href="/gestion-ecole/app/views/paiement/paiement_autre.php" class="btn-secondary">Autres</a>
             </div>
         </div>
     </div>

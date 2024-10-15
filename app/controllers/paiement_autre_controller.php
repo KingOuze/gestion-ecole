@@ -1,6 +1,6 @@
 <?php
-require_once ('C:/xmp/htdocs/gestion-ecole/config/db.php');; // Inclusion du fichier de connexion
-require_once ('C:/xmp/htdocs/gestion-ecole/app/models/paiement_autre_model.php');
+require_once ('/gestion-ecole/config/db.php');; // Inclusion du fichier de connexion
+require_once ('/gestion-ecole/app/models/paiement_autre_model.php');
 
 class PaiementAutreController {
     private $model;
@@ -20,7 +20,7 @@ class PaiementAutreController {
             $showTable = !empty($eleveInfo);
         }
 
-        include ('C:/xmp/htdocs/gestion-ecole/app/views/paiement/paiement_autre.php');
+        include ('/gestion-ecole/app/views/paiement/paiement_autre.php');
         
     }
 
