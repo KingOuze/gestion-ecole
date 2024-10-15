@@ -56,7 +56,7 @@ $paiements = array_slice($paiements, $offset, $limit);
 
         <!-- Contenu principal -->
         <div class="content flex-grow-1 p-4">
-            <h1 class="mb-4">Suivi de Paiement</h1>
+            <h1 class="mb-4">Suivi de Paiement des employés</h1>
 
             <!-- Sélecteur de mois et barre de recherche -->
             <div class="form-group d-flex align-items-center mb-3">
