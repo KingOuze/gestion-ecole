@@ -4,9 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once '../config/db.php';
-// Ajouter les fichiers nécessaires pour le paiement
-//require '../app/models/PaieModel.php';
-require_once '../app/controllers/PaieProfController.php';
+
 require_once '../app/controllers/ComptableController.php';
 require_once '../app/controllers/SurveillantController.php';
 require_once '../app/controllers/ProfesseurController.php';
@@ -25,7 +23,7 @@ $enseign = new EnseignantController($db);
 $eleve = new EleveController($db);
 $classe = new ClasseController($db);
 $matiere = new MatiereController($db);
-$paieProf = new PaieProf($db); // Instanciation du contrôleur de paiement
+
 
 
 
@@ -40,34 +38,7 @@ try {
 
     switch ($action) {
         
-       case 'paiement':
        
-
-            // Vérification de la méthode de requête pour le paiement ou l'annulation
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
-                $matricule = $_POST['matricule'];
-                $mois = $_POST['mois'];
-                
-               // echo "Matricule: $matricule, Mois: $mois"; // Debugging
-                
-                if (isset($_POST['payer'])) {
-                    $paieProf->payer($matricule, $mois);
-                } elseif (isset($_POST['annuler'])) {
-                    $paieProf->annulerPaiement($matricule, $mois);
-                }
-            }
-        
-            // Recherche et affichage des paiements
-            $search = $_GET['search'] ?? ''; // Valeur de recherche
-            echo "Recherche pour le matricule : $search"; // Debugging
-            
-            $paiements = $paieProf->obtenirPaiements($search, null); // Assurez-vous que le mois est bien géré
-            
-           
-        
-            // Inclure la vue
-            include '../app/views/paiement_view.php';
-            break;
         
        
         case 'create':
