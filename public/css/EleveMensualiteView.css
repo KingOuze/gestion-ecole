@@ -57,6 +57,7 @@ body {
     background: white;
     flex-grow: 1;
     border-radius: 20px;
+    width: auto;
 }
 
 .container1 {
@@ -124,7 +125,12 @@ body {
     padding: 10px 0;
     height: 10px;
     margin-bottom: 50px;
-    width: 1500px;
+    width: 1100px;
+    /* Largeur définie */
+    margin-left: auto;
+    /* Centrage horizontal */
+    margin-right: auto;
+    /* Centrage horizontal */
 }
 
 .search {

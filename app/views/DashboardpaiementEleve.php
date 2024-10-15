@@ -44,7 +44,7 @@
             <div class="flex-blocks">
                 <div class="block">Inscription</div>
                 <div class="block">
-                    <a href="index.php" style="text-decoration: none; color: inherit;">Mensualité</a>
+                    <a href="/gestion-ecole/app/index.php" style="text-decoration: none; color: inherit;">Mensualité</a>
                 </div>
             </div>
         </div>

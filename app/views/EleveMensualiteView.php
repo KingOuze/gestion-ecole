@@ -22,7 +22,7 @@
         </div>
         <ul>
             <li><a href="#">Tableau de Bord</a></li>
-            <li><a href="app/views/DashboardpaiementEleve.php">Retour</a></li>
+            <li><a href="/gestion-ecole/app/views/DashboardpaiementEleve.php">Retour</a></li>
         </ul>
     </div>
 
@@ -237,6 +237,16 @@ function printReceipt() {
     };
 }
 </script>
+
+<script>
+        // Obtenir la date actuelle
+        const currentDate = new Date();
+        // Formater la date
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = currentDate.toLocaleDateString('fr-FR', options);
+        // Afficher la date dans l'élément
+        document.getElementById('modal-date').textContent = formattedDate;
+    </script>
 
 </body>
 </html>
