@@ -7,7 +7,7 @@ function toggleFields() {
     const enseignantFields = document.getElementById('enseignantFields');
     const formTitle = document.getElementById('formTitle');
     const motDePasseInput = document.getElementById('motDePasse');
-
+    const dateNaissanceInput = document.getElementById('dateNaissance');
 
     // Mise à jour du titre en fonction du rôle
     switch (role) {
@@ -44,11 +44,16 @@ function toggleFields() {
     } else if (role === 'eleve') {
         eleveFields.style.display = 'block'; // Afficher les champs élève
         motDePasseInput.removeAttribute('required'); // Retirer l'obligation du mot de passe
-
     } else if (role === 'professeur') {
         professeurFields.style.display = 'block'; // Afficher les champs professeur
     }
+
+    // Bloquer le calendrier à la date maximum
+    const maxDate = new Date(2004, 11, 12); // 12 décembre 2004
+    const formattedDate = maxDate.toISOString().split('T')[0]; // Format YYYY-MM-DD
+    dateNaissanceInput.setAttribute('max', formattedDate);
 }
+
 
 function validateForm() {
     // Effacer les messages d'erreur précédents

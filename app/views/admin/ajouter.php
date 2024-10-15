@@ -74,8 +74,8 @@ error_reporting(E_ALL);
             <div id="eleveFields" style="display:none;">
                 <div class="form-row d-flex flex-wrap">
                     <div class="col-sm-4 form-group">
-                        <label for="dateNaissance">Date de Naissance :</label>
-                        <input type="date" name="dateNaissance" class="form-control" placeholder="Entrer votre date de naissance">
+                    <label for="dateNaissance">Date de Naissance :</label>
+                    <input type="date" name="dateNaissance" class="form-control" id="dateNaissance" required max="2004-12-12">
                         <div class="error-message" id="errorDateNaissance"></div>
                     </div>
 
