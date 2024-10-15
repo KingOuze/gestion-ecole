@@ -179,59 +179,58 @@ list($matricule, $eleveInfo, $showTable) = $controller->handleRequest();
     </div>
 
     <!-- Modal de reçu -->
-    <div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="receiptModalLabel">Reçu de Paiement</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="bulletin-container">
-                        <div class="header">
-                            <img src="/public/images/connexion_image/Badge_Education_Badge_Logo.png" alt="Logo de l'école">
-                            <div class="title">Bulletin de salaire</div>
-                            <div class="date-reçu">
-                                <div>Date : <span id="modal-date"></span></div>
-                                <div>Reçu : N-0001</div>
-                            </div>
-                        </div>
-
-                        <div class="info-section">
-                            <div class="info">
-                                <label>Matricule :</label>
-                                <span id="modal-matricule"></span>
-                            </div>
-                            <div class="info">
-                                <label>Nom et Prénom :</label>
-                                <span id="modal-nom"></span>
-                            </div>
-                            <div class="info">
-                                <label>Montant :</label>
-                                <span id="modal-montant"></span>
-                            </div>
-                            <div class="info">
-                                <label>Mois :</label>
-                                <span id="modal-mois"></span>
-                            </div>
-                        </div>
-
-                        <div class="footer">
-                            <div class="signature">LE DIRECTEUR</div>
-                            <img src="/public/images/logo_directeur.png" alt="Logo de signature" class="signature-logo">
+<div class="modal fade" id="receiptModal" tabindex="-1" aria-labelledby="receiptModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="receiptModalLabel">Reçu de Paiement</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="bulletin-container">
+                    <div class="header">
+                        <img src="/app/views/admin/Badge_Education_Badge_Logo.png" alt="Logo de l'école">
+                        <div class="title">Bulletin de salaire</div>
+                        <div class="date-reçu">
+                            <div>Date : <span id="modal-date">{{ $date }}</span></div>
+                            <div>Reçu : {{ $recuNumber }}</div>
                         </div>
                     </div>
+
+                    <div class="info-section">
+                        <div class="info">
+                            <label>Matricule :</label>
+                            <span id="modal-matricule">{{ $matricule }}</span>
+                        </div>
+                        <div class="info">
+                            <label>Nom et Prénom :</label>
+                            <span id="modal-nom">{{ $nom }} {{ $prenom }}</span>
+                        </div>
+                        <div class="info">
+                            <label>Montant :</label>
+                            <span id="modal-montant">{{ $montant }} FCFA</span>
+                        </div>
+                        <div class="info">
+                            <label>Mois :</label>
+                            <span id="modal-mois">{{ $mois }}</span>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        <div class="signature">LE DIRECTEUR</div>
+                        <img src="/public/images/logo_directeur.png" alt="Logo de signature" class="signature-logo">
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-outline-primary" id="printReceiptButton"><i class="fas fa-print"></i> Imprimer</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-outline-primary" id="printReceiptButton"><i class="fas fa-print"></i> Imprimer</button>
             </div>
         </div>
     </div>
-
+</div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

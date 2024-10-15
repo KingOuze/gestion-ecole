@@ -1,4 +1,3 @@
-
 <?php
 require_once '../models/paiement_autre_model';
 
@@ -40,9 +39,12 @@ class PaiementController {
 
             // Enregistrement du paiement
             if ($this->model->enregistrerPaiement($matricule, $nom, $prenom, $mois, $montant)) {
+                $recuNumber = $this->model->getDernierRecu();
                 echo json_encode([
                     'status' => 'success',
-                    'message' => 'Paiement enregistré avec succès.'
+                    'message' => 'Paiement enregistré avec succès.',
+                    'recuNumber' => 'N-' . str_pad($recuNumber, 4, '0', STR_PAD_LEFT),
+                    'date' => date('d/m/Y')
                 ]);
                 exit;
             }

@@ -21,7 +21,6 @@ class PaiementModel {
 
     // Enregistrer le paiement
     public function enregistrerPaiement($matricule, $nom, $prenom, $mois, $montant) {
-        // Convertir le mois en texte
         $moisEnToutes = $this->convertirMoisEnTexte($mois);
     
         $insertStmt = $this->conn->prepare("
@@ -31,11 +30,12 @@ class PaiementModel {
         $insertStmt->bindParam(':matricule', $matricule);
         $insertStmt->bindParam(':nom', $nom);
         $insertStmt->bindParam(':prenom', $prenom);
-        $insertStmt->bindParam(':mois', $moisEnToutes); // Utiliser le mois converti
+        $insertStmt->bindParam(':mois', $moisEnToutes);
         $insertStmt->bindParam(':montant', $montant);
         return $insertStmt->execute();
     }
     
+    // Convertir le mois en texte
     private function convertirMoisEnTexte($mois) {
         $moisEnToutes = array(
             '01' => 'Janvier',
@@ -54,6 +54,7 @@ class PaiementModel {
     
         return $moisEnToutes[$mois];
     }
+
     // Vérifier si un paiement existe déjà pour un mois donné
     public function paiementExiste($matricule, $mois) {
         $checkStmt = $this->conn->prepare("
@@ -64,6 +65,15 @@ class PaiementModel {
         $checkStmt->bindParam(':mois', $mois);
         $checkStmt->execute();
         return $checkStmt->fetchColumn() > 0;
+    }
+
+    // Récupérer le dernier numéro de reçu
+    public function getDernierRecu() {
+        $stmt = $this->conn->prepare("
+            SELECT MAX(id) AS dernier_recu FROM suivit_de_paiement
+        ");
+        $stmt->execute();
+        return $stmt->fetchColumn();
     }
 }
 ?>
