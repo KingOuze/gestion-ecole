@@ -112,6 +112,22 @@ header {
     color: #ffffff;
     font-size: 20px;
 }
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%; /* Prendre toute la largeur sur petits écrans */
+        position: relative; /* Positionner la barre latérale correctement */
+    }
+    
+    .content {
+        margin-left: 0; /* Enlever la marge gauche sur petits écrans */
+    }
+
+    .box {
+        width: 100%; /* Les boîtes prennent toute la largeur */
+        margin: 10px 0; /* Ajouter un espace entre les boîtes */
+    }
+}
+
 
 /* Media queries pour la réactivité */
 @media (max-width: 768px) {

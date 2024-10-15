@@ -43,7 +43,7 @@ $paiements = array_slice($paiements, $offset, $limit);
     <div class="d-flex">
         <div class="sidebar">
             <div class="logo text-center">
-                <img src="Badge_Education_Badge_Logo.png" alt="Logo">
+                <img src="../admin/Badge_Education_Badge_Logo.png" alt="Logo">
             </div>
             <nav class="nav flex-column">
                 <h4>Ecole de la réussite</h4>
@@ -111,7 +111,7 @@ $paiements = array_slice($paiements, $offset, $limit);
                         </td>
                     </tr>
                  <?php endforeach; ?>
-            ,    <?php else: ?> 
+                <?php else: ?> 
                 <tr>
                     <td colspan="10" class="text-center">Aucun paiement effectué.</td>
                 </tr>
