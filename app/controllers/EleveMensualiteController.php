@@ -6,7 +6,6 @@ error_reporting(E_ALL);
 
 require_once __DIR__ . '/../models/EleveMensualiteModel.php';
 
-
 class EleveController {
     private $model;
 
@@ -28,8 +27,6 @@ class EleveController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['matricule'])) {
                 $matricule = $_POST['matricule'];
-                 // Debugging
-                //  var_dump($matricule);
                 $eleveInfo = $this->model->getEleveByMatricule($matricule);
             }
 
@@ -51,6 +48,5 @@ class EleveController {
         }
 
         include __DIR__ . '/../views/EleveMensualiteView.php';
-
     }
 }

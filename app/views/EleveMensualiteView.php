@@ -22,7 +22,7 @@
         </div>
         <ul>
             <li><a href="#">Tableau de Bord</a></li>
-            <li><a href="/gestion-ecole/app/views/DashboardpaiementEleve.php">Retour</a></li>
+            <li><a href="app/views/DashboardpaiementEleve.php">Retour</a></li>
         </ul>
     </div>
 
@@ -200,11 +200,12 @@
    </div>
 
    <script>
-function remplirModal(matricule, nom, montant, mois) {
+function remplirModal(matricule, nom, montant, mois, numeroRecu) {
     document.getElementById('modal-matricule').textContent = matricule;
     document.getElementById('modal-nom').textContent = nom;
     document.getElementById('modal-montant').textContent = montant;
     document.getElementById('modal-mois').textContent = mois;
+    document.getElementById('modal-recu').textContent = numeroRecu; // Ajouter cette ligne
 
     var today = new Date();
     var date = today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear();
