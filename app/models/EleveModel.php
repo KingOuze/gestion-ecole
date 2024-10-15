@@ -142,14 +142,14 @@ class Eleve {
     } 
 
     public function countPayement() {
-        $stmt = $this->db->prepare("SELECT COUNT(*) as count FROM eleve WHERE status = 1 ");
+        $stmt = $this->db->prepare("SELECT COUNT(*) as count FROM eleve WHERE status = 1 AND archive= 0");
         $stmt->execute();
         $nbrePayement = $stmt->fetch(PDO::FETCH_ASSOC);
         return $nbrePayement['count']; // Retourne le nombre de paiements payés
     }
 
     public function getRestePayement() {
-        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM eleve WHERE status = 0 ");
+        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM eleve WHERE status = 0 AND archive= 0");
         $stmt->execute();
         $totalPaiement = $stmt->fetch(PDO::FETCH_ASSOC);
         return $totalPaiement['total']; // Retourne le montant total des paiements payés
