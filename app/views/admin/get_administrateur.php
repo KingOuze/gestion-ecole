@@ -31,4 +31,3 @@ try {
 } catch (PDOException $e) {
     echo "Erreur : " . htmlspecialchars($e->getMessage());
 }
-?>

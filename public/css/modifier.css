@@ -104,6 +104,18 @@ body {
 
 .add-button i {
     margin-right: 10px;
+
+.add-button a {
+
+    color: white;
+    text-decoration: none;
+}
+}
+tbody{
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
 .add-button a {
@@ -127,9 +139,10 @@ table thead {
 }
 
 table th, table td {
-    padding: 15px;
+    padding: 30px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+    height: 50%;
 }
 
 table th {

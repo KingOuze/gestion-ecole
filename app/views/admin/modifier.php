@@ -1,5 +1,13 @@
 <?php
+<<<<<<< HEAD
 require_once('/gestion-ecole/config/db.php');
+=======
+
+
+
+
+
+>>>>>>> d7778172e2bbcf13bf490c2fec7ff3b77c2be1e8
 // Récupération des données de l'administrateur
 $telephone = isset($_GET['telephone']) ? htmlspecialchars($_GET['telephone']) : '';
 $prenom = $nom = $email = '';

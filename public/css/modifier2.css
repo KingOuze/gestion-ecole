@@ -11,24 +11,20 @@ body {
 .container {
     background-color: white;
     padding: 100px;
-    padding-top: 50px; /* Ajoutez ou modifiez cette ligne pour augmenter l'espace à l'intérieur */
+    padding-top: 50px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
     width: 90%;
     max-width: 600px;
-
-h1 {
-    
-        text-align: left;
-        color: #2e7d32;
-        margin-bottom: 20px;
-        margin-top: 20px; /* Ajoutez cette ligne pour donner plus d'espace au-dessus */
-        
-    }
-    
 }
 
-/* Form row pour aligner les inputs côte à côte */
+h1 {
+    text-align: left;
+    color: #2e7d32;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
 .form-row {
     display: flex;
     justify-content: space-between;
@@ -100,7 +96,6 @@ input:focus {
     background-color: #c62828;
 }
 
-/* Responsive pour petits écrans */
 @media (max-width: 600px) {
     .form-row {
         flex-direction: column;

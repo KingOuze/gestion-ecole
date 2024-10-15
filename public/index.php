@@ -22,7 +22,6 @@ $compta = new ComptableController($db);
 $enseign = new EnseignantController($db);
 $eleve = new EleveController($db);
 $classe = new ClasseController($db);
-$matiere = new MatiereController($db);
 
 
 
@@ -222,36 +221,42 @@ try {
                     $role1 = 'eleve';
                     include '../app/views/admin/edite.php';
                     break;
-            }  
-            break;    
+                    }  
+                    break;    
+
         case 'archive':
+
+            if (isset($_POST['id'])) {
+                $id = htmlspecialchars($_POST['id']);
+                # code...
+            }  else {
+                echo'ID null';
+            }                     
+            
             switch ($role) {
+                
                 case 'administrateur':
                     $admin->archive($id);
                     break;
                     
                 case 'comptable':
-                        
                     $compta->archive($id);                              
                     break;
-
+        
                 case 'professeur':
                     $prof->archive($id);             
                     break;
-
+        
                 case 'surveillant':
-                        
-                    $surveil->archive($id) ;         
+                    $surveil->archive($id);         
                     break;
-
+        
                 case 'enseignant':
-                        
                     $enseign->archive($id);          
                     break;
-
+        
                 case 'eleve':
-                        
-                    $eleve->archive($id);        
+                    $eleve->archive($id);      
                     break;
 
                     default:
@@ -265,8 +270,12 @@ try {
             break;
         
     }
-        
+   
 
 } catch (Exception $e) {
     echo 'Erreur : ' . $e->getMessage();
+    
+   
+
+
 }

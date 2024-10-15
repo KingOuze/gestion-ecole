@@ -7,7 +7,7 @@
 body {
     font-family: Arial, sans-serif;
     display: flex;
-    background-image: url('/gestion-ecole/public/images/profs.png');
+    background-image: url('../../app/views/paiement/Capture d\'écran 2024-10-08 124031.png');
     background-size: 900px;
     background-position: bottom;
     background-repeat: no-repeat;
@@ -112,6 +112,22 @@ header {
     color: #ffffff;
     font-size: 20px;
 }
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%; /* Prendre toute la largeur sur petits écrans */
+        position: relative; /* Positionner la barre latérale correctement */
+    }
+    
+    .content {
+        margin-left: 0; /* Enlever la marge gauche sur petits écrans */
+    }
+
+    .box {
+        width: 100%; /* Les boîtes prennent toute la largeur */
+        margin: 10px 0; /* Ajouter un espace entre les boîtes */
+    }
+}
+
 
 /* Media queries pour la réactivité */
 @media (max-width: 768px) {

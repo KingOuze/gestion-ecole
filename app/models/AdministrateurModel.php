@@ -31,13 +31,35 @@ class Administrateur {
             return false; // Indiquer un échec
         }
     }
-
-    public function update($id_admin, $nom, $prenom, $email, $telephone,$adresse) {
-        $stmt = $this->db->prepare("UPDATE administrateur SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ? WHERE id = ?");
-    
-        return $stmt->execute([$nom, $prenom, $email, $telephone, $adresse, $id_admin]);
+    public function verifyPassword($id_admin, $ancienMotDePasse) {
+        $stmt = $this->db->prepare("SELECT mot_de_passe FROM administrateur WHERE id = ?");
+        $stmt->execute([$id_admin]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
+        return password_verify($ancienMotDePasse, $user['mot_de_passe']); // Assurez-vous d'utiliser 'mot_de_passe'
     }
+    
+    public function updatePassword($id_admin, $nouveauMotDePasse) {
+        $stmt = $this->db->prepare("UPDATE administrateur SET mot_de_passe = ? WHERE id = ?");
+        return $stmt->execute([password_hash($nouveauMotDePasse, PASSWORD_DEFAULT), $id_admin]);
+    }
+    
+    public function update($id_admin, $nom, $prenom, $email, $telephone, $adresse) {
+        $stmt = $this->db->prepare("UPDATE administrateur SET nom = ?, prenom = ?, email = ?, telephone = ?, adresse = ? WHERE id = ?");
+        return $stmt->execute([$nom, $prenom, $email, $telephone, $adresse, $id_admin]);
+    }
+    public function checkEmailExists($email, $id_admin) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM administrateur WHERE email = ? AND id != ?");
+        $stmt->execute([$email, $id_admin]);
+        return $stmt->fetchColumn() > 0;
+    }
+    
+    public function checkPhoneExists($telephone, $id_admin) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM administrateur WHERE telephone = ? AND id != ?");
+        $stmt->execute([$telephone, $id_admin]);
+        return $stmt->fetchColumn() > 0;
+    }
+    
 
     
     public function delete($id_admin) {
@@ -65,10 +87,11 @@ class Administrateur {
             return $data['count']; // Retourne le nombre d'enseignants
         }
 
-       // Méthode pour archiver un administrateur
+   // Méthode pour archiver un administrateur
     public function archive($id_admin) {
         $stmt = $this->db->prepare("UPDATE administrateur SET archive = 1 WHERE id = :id_admin");
         $stmt->bindParam(':id_admin', $id_admin); // Lier l'ID administrateur
         return $stmt->execute(); // Retourne le résultat de l'exécution
     }
+
 }
