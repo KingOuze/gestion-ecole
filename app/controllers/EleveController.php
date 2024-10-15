@@ -11,7 +11,7 @@ class EleveController {
     private $model;
 
     public function __construct($database) {
-        $this->model = new Eleve($database);
+        $this->model = new Eleve($database); 
     }
 
     public function add() {
