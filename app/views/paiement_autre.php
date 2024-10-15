@@ -17,7 +17,6 @@ $controller = new PaiementController($conn);
 list($matricule, $eleveInfo, $showTable) = $controller->handleRequest();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -98,9 +97,10 @@ list($matricule, $eleveInfo, $showTable) = $controller->handleRequest();
                                     <select class="form-control payment-status" data-matricule="<?php echo htmlspecialchars($row['matricule']); ?>" data-nom="<?php echo htmlspecialchars($row['nom']); ?>" data-prenom="<?php echo htmlspecialchars($row['prenom']); ?>" data-montant="<?php echo htmlspecialchars($row['montant']); ?>">
                                         <option value="non-paye">Non payé</option>
                                         <option value="payer">Payer</option>
-                                       
+                                    
                                     </select>
                                     <button class="btn btn-secondary btn-receipt" style="display: none;">Générer un reçu</button>
+                                    <button class="btn btn-success btn-deja-paye" style="display: none;">Déjà payé</button>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
@@ -132,6 +132,27 @@ list($matricule, $eleveInfo, $showTable) = $controller->handleRequest();
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
                     <button type="button" class="btn btn-primary" id="confirmPaymentButton">Oui</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de succès de paiement -->
+    <div class="modal fade" id="paymentSuccessModal" tabindex="-1" aria-labelledby="paymentSuccessModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentSuccessModalLabel">Paiement Enregistré avec Succès</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="successMessage"></p>
+                    <p>Date et Heure : <span id="currentDateTime"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
                 </div>
             </div>
         </div>
@@ -212,126 +233,131 @@ list($matricule, $eleveInfo, $showTable) = $controller->handleRequest();
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function() {
-    $('.btn-receipt').on('click', function() {
-        // Récupérer les données nécessaires pour le reçu
-        var matricule = $(this).closest('tr').find('.payment-status').data('matricule');
-        var nom = $(this).closest('tr').find('.payment-status').data('nom');
-        var prenom = $(this).closest('tr').find('.payment-status').data('prenom');
-        var montant = $(this).closest('tr').find('.payment-status').data('montant');
-        var mois = $(this).closest('tr').find('.month-select').val();
-        var date = new Date().toLocaleDateString(); // Date actuelle pour le reçu
-        var numeroRecu = 'N-0001'; // Exemple de numéro de reçu, vous pouvez le générer dynamiquement si nécessaire
-
-        // Remplir les données du reçu dans le modal
-        $('#receiptModal .modal-body .bulletin-container #modal-matricule').text(matricule);
-        $('#receiptModal .modal-body .bulletin-container #modal-nom').text(nom + ' ' + prenom);
-        $('#receiptModal .modal-body .bulletin-container #modal-montant').text(montant + ' FCFA');
-        $('#receiptModal .modal-body .bulletin-container #modal-mois').text(mois);
-        $('#receiptModal .modal-body .bulletin-container .date-reçu div:first-child span').text(date);
-        $('#receiptModal .modal-body .bulletin-container .date-reçu div:last-child').text('Reçu : ' + numeroRecu);
-
-        // Afficher le modal
-        $('#receiptModal').modal('show');
-    });
-});
-</script>
-
-
-    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-       document.addEventListener('DOMContentLoaded', function() {
-    let currentRow;
+    $(document).ready(function() {
+        $('.btn-receipt').on('click', function() {
+            // Récupérer les données nécessaires pour le reçu
+            var matricule = $(this).closest('tr').find('.payment-status').data('matricule');
+            var nom = $(this).closest('tr').find('.payment-status').data('nom');
+            var prenom = $(this).closest('tr').find('.payment-status').data('prenom');
+            var montant = $(this).closest('tr').find('.payment-status').data('montant');
+            var mois = $(this).closest('tr').find('.month-select').val();
+            var date = new Date().toLocaleDateString(); // Date actuelle pour le reçu
+            var numeroRecu = 'N-0001'; // Exemple de numéro de reçu, vous pouvez le générer dynamiquement si nécessaire
 
-    // Gérer l'affichage de la section d'image et du tableau
-    function toggleImageAndTable() {
-        const imageSection = document.getElementById('image-section');
-        const resultsTable = document.getElementById('results-table');
+            // Remplir les données du reçu dans le modal
+            $('#receiptModal .modal-body .bulletin-container #modal-matricule').text(matricule);
+            $('#receiptModal .modal-body .bulletin-container #modal-nom').text(nom + ' ' + prenom);
+            $('#receiptModal .modal-body .bulletin-container #modal-montant').text(montant + ' FCFA');
+            $('#receiptModal .modal-body .bulletin-container #modal-mois').text(mois);
+            $('#receiptModal .modal-body .bulletin-container .date-reçu div:first-child span').text(date);
+            $('#receiptModal .modal-body .bulletin-container .date-reçu div:last-child').text('Reçu : ' + numeroRecu);
 
-        // Si le tableau existe et qu'il a des lignes, on masque l'image
-        if (resultsTable && resultsTable.style.display !== 'none') {
-            imageSection.style.display = 'none'; // Masquer l'image si le tableau est visible
-        } else {
-            imageSection.style.display = 'block'; // Afficher l'image si le tableau est masqué
-        }
-    }
-
-    // Appel initial pour définir l'affichage
-    toggleImageAndTable();
-
-    // Événement pour le champ matricule
-    const matriculeInput = document.querySelector('input[name="matricule"]');
-    matriculeInput.addEventListener('input', function() {
-        if (!this.value.trim()) { // Si le champ est vide
-            toggleImageAndTable(); // Met à jour l'affichage
-        }
-    });
-
-    // Événement pour le bouton de recherche
-    document.querySelector('form').addEventListener('submit', function() {
-        toggleImageAndTable(); // Met à jour l'affichage lors de la soumission
-    });
-
-    document.querySelectorAll('.payment-status').forEach(select => {
-        select.addEventListener('change', function() {
-            const selectedValue = this.value;
-            currentRow = this.closest('tr');
-
-            if (selectedValue === 'payer') {
-                $('#paymentConfirmationModal').modal('show');
-            } else if (selectedValue === 'deja-paye') {
-                const receiptButton = currentRow.querySelector('.btn-receipt');
-                receiptButton.style.display = 'inline-block';
-            } else {
-                const receiptButton = currentRow.querySelector('.btn-receipt');
-                receiptButton.style.display = 'none';
-            }
+            // Afficher le modal
+            $('#receiptModal').modal('show');
         });
     });
 
-    document.getElementById('confirmPaymentButton').addEventListener('click', function() {
-        const matricule = currentRow.querySelector('.payment-status').dataset.matricule;
-        const nom = currentRow.querySelector('.payment-status').dataset.nom;
-        const prenom = currentRow.querySelector('.payment-status').dataset.prenom;
-        const montant = currentRow.querySelector('.payment-status').dataset.montant;
-        const mois = currentRow.querySelector('.month-select').value;
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentRow;
 
-        const form = new FormData();
-        form.append('matricule', matricule);
-        form.append('nom', nom);
-        form.append('prenom', prenom);
-        form.append('montant', montant);
-        form.append('mois', mois);
-        form.append('enregistrer', true);
+        // Gérer l'affichage de la section d'image et du tableau
+        function toggleImageAndTable() {
+            const imageSection = document.getElementById('image-section');
+            const resultsTable = document.getElementById('results-table');
 
-        fetch(window.location.href, {
-            method: 'POST',
-            body: form
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert(data.message);
-                $('#paymentConfirmationModal').modal('hide');
+            // Si le tableau existe et qu'il a des lignes, on masque l'image
+            if (resultsTable && resultsTable.style.display !== 'none') {
+                imageSection.style.display = 'none'; // Masquer l'image si le tableau est visible
+            } else {
+                imageSection.style.display = 'block'; // Afficher l'image si le tableau est masqué
+            }
+        }
 
+        // Appel initial pour définir l'affichage
+        toggleImageAndTable();
+
+        // Événement pour le champ matricule
+        const matriculeInput = document.querySelector('input[name="matricule"]');
+        matriculeInput.addEventListener('input', function() {
+            if (!this.value.trim()) { // Si le champ est vide
+                toggleImageAndTable(); // Met à jour l'affichage
+            }
+        });
+
+        // Événement pour le bouton de recherche
+        document.querySelector('form').addEventListener('submit', function() {
+            toggleImageAndTable(); // Met à jour l'affichage lors de la soumission
+        });
+
+        document.querySelectorAll('.payment-status').forEach(select => {
+            select.addEventListener('change', function() {
+                const selectedValue = this.value;
+                currentRow = this.closest('tr');
+
+                if (selectedValue === 'payer') {
+                    $('#paymentConfirmationModal').modal('show');
+                } else if (selectedValue === 'deja-paye') {
+                    const receiptButton = currentRow.querySelector('.btn-receipt');
+                    receiptButton.style.display = 'inline-block';
+                } else {
+                    const receiptButton = currentRow.querySelector('.btn-receipt');
+                    receiptButton.style.display = 'none';
+                }
+            });
+        });
+
+        document.getElementById('confirmPaymentButton').addEventListener('click', function() {
+    const matricule = currentRow.querySelector('.payment-status').dataset.matricule;
+    const nom = currentRow.querySelector('.payment-status').dataset.nom;
+    const prenom = currentRow.querySelector('.payment-status').dataset.prenom;
+    const montant = currentRow.querySelector('.payment-status').dataset.montant;
+    const mois = currentRow.querySelector('.month-select').value;
+
+    const form = new FormData();
+    form.append('matricule', matricule);
+    form.append('nom', nom);
+    form.append('prenom', prenom);
+    form.append('montant', montant);
+    form.append('mois', mois);
+    form.append('enregistrer', true);
+
+    fetch(window.location.href, {
+        method: 'POST',
+        body: form
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            $('#paymentConfirmationModal').modal('hide');
+
+            // Afficher le modal de succès
+            const currentTime = new Date();
+            const formattedDateTime = currentTime.toLocaleString('fr-FR'); // Format français
+            document.getElementById('successMessage').textContent = 'Le paiement a été enregistré avec succès.';
+            document.getElementById('currentDateTime').textContent = formattedDateTime;
+            $('#paymentSuccessModal').modal('show');
+
+            // Mettre à jour la ligne après la fermeture du modal de succès
+            $('#paymentSuccessModal').on('hidden.bs.modal', function () {
                 const paymentStatusSelect = currentRow.querySelector('.payment-status');
                 paymentStatusSelect.value = 'deja-paye'; // Mettre à jour le sélecteur
                 const receiptButton = currentRow.querySelector('.btn-receipt');
                 receiptButton.style.display = 'inline-block'; // Afficher le bouton "Générer un reçu"
-            } else {
-                $('#paymentAlreadyExistsModal').modal('show');
-                document.getElementById('existingPaymentMessage').textContent = data.message;
-            }
-        });
-    });
-
-    document.getElementById('printReceiptButton').addEventListener('click', function() {
-        window.print();
+            });
+        } else {
+            $('#paymentAlreadyExistsModal').modal('show');
+            document.getElementById('existingPaymentMessage').textContent = data.message;
+        }
     });
 });
+
+        document.getElementById('printReceiptButton').addEventListener('click', function() {
+            window.print();
+        });
+    });
     </script>
 </body>
 </html>
