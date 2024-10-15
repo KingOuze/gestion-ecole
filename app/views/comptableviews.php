@@ -40,7 +40,7 @@
             <div class="option">
                 <h2>Paiement Élèves</h2>
                 <p>Montants totaux payés et restants pour les frais de scolarité.</p>
-                <button>Voir</button>
+                <button><a href="/gestion-ecole/app/views/DashboardpaiementEleve.php">Voir</a></button>
             </div>
             <div class="option">
                 <h2>Paiement employés</h2>

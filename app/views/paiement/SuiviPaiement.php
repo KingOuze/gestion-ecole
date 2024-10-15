@@ -1,6 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 require_once __DIR__ . '/../../../config/db.php';
-require_once ('C:/xmp/htdocs/gestion-ecole/app/controllers/SuiviPaiementController.php');
+require_once __DIR__ . '/../../controllers/SuiviPaiementController.php';
     
 // Créer une instance de la connexion à la base de données
 $database = new Database();
@@ -36,14 +39,14 @@ $paiements = array_slice($paiements, $offset, $limit);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suivi des Paiements</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../public/css/SuiviPaiement.css">
+    <link rel="stylesheet" href="/gestion-ecole/public/css/SuiviPaiement.css">
 </head>
 <body>
     <!-- Barre latérale -->
     <div class="d-flex">
         <div class="sidebar">
             <div class="logo text-center">
-                <img src="../admin/Badge_Education_Badge_Logo.png" alt="Logo">
+                <img src="/gestion-ecole/app/views/admin/Badge_Education_Badge_Logo.png" alt="Logo">
             </div>
             <nav class="nav flex-column">
                 <h4>Ecole de la réussite</h4>
@@ -125,6 +128,6 @@ $paiements = array_slice($paiements, $offset, $limit);
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="../../../public/js/input.js"></script> <!-- Lien vers le fichier JS -->
+    <script src="/gestion-ecole/public/js/input.js"></script> <!-- Lien vers le fichier JS -->
 </body>
 </html>

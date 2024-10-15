@@ -8,6 +8,7 @@ require '../config/db.php';
 require '../app/models/PaieModel.php';
 require '../app/controllers/PaieProfController.php';
 
+
 // Instanciation du contrôleur
 $controller = new PaieProf($db);
 
