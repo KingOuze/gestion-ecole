@@ -115,15 +115,16 @@ class EleveController {
     public function getJoinMat($matricule) {
         $student = $this->model->getJoinMat($matricule);
         if ($student) {
-            return $student;
+            var_dump($student);
+           // return $student;
         } else {
             return "Aucune éleve trouvé avec ce matricule";
         }
     }
 
-    public function processPayment( $id) {
-         
-        return $this->model->processPayment($id);
+    public function processPayment( $id) {       
+        return $this->model->processPayment($id);   //
+      
     }
 
     public function countPayements() {

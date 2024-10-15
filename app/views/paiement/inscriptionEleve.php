@@ -116,7 +116,7 @@ ini_set('display_errors', 1);
                                 <td><?= $student['matricule'] ?></td>
                                 <td><?= $student['prenom'] ?> <?= $student['nom'] ?></td>
                                 <td><?= $student['niveau_classe'] ?>/<?= $student['nom_classe'] ?></td>
-                                <td><?= $student['montant_tarif'] ?></td>
+                                <td><?= $student['frais'] ?></td>
                                 <td><?= $student['annee'] ?></td>
                                 <?php if($student['status'] == 0){ ?>
                                     <td id="txt_validation" class="id_non_payé" style="display: block;">Non payé</td>
@@ -187,7 +187,7 @@ ini_set('display_errors', 1);
             const id = <?= $student['id'] ?>; // Récupérez le matricule du PHP
             const matricule = "<?= $student['matricule'] ?>"; // Récupérez le matricule du PHP
 
-        
+            console.log(id);
             
             // Envoi de la requête AJAX
             fetch(baseUrl + queryString, {

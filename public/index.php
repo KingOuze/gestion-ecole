@@ -20,7 +20,7 @@ $compta = new ComptableController($db);
 $enseign = new EnseignantController($db);
 $eleve = new EleveController($db);
 $classe = new ClasseController($db);
-$matiere = new MatiereController($db);
+//$matiere = new MatiereController($db);
 
 
 
@@ -257,10 +257,11 @@ try {
 
             if (isset($_POST["matricule"])) {
                 $matricule = htmlspecialchars($_POST['matricule']);
-        
+               
                 // Check if the id is set to process payment
                 if (isset($_POST["id"])) {
                     $id = htmlspecialchars($_POST['id']);
+                    var_dump($id);
                     $result = $eleve->processPayment( $id);
                     echo json_encode(['success' => $result]);
                 } else {
