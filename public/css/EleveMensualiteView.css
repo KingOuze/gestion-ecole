@@ -125,12 +125,7 @@ body {
     padding: 10px 0;
     height: 10px;
     margin-bottom: 50px;
-    width: 1100px;
-    /* Largeur définie */
-    margin-left: auto;
-    /* Centrage horizontal */
-    margin-right: auto;
-    /* Centrage horizontal */
+    width: 1500px;
 }
 
 .search {
