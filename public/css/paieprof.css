@@ -20,8 +20,9 @@ body {
     left: 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; /* Aligne les éléments en haut */
 }
+
 
 .sidebar .logo img {
     width: 150px;

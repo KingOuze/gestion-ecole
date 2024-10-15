@@ -27,8 +27,8 @@
         <h1>Paiements des professeurs</h1>
         
         <form method="GET" action="">
-            
-            <input type="text" name="search" placeholder="Rechercher par matricule..." value="<?php echo htmlspecialchars($search); ?>" />
+            <input type="text" name="search" placeholder="Rechercher par matricule..." value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>" />
+            <input type="text" name="mois" placeholder="Rechercher par mois (ex: 2024-10)..." value="<?php echo isset($mois) ? htmlspecialchars($mois) : ''; ?>" />
             <input type="submit" value="Rechercher" />
         </form>
     </div>
@@ -68,15 +68,15 @@
                             <form method="POST" action="" style="display: inline;">
                                 <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($paiement['matricule']); ?>">
                                 <input type="hidden" name="mois" value="<?php echo htmlspecialchars($paiement['mois']); ?>">
-                                <button type="submit" name="payer">Payer</button>
+                                <button type="submit" name="payer" class="btn btn-success">Payer</button>
                             </form>
                         <?php else: ?>
                             <form method="POST" action="" style="display: inline;">
                                 <input type="hidden" name="matricule" value="<?php echo htmlspecialchars($paiement['matricule']); ?>">
                                 <input type="hidden" name="mois" value="<?php echo htmlspecialchars($paiement['mois']); ?>">
-                                <button type="submit" name="annuler">Annuler paiement</button>
+                                <button type="submit" name="annuler" class="btn btn-danger">Annuler paiement</button>
                             </form>
-                            <button class="btn-receipt" data-matricule="<?php echo htmlspecialchars($paiement['matricule']); ?>" 
+                            <button class="btn btn-info btn-receipt" data-matricule="<?php echo htmlspecialchars($paiement['matricule']); ?>" 
                                     data-nom="<?php echo htmlspecialchars($paiement['prenom'] . ' ' . $paiement['nom']); ?>" 
                                     data-montant="<?php echo htmlspecialchars($paiement['total_salaire']); ?>" 
                                     data-mois="<?php echo htmlspecialchars($paiement['mois']); ?>" 

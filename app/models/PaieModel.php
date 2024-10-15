@@ -5,41 +5,43 @@ class Paie {
     public function __construct($db) {
         $this->db = $db;
     }
-
-    // Obtenir les paiements en fonction des paramètres de recherche
     public function obtenirPaiements($search, $mois) {
-        
-        $sql = "SELECT a.prenom, a.nom, a.matricule, s.taux_horaire, SUM(s.heures_travaillees) AS heures_travaillees,
-                SUM(s.total_salaire) AS total_salaire, s.mois, s.paiement_effectue
-                FROM administrateur a 
-                JOIN salaire s ON a.id = s.id_admin 
-                WHERE 1=1"; // 1=1 pour faciliter l'ajout de conditions
-
-        // Ajout de conditions de recherche si présentes
+        $sql = "SELECT a.prenom, a.nom, a.matricule, s.taux_horaire, 
+                       SUM(s.heures_travaillees) AS heures_travaillees, 
+                       SUM(s.total_salaire) AS total_salaire, s.mois, s.paiement_effectue
+                FROM administrateur a
+                JOIN salaire s ON a.id = s.id_admin
+                WHERE 1=1"; 
+    
+        // Ajout des conditions de recherche
         if (!empty($search)) {
             $sql .= " AND a.matricule = :search";
         }
-        
         if (!empty($mois)) {
-            $sql .= " AND s.mois = :mois"; // Ajouter le filtre par mois uniquement si sélectionné
+            $sql .= " AND s.mois = :mois";
         }
-
-        $sql .= " GROUP BY a.id, s.mois"; // Grouper par professeur et mois
-
+    
+        $sql .= " GROUP BY a.id, s.mois";  
+    
+        // Debugging: vérifier les valeurs des variables
+        error_log("Requête SQL: " . $sql);
+        error_log("Paramètre 'search': " . $search);
+        error_log("Paramètre 'mois': " . $mois);
+    
         $stmt = $this->db->prepare($sql);
-        
-        // Lier les paramètres si nécessaires
+    
+        // Liaison des paramètres
         if (!empty($search)) {
             $stmt->bindParam(':search', $search);
         }
-    
         if (!empty($mois)) {
             $stmt->bindParam(':mois', $mois);
         }
     
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Récupérer tous les résultats
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
 
     // Vérifier si un professeur a déjà été payé pour un mois donné
     public function verifierPaiement($id_admin, $mois) {
@@ -61,13 +63,12 @@ class Paie {
         $stmt->execute();
     }
 
-    // Méthode pour obtenir le paiement par matricule
+    // Méthode pour obtenir un paiement spécifique par matricule
     public function obtenirPaiementParMatricule($matricule) {
         $sql = "
-        SELECT a.prenom, a.nom, a.matricule, s.taux_horaire, s.heures_travaillees, p.id_admin
+        SELECT a.prenom, a.nom, a.matricule, s.taux_horaire, s.heures_travaillees, a.id as id_admin
         FROM administrateur a
-        JOIN professeur p ON a.id = p.id_admin
-        JOIN salaire s ON p.id_admin = s.id_admin
+        JOIN salaire s ON a.id = s.id_admin
         WHERE a.matricule = :matricule"; 
 
         $stmt = $this->db->prepare($sql);

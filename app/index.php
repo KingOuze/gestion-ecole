@@ -25,7 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Recherche et affichage des paiements
 $search = $_GET['search'] ?? '';
-$paiements = $controller->obtenirPaiements($search, null);
+$mois = $_GET['mois'] ?? ''; // Récupérer le mois à partir des paramètres GET
+$paiements = $controller->obtenirPaiements($search, $mois); // Passer le mois au contrôleur
 
 // Inclure la vue
 require '../app/views/paiement_view.php';
