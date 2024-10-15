@@ -95,7 +95,7 @@ class EleveModel {
     
             // Exécutez la requête
             if ($stmt->execute()) {
-                echo "Paiement ajouté avec succès.";
+                //echo "Paiement ajouté avec succès.";
             } else {
                 echo "Erreur lors de l'insertion : " . implode(" ", $stmt->errorInfo());
             }
