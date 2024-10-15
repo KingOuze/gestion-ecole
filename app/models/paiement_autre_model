@@ -21,6 +21,9 @@ class PaiementModel {
 
     // Enregistrer le paiement
     public function enregistrerPaiement($matricule, $nom, $prenom, $mois, $montant) {
+        // Convertir le mois en texte
+        $moisEnToutes = $this->convertirMoisEnTexte($mois);
+    
         $insertStmt = $this->conn->prepare("
             INSERT INTO suivit_de_paiement (matricule, nom, prenom, mois_payer, montant, etat_paiement)
             VALUES (:matricule, :nom, :prenom, :mois, :montant, 'payé')
@@ -28,11 +31,29 @@ class PaiementModel {
         $insertStmt->bindParam(':matricule', $matricule);
         $insertStmt->bindParam(':nom', $nom);
         $insertStmt->bindParam(':prenom', $prenom);
-        $insertStmt->bindParam(':mois', $mois);
+        $insertStmt->bindParam(':mois', $moisEnToutes); // Utiliser le mois converti
         $insertStmt->bindParam(':montant', $montant);
         return $insertStmt->execute();
     }
-
+    
+    private function convertirMoisEnTexte($mois) {
+        $moisEnToutes = array(
+            '01' => 'Janvier',
+            '02' => 'Février',
+            '03' => 'Mars',
+            '04' => 'Avril',
+            '05' => 'Mai',
+            '06' => 'Juin',
+            '07' => 'Juillet',
+            '08' => 'Août',
+            '09' => 'Septembre',
+            '10' => 'Octobre',
+            '11' => 'Novembre',
+            '12' => 'Décembre'
+        );
+    
+        return $moisEnToutes[$mois];
+    }
     // Vérifier si un paiement existe déjà pour un mois donné
     public function paiementExiste($matricule, $mois) {
         $checkStmt = $this->conn->prepare("

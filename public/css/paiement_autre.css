@@ -271,19 +271,3 @@ button.btn-danger:hover {
     margin-right: 10px; /* Espacement entre l'icône et le texte */
     font-size: 1.2em; /* Taille des icônes */
 }
-
-
-.image-section {
-    display: flex; /* Utilise le flexbox pour centrer l'image */
-    justify-content: center; /* Centre horizontalement */
-    align-items: center; /* Centre verticalement */
-    margin-top: 0; /* Enlève la marge supérieure */
-    height: 110vh; /* Prend toute la hauteur de la fenêtre */
-    overflow: hidden; /* Cache tout débordement */
-}
-
-.responsive-image {
-    width: 100%; /* L'image prend toute la largeur de son conteneur */
-    height: 100%; /* L'image prend toute la hauteur de son conteneur */
-    object-fit: cover; /* Couvre complètement le conteneur tout en gardant les proportions */
-}
