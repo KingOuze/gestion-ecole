@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+ <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -6,9 +7,6 @@
     <title>Gestion des employés</title>
     <link rel="stylesheet" href="../../../public/css/Gestion_paiement.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- Pour les icônes -->
-    <style>
-        /* Ajoute le CSS ici ou dans un fichier externe */
-    </style>
 </head>
 <body>
     <div class="sidebar">
@@ -26,7 +24,7 @@
         <header>
             <h1>Gestion de paiements des employés</h1>
             <div class="header-actions">
-                <a href="../../connexion/connexion.php" class="logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+                <a href="connexion.php" class="logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
             </div>
         </header>
         
@@ -36,17 +34,21 @@
         </div>
         <hr class="divider">
         <div class="info">
-            <div class="box">
-                <a href="" class="btn-secondary">Professeur</a>
-            </div>
-            <div class="box">
-                <a href="SuiviPaiement.php" class="btn-secondary">SuiviPaiement</a>
-            </div>
-            <div class="box">
-                <a href="" class="btn-secondary">Autres</a>
-            </div>
-        </div>
+        <div class="info">
+    <div class="box">
+        
+        <a href="" class="btn-secondary">Professeur</a>
+        
     </div>
+    <div class="box">
+    <a href="SuiviPaiement.php" class="btn-secondary">SuiviPaiement</a>
+    </div>
+    <div class="box">
+    <a href="" class="btn-secondary">Autres</a>
+    </div>
+</div>
+
+    
+    <div class="image"></div>
 </body>
 </html>
-                   
