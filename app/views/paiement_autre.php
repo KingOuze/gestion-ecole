@@ -4,16 +4,13 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Inclure la connexion à la base de données
-try {
-    $conn = new PDO("mysql:host=localhost;dbname=gestion-ecole;charset=utf8", 'niassy', '1903');
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
-}
+require_once '../../config/db.php'; // 
 
 // Inclure le contrôleur
 require_once '../controllers/paiement_autre_controller.php';
-$controller = new PaiementController($conn);
+
+// Initialiser le contrôleur avec la connexion PDO
+$controller = new PaiementController($db); 
 list($matricule, $eleveInfo, $showTable) = $controller->handleRequest();
 ?>
 
