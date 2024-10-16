@@ -4,7 +4,6 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 ?>
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -13,13 +12,12 @@ error_reporting(E_ALL);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/gestion-ecole/public/css/inscription.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
 </head>
 <body>
     <div class="container">
         <form action="index.php?action=create" method="POST" onsubmit="return validateForm()">
-        <h1 id="formTitle">Inscription</h1>
-        <img src="../../../public/images/IconeInscription.png" alt="Icone " class="img-top-right">
+            <h1 id="formTitle">Inscription</h1>
+            <img src="../../../public/images/IconeInscription.png" alt="Icone " class="img-top-right">
 
             <div class="form-row d-flex flex-wrap">
                 <div class="col-sm-4 form-group">
@@ -50,7 +48,7 @@ error_reporting(E_ALL);
                             <button type="button" id="togglePassword" class="btn btn-outline-secondary">
                                 <i class="fas fa-eye" id="eyeIcon"></i>
                             </button>
-                    </div>
+                        </div>
                     </div>
                     <div class="error-message" id="errorMotDePasse"></div>
                 </div>
@@ -74,13 +72,13 @@ error_reporting(E_ALL);
             <div id="eleveFields" style="display:none;">
                 <div class="form-row d-flex flex-wrap">
                     <div class="col-sm-4 form-group">
-                    <label for="dateNaissance">Date de Naissance :</label>
-                    <input type="date" name="dateNaissance" class="form-control" id="dateNaissance" required max="2004-12-12">
+                        <label for="dateNaissance">Date de Naissance :</label>
+                        <input type="date" name="dateNaissance" class="form-control" id="dateNaissance" required max="2004-12-12">
                         <div class="error-message" id="errorDateNaissance"></div>
                     </div>
 
                     <div class="col-sm-4 form-group">
-                    <label for="classe">Classe :</label>
+                        <label for="classe">Classe :</label>
                         <select name="classe" class="form-control" id="classeEleve" onchange="toggleFields()" required>
                             <option value="">Sélectionner votre classe</option>
                             <option value="CI">CI</option>
@@ -93,7 +91,7 @@ error_reporting(E_ALL);
                             <option value="4E">4E</option>
                             <option value="3E">3E</option>
                             <option value="Snd">Seconde</option>
-                            <option value="1ere">Premiere</option>
+                            <option value="1ere">Première</option>
                             <option value="Tle">Terminale</option>
                         </select>
                         <div class="error-message" id="errorClasseEleve"></div>
@@ -109,68 +107,58 @@ error_reporting(E_ALL);
 
             <!-- Section PROFESSEUR -->
             <div id="professeurFields" style="display:none;">
-            <div class="form-row d-flex flex-wrap">
-                <div class="col-sm-4 form-group">
-                    <label for="matiere[]">Matière :</label>
-                    <select name="matieres[]" class="form-control" id="FormControlInput4" multiple >
-                        <option value="">Sélectionner une classe</option>
-                        <?php foreach ($matieres as $matiere) { ?>
-                                    <option value="<?php echo $matiere["id_matiere"]?>"><?php echo $matiere["nom_matiere"]?></option>   
-                                <?php } ?>
-                    </select>                    
-                    <div class="error-message" id="errorMatiere"></div>
+                <div class="form-row d-flex flex-wrap">
+                    <div class="col-sm-4 form-group">
+                        <label for="matiere[]">Matière :</label>
+                        <select name="matieres[]" class="form-control" id="FormControlInput4" multiple>
+                            <option value="">Sélectionner une classe</option>
+                            <?php foreach ($matieres as $matiere) { ?>
+                                <option value="<?php echo $matiere["id_matiere"]?>"><?php echo $matiere["nom_matiere"]?></option>   
+                            <?php } ?>
+                        </select>                    
+                        <div class="error-message" id="errorMatiere"></div>
+                    </div>
+
+                    <div class="col-sm-4 form-group">
+                        <label for="classeProfesseur[]">Classe :</label>
+                        <select name="classesProfesseur[]" class="form-control" id="FormControlInput5" multiple>
+                            <option value="">Sélectionner les classes</option>
+                            <?php foreach ($secondaires as $secondaire) { ?>
+                                <option value="<?php echo $secondaire["id_classe"]?>"><?php echo $secondaire["nom_classe"]?></option>   
+                            <?php } ?>
+                        </select>
+                        <div class="error-message" id="errorClasseProfesseur"></div>
+                    </div>
+
+                    <div class="col-sm-4 form-group"></div>
                 </div>
-
-                <div class="col-sm-4 form-group">
-                    <label for="classeProfesseur[]">Classe :</label>
-                    <select name="classesProfesseur[]" class="form-control" id="FormControlInput5" multiple >
-                        <option value="">Sélectionner les classes</option>
-                        <?php foreach ($secondaires as $secondaire) { ?>
-                                    <option value="<?php echo $secondaire["id_classe"]?>"><?php echo $secondaire["nom_classe"]?></option>   
-                                <?php } ?>
-                    </select>
-                    <div class="error-message" id="errorClasseProfesseur"></div>
-                </div>
-
-                <div class="col-sm-4 form-group">
-
-                </div>
-
-
             </div>
-        </div>
 
             <!-- Section SURVEILLANT -->
             <div id="surveillantFields" style="display:none;">
                 <div class="form-row d-flex flex-wrap">
-                <div class="col-sm-4 form-group">
-                    <label for="classeSurveillant[]">Classe :</label>
-                    <select name="classesSurveillant[]" class="form-control" id="FormControlInput5" multiple >
-                        <option value="">Sélectionner les classes</option>
-                        <?php foreach ($secondaires as $secondaire) { ?>
-                                    <option value="<?php echo $secondaire["id_classe"]?>"><?php echo $secondaire["nom_classe"]?></option>   
-                                <?php } ?>
-                    </select>
-                    <div class="error-message" id="errorClasseSurveillant"></div>
-                </div>
-
                     <div class="col-sm-4 form-group">
-
+                        <label for="classeSurveillant[]">Classe :</label>
+                        <select name="classesSurveillant[]" class="form-control" id="FormControlInput5" multiple>
+                            <option value="">Sélectionner les classes</option>
+                            <?php foreach ($secondaires as $secondaire) { ?>
+                                <option value="<?php echo $secondaire["id_classe"]?>"><?php echo $secondaire["nom_classe"]?></option>   
+                            <?php } ?>
+                        </select>
+                        <div class="error-message" id="errorClasseSurveillant"></div>
                     </div>
 
-                    <div class="col-sm-4 form-group">
-
-                    </div>
-
+                    <div class="col-sm-4 form-group"></div>
+                    <div class="col-sm-4 form-group"></div>
                 </div>
             </div>
 
-           <!-- Section Enseignant -->
+            <!-- Section Enseignant -->
             <div id="enseignantFields" style="display:none;">
                 <div class="form-row d-flex flex-wrap">
                     <div class="col-sm-4 form-group">
                         <label for="classe">Classe :</label>
-                        <select name="classe" class="form-control" id="FormControlInput7" >
+                        <select name="classe" class="form-control" id="FormControlInput7">
                             <option value="">Sélectionner une classe</option>
                             <?php foreach ($secondaires as $secondaire) { ?>
                                 <option value="<?php echo $secondaire["id_classe"]?>"><?php echo $secondaire["nom_classe"]?></option>   
@@ -196,13 +184,12 @@ error_reporting(E_ALL);
             </div>
 
             <div class="text-center">
+                <button type="button" class="btn btn-secondary" onclick="window.history.back();" style="width: 200px; margin-right: 10px;">Retour</button>
                 <button type="submit" class="btn btn-primary" style="width: 200px;">Inscrire</button>
             </div>
         </form>
     </div>
 
-
     <script src="/gestion-ecole/public/js/inscription.js"></script>
-
 </body>
 </html>
