@@ -1,3 +1,11 @@
+<?php 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Exemple d'initialisation de $users, assurez-vous qu'elle est définie dans votre logique
+//$users = []; // Remplacez ceci par votre logique de récupération des utilisateurs
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -98,31 +98,37 @@ class Eleve {
                 classe.nom_classe AS nom_classe, 
                 classe.niveau AS niveau_classe,
                 paiement_eleve.annee AS annee,
-                paiement.id AS id,
-                paiement.status AS status,
                 paiement_eleve.frais_inscription AS montant_tarif FROM eleve 
                 INNER JOIN classe ON eleve.id_classe = classe.id 
                 INNER JOIN paiement_eleve ON classe.id = paiement_eleve.id_classe 
-                INNER JOIN paiement ON paiement.id_eleve = eleve.id
                 WHERE eleve.matricule = :matricule");
 
-            $stmt->execute(['matricule' => $matricule]);
-            $eleve = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $eleve;
+            // Assurez-vous de lier la valeur de :matricule
+            $stmt->bindParam(':matricule', $matricule);
+
+            // Exécutez la requête
+            $stmt->execute();
+
+            // Récupérez les résultats
+            $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $resultat; // Retourne les données trouvées
 
         } catch (\Throwable $th) {
-            return 'Erreur'.$th;
+            return 'Erreur '.$th;
         }
         
     }
 
     function processPayment($id) {
        
-        $stmt = $this->db->prepare("UPDATE paiement SET status = 1 WHERE id = :id");
+        $stmt = $this->db->prepare("UPDATE eleve SET status = 1 WHERE id = :id");
         $stmt->bindParam(':id' ,$id);
         
         if ($stmt->execute()) {
-            $rowsAffected = $stmt->rowCount(); // Nombre de lignes affectées
+            $stmt1 = $this->db->prepare("INSERT INTO paiement (date_paiement, id_eleve) 
+                VALUES (NOW(), ?)");
+            $stmt1->execute([$id]); // Date du paiement au jour actuel et ID de l'élève
+            $rowsAffected = $stmt1->rowCount(); // Nombre de lignes affectées
             if ($rowsAffected > 0) {
                 return true; // Mise à jour réussie
             } else {
@@ -136,14 +142,14 @@ class Eleve {
     } 
 
     public function countPayement() {
-        $stmt = $this->db->prepare("SELECT COUNT(*) as count FROM paiement WHERE status = 1 ");
+        $stmt = $this->db->prepare("SELECT COUNT(*) as count FROM eleve WHERE status = 1 AND archive= 0");
         $stmt->execute();
         $nbrePayement = $stmt->fetch(PDO::FETCH_ASSOC);
         return $nbrePayement['count']; // Retourne le nombre de paiements payés
     }
 
     public function getRestePayement() {
-        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM paiement WHERE status = 0 ");
+        $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM eleve WHERE status = 0 AND archive= 0");
         $stmt->execute();
         $totalPaiement = $stmt->fetch(PDO::FETCH_ASSOC);
         return $totalPaiement['total']; // Retourne le montant total des paiements payés

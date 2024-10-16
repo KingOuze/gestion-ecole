@@ -56,7 +56,7 @@ ini_set('display_errors', 1);
                 </div>
 
                 <div class="search-bar text-center">
-                    <form action="/gestion-ecole/public/index.php?action=inscription" method="POST">
+                    <form action="../public/index.php?action=inscription" method="POST">
                         <div class="input-group w-50 mx-auto">
                             <input id="searchInput" type="text" name="matricule" class="form-control" placeholder="Recherche par matricule">
                             <div class="input-group-append">
@@ -82,7 +82,7 @@ ini_set('display_errors', 1);
                 <div class="header d-flex align-items-center">
                     <h1 class="mr-2">Gestion de paiements des élèves</h1>
                     <div class="search-bar text-center">
-                    <form action="/gestion-ecole/public/index.php?action=inscription" method="POST">
+                    <form action="../public/index.php?action=inscription" method="POST">
                         <div class="input-group w-40 mx-auto">
                             <input id="searchInput" type="text" name="matricule" class="form-control" placeholder="Recherche par matricule">
                             <div class="input-group-append">
@@ -113,12 +113,12 @@ ini_set('display_errors', 1);
                         </thead>
                         <tbody>
                             <tr>
-                                <td><?= $student['matricule'] ?></td>
-                                <td><?= $student['prenom'] ?> <?= $student['nom'] ?></td>
-                                <td><?= $student['niveau_classe'] ?>/<?= $student['nom_classe'] ?></td>
-                                <td><?= $student['montant_tarif'] ?></td>
-                                <td><?= $student['annee'] ?></td>
-                                <?php if($student['status'] == 0){ ?>
+                                <td><?= $student["matricule"] ?></td>
+                                <td><?= $student["prenom"] ?> <?= $student['nom'] ?></td>
+                                <td><?= $student["niveau_classe"] ?>/<?= $student['nom_classe'] ?></td>
+                                <td><?= $student["montant_tarif"] ?></td>
+                                <td><?= $student["annee"] ?></td>
+                                <?php if($student["status"] == 0){ ?>
                                     <td id="txt_validation" class="id_non_payé" style="display: block;">Non payé</td>
                                     <td id="btn_valider">
                                         <button class="btn btn-primary btn-receipt" onclick="toggleRecuButton()">Cliquer Pour Payer</button>
@@ -182,12 +182,7 @@ ini_set('display_errors', 1);
 
 
         //Methode pour procéder au paiement
-        function processPayment() {
-            // Collecte des données
-            const id = <?= $student['id'] ?>; // Récupérez le matricule du PHP
-            const matricule = "<?= $student['matricule'] ?>"; // Récupérez le matricule du PHP
-
-        
+        function processPayment() {       
             
             // Envoi de la requête AJAX
             fetch(baseUrl + queryString, {
@@ -235,9 +230,6 @@ ini_set('display_errors', 1);
             btn_recu.style.display = commentSection.style.display === 'none' || btn_recu.style.display === '' ? 'block' : 'none';
             commentSection.style.display = commentSection.style.display === 'none' || commentSection.style.display === '' ? 'block' : 'none';
 
-            btn_text.style.display = 'none';
-            btn_non_valide.style.display = 'none';
-            btn_valide.style.display = 'block';
         }
 
 
