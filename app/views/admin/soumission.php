@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-=======
-<?php 
+g<?php 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -8,7 +6,6 @@ error_reporting(E_ALL);
 // Exemple d'initialisation de $users, assurez-vous qu'elle est définie dans votre logique
 //$users = []; // Remplacez ceci par votre logique de récupération des utilisateurs
 ?>
->>>>>>> fa40049fd6441f0baba8fff2bc79698382619ae9
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -44,17 +41,9 @@ error_reporting(E_ALL);
                 <input type="text" placeholder="Rechercher">
                 <button><i class="fas fa-search"></i></button>
             </div>
-<<<<<<< HEAD
-            <button class="add-button" id="openModalBtn" >
-            <i class="fas fa-plus" ></i> <a href="/gestion-ecole/public/index.php?action=ajouter">Ajouter</a>
-            
-           
-            </button>
-=======
             <a href="/gestion-ecole/public/index.php?action=ajouter" class="add-button">
                 <i class="fas fa-plus"></i> Ajouter 
             </a>
->>>>>>> fa40049fd6441f0baba8fff2bc79698382619ae9
         </div>
 
         <table class="table">
